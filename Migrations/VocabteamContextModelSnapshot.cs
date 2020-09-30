@@ -22,10 +22,12 @@ namespace vocabteam.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Action")
-                        .HasColumnType("text");
+                        .HasColumnName("Action")
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -33,22 +35,26 @@ namespace vocabteam.Migrations
                     b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("Table")
-                        .HasColumnType("text");
+                    b.Property<string>("ObjectName")
+                        .HasColumnName("ObjectName")
+                        .HasColumnType("varchar(50)");
 
                     b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permission");
+                    b.ToTable("Permissions");
+
+                    b.HasComment("This is the Permission Table");
                 });
 
             modelBuilder.Entity("vocabteam.Models.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -57,24 +63,31 @@ namespace vocabteam.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("DisplayName")
-                        .HasColumnType("text");
+                        .HasColumnName("DisplayName")
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Name")
+                        .HasColumnType("varchar(50)")
+                        .HasDefaultValue("guest");
 
                     b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
+
+                    b.HasComment("This is the Role Table");
                 });
 
             modelBuilder.Entity("vocabteam.Models.Entities.RolePermission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -83,12 +96,11 @@ namespace vocabteam.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<int?>("PermissionId")
+                        .HasColumnName("PermissionId")
                         .HasColumnType("int");
 
                     b.Property<int?>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RolePermissionId")
+                        .HasColumnName("RoleId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedTime")
@@ -100,9 +112,9 @@ namespace vocabteam.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("RolePermissionId");
+                    b.ToTable("RolePermissions");
 
-                    b.ToTable("RolePermission");
+                    b.HasComment("This is the RolePermissions Table");
                 });
 
             modelBuilder.Entity("vocabteam.Models.Entities.User", b =>
@@ -116,35 +128,80 @@ namespace vocabteam.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("AvatarUrl")
+                        .HasColumnName("AvatarUrl")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Email")
-                        .HasColumnType("text");
+                        .HasColumnName("Email")
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Password")
-                        .HasColumnType("text");
+                        .HasColumnName("Password")
+                        .HasColumnType("varchar(50)");
 
                     b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Username")
-                        .HasColumnType("text");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Username")
+                        .HasColumnType("varchar(50)")
+                        .HasDefaultValue("account");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users");
 
                     b.HasComment("This is the User Table");
                 });
 
+            modelBuilder.Entity("vocabteam.Models.Entities.UserPermission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("PermissionId")
+                        .HasColumnName("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnName("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserPermissions");
+
+                    b.HasComment("This is the UserPermissions Table");
+                });
+
             modelBuilder.Entity("vocabteam.Models.Entities.UserRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -153,12 +210,14 @@ namespace vocabteam.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<int?>("RoleId")
+                        .HasColumnName("RoleId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime");
 
                     b.Property<int?>("UserId")
+                        .HasColumnName("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -167,33 +226,54 @@ namespace vocabteam.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("UserRoles");
+
+                    b.HasComment("This is the UserRoles Table");
                 });
 
             modelBuilder.Entity("vocabteam.Models.Entities.RolePermission", b =>
                 {
                     b.HasOne("vocabteam.Models.Entities.Permission", "Permission")
-                        .WithMany()
-                        .HasForeignKey("PermissionId");
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("PermissionId")
+                        .HasConstraintName("FK_RolePermissions_Permissions")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("vocabteam.Models.Entities.Role", "Role")
-                        .WithMany("RolePermissionses")
-                        .HasForeignKey("RoleId");
-
-                    b.HasOne("vocabteam.Models.Entities.RolePermission", null)
                         .WithMany("RolePermissions")
-                        .HasForeignKey("RolePermissionId");
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("FK_RolePermissions_Roles")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("vocabteam.Models.Entities.UserPermission", b =>
+                {
+                    b.HasOne("vocabteam.Models.Entities.Permission", "Permission")
+                        .WithMany("UserPermissions")
+                        .HasForeignKey("PermissionId")
+                        .HasConstraintName("FK_UserPermissions_Permissions")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("vocabteam.Models.Entities.User", "User")
+                        .WithMany("UserPermissions")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_UserPermissions_Users")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("vocabteam.Models.Entities.UserRole", b =>
                 {
                     b.HasOne("vocabteam.Models.Entities.Role", "Role")
                         .WithMany("UserRoles")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("FK_UserRoles_Roles")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("vocabteam.Models.Entities.User", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_UserRoles_Users")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 #pragma warning restore 612, 618
         }

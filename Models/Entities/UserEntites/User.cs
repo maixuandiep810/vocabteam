@@ -11,5 +11,6 @@ namespace vocabteam.Models.Entities
         public string Email { get; set; }
         public string AvatarUrl { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<UserPermission> UserPermissions { get; set; }
     }
 }

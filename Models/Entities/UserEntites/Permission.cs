@@ -1,10 +1,14 @@
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace vocabteam.Models.Entities
 {
     public class Permission : BaseEntity
     {
-        public string Table { get; set; }
+        public string ObjectName { get; set; }
         public string Action { get; set; }
+        public virtual ICollection<RolePermission> RolePermissions { get; set; }
+        public virtual ICollection<UserPermission> UserPermissions { get; set; }
+
     }
 }

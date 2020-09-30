@@ -8,6 +8,6 @@ namespace vocabteam.Models.Entities
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
-        public virtual ICollection<RolePermission> RolePermissionses { get; set; }
+        public virtual ICollection<RolePermission> RolePermissions { get; set; }
     }
 }

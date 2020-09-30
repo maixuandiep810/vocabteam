@@ -3,10 +3,10 @@ using System.Text.Json.Serialization;
 
 namespace vocabteam.Models.Entities
 {
-    public class RolePermission : BaseEntity
+    public class UserPermission : BaseEntity
     {
-        public int? RoleId { get; set; }
-        public virtual Role Role { get; set; }
+        public int? UserId { get; set; }
+        public virtual User User { get; set; }
         public int? PermissionId { get; set; }
         public virtual Permission Permission { get; set;}
     }
