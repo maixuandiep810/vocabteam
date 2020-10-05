@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace vocabteam.Models.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class MySqlRepository<T> : IRepository<T> where T : BaseEntity
     {
         private readonly VocabteamContext _context;
-        private DbSet<T> entities;
+        protected DbSet<T> entities;
         string errorMessage = string.Empty;
 
-        public Repository(VocabteamContext context)
+        public MySqlRepository(VocabteamContext context)
         {
             this._context = context;
             entities = context.Set<T>();
@@ -22,14 +22,9 @@ namespace vocabteam.Models.Repositories
             return entities.AsQueryable();
         }
 
-        public T Get(int id, bool isActive = true)
+        public T GetById(int id, bool isActive = true)
         {
             return entities.FirstOrDefault(s => s.Id == id && (s.Active || !isActive));
-        }
-
-        public IEnumerable<T> Filter(Expression<Func<T, bool>> filter)
-        {
-            return entities.Where(filter);
         }
 
         public void Insert(T entity, bool saveChange = true)
@@ -69,6 +64,11 @@ namespace vocabteam.Models.Repositories
             entities.Remove(entity);
             if (saveChange)
                 this._context.SaveChanges();
+        }
+
+        public IEnumerable<T> Filter(Expression<Func<T, bool>> filter)
+        {
+            return entities.Where(filter);
         }
     }
 }

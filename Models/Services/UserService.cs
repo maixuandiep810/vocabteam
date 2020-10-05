@@ -10,27 +10,29 @@ using vocabteam.Helpers;
 using vocabteam.Models.Entities;
 using vocabteam.Models.Repositories;
 using vocabteam.Models.ViewModels;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace vocabteam.Models.Services
 {
     public class UserService : IUserService
     {
-        private readonly IRepository<User> _Repo;
+        private readonly IUserRepository _UserRepo;
         private readonly AppSettings _AppSettings;
 
-        public UserService(IRepository<User> repo, IOptions<AppSettings> appSettings)
+        public UserService(IUserRepository userRepo, IOptions<AppSettings> appSettings)
         {
-            _Repo = repo;
+            _UserRepo = userRepo;
             _AppSettings = appSettings.Value;
 
         }
         public IQueryable<User> GetAll()
         {
-            return _Repo.GetAll();
+            return _UserRepo.GetAll();
         }
         public User GetById(int id, bool isActive = true)
         {
-            return _Repo.Get(id, isActive);
+            return null;
         }
         public void Insert(User entity, bool saveChange = true)
         {
@@ -45,9 +47,21 @@ namespace vocabteam.Models.Services
 
         }
 
+        public IEnumerable<User> Filter(Expression<Func<User, bool>> filter)
+        {
+            return _UserRepo.Filter(filter);
+        }
+
+        public List<UserResponse> GetAllWithRoles() 
+        {
+            List<UserResponse> users = ConvertEntityToViewModel.convertUserEntityToUserResponse(_UserRepo.GetAllWithRoles());
+            return users;
+        }
+
+
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _Repo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
+            var user = _UserRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
 
             // return null if user not found
             if (user == null) return null;
@@ -72,5 +86,7 @@ namespace vocabteam.Models.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+
     }
 }

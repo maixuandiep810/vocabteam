@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using vocabteam.Helpers;
+using vocabteam.Middlewares;
 using vocabteam.Models;
 using vocabteam.Models.Repositories;
 using vocabteam.Models.Services;
@@ -34,7 +35,8 @@ namespace vocabteam
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddCors();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options 
+            => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             var sqlConnectionString = Configuration.GetConnectionString("MySqlConnection");
             services.AddDbContext<VocabteamContext>(options =>
@@ -42,7 +44,8 @@ namespace vocabteam
           );
 
             #region Add Custom Services
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(MySqlRepository<>));
+            services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
             services.AddScoped(typeof(IUserService), typeof(UserService));
             #endregion
 
@@ -60,6 +63,11 @@ namespace vocabteam
                 .AllowAnyHeader());
 
             app.UseMiddleware<JwtMiddleware>();
+
+            //             app.MapWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder =>
+            // {
+            //     appBuilder.UseMiddlewareTwo();
+            // });
 
             app.UseEndpoints(x => x.MapControllers());
         }

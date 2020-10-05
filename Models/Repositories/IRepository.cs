@@ -8,11 +8,12 @@ namespace vocabteam.Models.Repositories
     public interface IRepository<T> where T : BaseEntity
     {
         IQueryable<T> GetAll();
-        T Get(int id, bool isActive = true);
-        IEnumerable<T> Filter(Expression<Func<T, bool>> filter);
+        T GetById(int id, bool isActive = true);
         void Insert(T entity, bool saveChange = true);
         void Update(T entity, bool saveChange = true);
         void Delete(T entity, bool saveChange = true);
+        IEnumerable<T> Filter(Expression<Func<T, bool>> filter);
+
     }
 
 }

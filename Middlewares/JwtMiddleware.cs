@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using vocabteam.Helpers;
 using vocabteam.Models.Services;
 
-namespace vocabteam.Helpers
+namespace vocabteam.Middlewares
 {
     public class JwtMiddleware
     {
@@ -28,6 +28,7 @@ namespace vocabteam.Helpers
 
             if (token != null)
                 attachUserToContext(context, userService, token);
+
 
             await _next(context);
         }
@@ -58,6 +59,18 @@ namespace vocabteam.Helpers
             {
                 // do nothing if jwt validation fails
                 // user is not attached to context so request won't have access to secure routes
+            }
+        }
+
+        private void attachUserToGuestRole(HttpContext context, IUserService userService)
+        {
+            try
+            {
+                context.Items["User"] = userService.Filter(x => x.Username == "guest");
+            }
+            catch
+            {
+
             }
         }
     }

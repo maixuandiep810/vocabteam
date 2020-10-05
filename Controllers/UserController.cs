@@ -34,9 +34,9 @@ namespace vocabteam.Controllers
         }
 
         [HttpGet]
-        public IQueryable<User> Get()
+        public IActionResult Get()
         {
-            return _UserService.GetAll();
+            return Ok(_UserService.GetAllWithRoles());
         }
     }
 }
