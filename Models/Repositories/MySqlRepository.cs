@@ -8,7 +8,7 @@ namespace vocabteam.Models.Repositories
 {
     public class MySqlRepository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly VocabteamContext _context;
+        protected readonly VocabteamContext _context;
         protected DbSet<T> entities;
         string errorMessage = string.Empty;
 
@@ -22,9 +22,9 @@ namespace vocabteam.Models.Repositories
             return entities.AsQueryable();
         }
 
-        public T GetById(int id, bool isActive = true)
+        public T GetById(int id)
         {
-            return entities.FirstOrDefault(s => s.Id == id && (s.Active || !isActive));
+            return entities.FirstOrDefault(s => s.Id == id);
         }
 
         public void Insert(T entity, bool saveChange = true)

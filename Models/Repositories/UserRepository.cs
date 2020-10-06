@@ -22,9 +22,28 @@ namespace vocabteam.Models.Repositories
         public UserRepository(VocabteamContext context) : base(context)
         {
         }
-        public IQueryable<User> GetAllWithRoles() 
+        public IQueryable<RoleViewModel> GetRolesOfUser(int id)
         {
-            return entities.Where(p => p.Id == 1).SelectMany(y => Roles)).AsQueryable();
+            var result = (from p in _context.Users
+                     join m in _context.UserRoles on p.Id equals m.UserId
+                     join x in _context.Roles on m.RoleId equals x.Id
+                     where p.Id == id
+                     select new RoleViewModel
+                     {
+                        Name = x.Name,
+                        Displayname = x.DisplayName
+                     });
+            return result;
         }
+        public IQueryable GetAll_WithRoles() 
+        {
+            var result = from p in _context.Users
+                     join m in _context.UserRoles on p.Id equals m.UserId
+                     join x in _context.Roles on m.RoleId equals x.Id
+                     group p by p.Id into userWithRoles
+                     select userWithRoles;
+            return result;
+        }
+
     }
 }

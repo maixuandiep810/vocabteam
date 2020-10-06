@@ -36,7 +36,8 @@ namespace vocabteam.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_UserService.GetAllWithRoles());
+            User u = _UserService.GetById(2);
+            return Ok(_UserService.GetRolesOfUser(u));
         }
     }
 }

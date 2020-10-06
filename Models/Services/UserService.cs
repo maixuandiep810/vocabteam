@@ -30,9 +30,9 @@ namespace vocabteam.Models.Services
         {
             return _UserRepo.GetAll();
         }
-        public User GetById(int id, bool isActive = true)
+        public User GetById(int id)
         {
-            return null;
+            return _UserRepo.GetById(id);
         }
         public void Insert(User entity, bool saveChange = true)
         {
@@ -52,10 +52,13 @@ namespace vocabteam.Models.Services
             return _UserRepo.Filter(filter);
         }
 
-        public List<UserResponse> GetAllWithRoles() 
+        public IQueryable<RoleViewModel> GetRolesOfUser(User user) 
         {
-            List<UserResponse> users = ConvertEntityToViewModel.convertUserEntityToUserResponse(_UserRepo.GetAllWithRoles());
-            return users;
+            return _UserRepo.GetRolesOfUser(user.Id);
+        }
+
+        public IQueryable<UserViewModel> GetAll_WithRoles() {
+            
         }
 
 

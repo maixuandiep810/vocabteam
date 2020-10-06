@@ -10,11 +10,7 @@ using vocabteam.Models.ViewModels;
 
 namespace vocabteam.Models.Repositories
 {
-    public interface IUserRepository :IRepository<User>
+    public interface IPermissionRepository :IRepository<Permission>
     {
-
-        IQueryable<RoleViewModel> GetRolesOfUser(int id);
-        IQueryable GetAll_WithRoles();
-
     }
 }
