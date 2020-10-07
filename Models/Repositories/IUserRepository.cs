@@ -12,9 +12,7 @@ namespace vocabteam.Models.Repositories
 {
     public interface IUserRepository :IRepository<User>
     {
-
         IQueryable<RoleViewModel> GetRolesOfUser(int id);
-        IQueryable GetAll_WithRoles();
-
+        List<UserViewModel> GetAll_WithRoles();
     }
 }

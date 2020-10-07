@@ -20,6 +20,6 @@ namespace vocabteam.Models.Services
         IEnumerable<User> Filter(Expression<Func<User, bool>> filter);
         AuthenticateResponse Authenticate(AuthenticateRequest model);
         IQueryable<RoleViewModel> GetRolesOfUser(User user);
-        IQueryable<UserViewModel> GetAll_WithRoles();
+        UserResponse GetAll_WithRoles();
     }
 }

@@ -14,11 +14,11 @@ namespace vocabteam.Models.ViewModels
         public string AvatarUrl { get; set; }
         [JsonProperty(PropertyName = "roles")]
         public List<RoleViewModel> Roles { get; set; }
-        public UserViewModel(User u)
-        {
-            Username = u.Username;
-            Email = u.Email;
-            AvatarUrl = u.AvatarUrl;
-        }
+        // public UserViewModel(User u)
+        // {
+        //     Username = u.Username;
+        //     Email = u.Email;
+        //     AvatarUrl = u.AvatarUrl;
+        // }
     }
 }

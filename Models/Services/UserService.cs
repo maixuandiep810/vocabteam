@@ -57,8 +57,11 @@ namespace vocabteam.Models.Services
             return _UserRepo.GetRolesOfUser(user.Id);
         }
 
-        public IQueryable<UserViewModel> GetAll_WithRoles() {
-            
+        public UserResponse GetAll_WithRoles() {
+            var input = _UserRepo.GetAll_WithRoles();
+            var result = new UserResponse();
+            result.data = input;
+            return result;
         }
 
 

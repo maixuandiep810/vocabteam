@@ -28,7 +28,8 @@ namespace vocabteam.Middlewares
 
             if (token != null)
                 attachUserToContext(context, userService, token);
-
+            else
+                attachUserToGuestRole(context, userService);
 
             await _next(context);
         }

@@ -8,6 +8,6 @@ namespace vocabteam.Models.ViewModels
     public class UserResponse : BaseResponse
     {
         [JsonProperty(PropertyName = "data")]
-        public UserViewModel data { get; set; }      
+        public List<UserViewModel> data { get; set; }      
     }
 }

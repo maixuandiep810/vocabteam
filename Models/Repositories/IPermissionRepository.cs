@@ -12,5 +12,6 @@ namespace vocabteam.Models.Repositories
 {
     public interface IPermissionRepository :IRepository<Permission>
     {
+        bool CheckPermission(Permission per, User user);
     }
 }
