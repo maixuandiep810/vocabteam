@@ -14,6 +14,8 @@ namespace vocabteam.Models.ViewModels
         public string AvatarUrl { get; set; }
         [JsonProperty(PropertyName = "roles")]
         public List<RoleViewModel> Roles { get; set; }
+        [JsonProperty(PropertyName = "token")]
+        public string Token { get; set; }
         // public UserViewModel(User u)
         // {
         //     Username = u.Username;

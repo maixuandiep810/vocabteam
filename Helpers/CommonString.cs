@@ -4,4 +4,6 @@ namespace vocabteam.Helpers
     {
         public static string ApiPathString = "api/";
     }
+
+    enum 
 }

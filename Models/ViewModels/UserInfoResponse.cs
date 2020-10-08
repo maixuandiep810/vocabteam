@@ -5,9 +5,9 @@ using vocabteam.Models.Entities;
 
 namespace vocabteam.Models.ViewModels
 {
-    public class UserResponse : BaseResponse
+    public class UserInfoResponse : BaseResponse
     {
         [JsonProperty(PropertyName = "data")]
-        public List<UserViewModel> data { get; set; }      
+        public UserViewModel data { get; set; }      
     }
 }

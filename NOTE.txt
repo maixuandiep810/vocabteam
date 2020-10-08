@@ -1,0 +1,1 @@
+    "MySqlConnection": "server=localhost;port=3306;user=root;password=rocky@123;database=vocab;"
