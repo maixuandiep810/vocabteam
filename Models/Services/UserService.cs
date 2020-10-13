@@ -70,7 +70,9 @@ namespace vocabteam.Models.Services
             var user = _VocabularyRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
             if (user == null) return null;
             var token = generateJwtToken(user);
-            return new AuthenticateResponse(user, token);
+            var data = new UserModel(user, token);
+            var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS, ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+            return new AuthenticateResponse(data, baseResponse);
         }
 
         public UserModel Insert(RegisterRequest model)
@@ -95,13 +97,13 @@ namespace vocabteam.Models.Services
 
         private string generateJwtToken(User user)
         {
-            // generate token that is valid for 7 days
+            // generate token that is valid for 365 days
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_AppSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddDays(365),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

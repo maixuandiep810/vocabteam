@@ -2,9 +2,10 @@ using Newtonsoft.Json;
 
 namespace vocabteam.Models.ViewModels
 {
-    public class RegisterResponse : BaseResponse
+    public class RegisterResponse : UserInfoResponse
     {
-        [JsonProperty(PropertyName = "data")]
-        public UserModel data { get; set; }
+        public RegisterResponse(UserModel user, BaseResponse baseRes) : base(user, baseRes)
+        {
+        }
     }
 }

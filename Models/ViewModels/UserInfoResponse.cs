@@ -8,23 +8,20 @@ namespace vocabteam.Models.ViewModels
     public class UserInfoResponse : BaseResponse
     {
         [JsonProperty(PropertyName = "data")]
-        public UserModel data { get; set; }
+        public UserModel Data { get; set; }
 
-        public UserInfoResponse()
+        public UserInfoResponse() : base()
         {
         }
 
-        public UserInfoResponse(UserModel user)
+        public UserInfoResponse(UserModel user) : base()
         {
-            data = user;
+            Data = user;
         }
 
-        public UserInfoResponse(UserModel user, BaseResponse baseRes)
+        public UserInfoResponse(UserModel user, BaseResponse baseRes) : base(baseRes)
         {
-            data = user;
-            success = baseRes.success;
-            code = baseRes.code;
-            message = baseRes.message;
+            Data = user;
         }
     }
 }

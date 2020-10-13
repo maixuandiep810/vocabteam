@@ -213,10 +213,6 @@ namespace vocabteam.Models
                       .HasColumnName("Meaning")
                       .HasColumnType("varchar(50)");
 
-                entity.Property(e => e.Meaning)
-                      .HasColumnName("Meaning")
-                      .HasColumnType("varchar(50)");
-
                 entity.Property(e => e.Definition)
                       .HasColumnName("Definition")
                       .HasColumnType("text");

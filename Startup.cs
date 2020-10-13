@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,7 @@ namespace vocabteam
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddCors();
-            services.AddControllers().AddNewtonsoftJson(options 
+            services.AddControllers().AddNewtonsoftJson(options
             => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             var sqlConnectionString = Configuration.GetConnectionString("MySqlConnection");
@@ -47,6 +48,8 @@ namespace vocabteam
             services.AddScoped(typeof(IRepository<>), typeof(MySqlRepository<>));
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
             services.AddScoped(typeof(IUserService), typeof(UserService));
+            services.AddScoped(typeof(IVocabularyRepository), typeof(VocabularyRepository));
+            services.AddScoped(typeof(IVocabularyService), typeof(VocabularyService));
             #endregion
 
         }
@@ -62,14 +65,40 @@ namespace vocabteam
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            app.UseMiddleware<JwtMiddleware>();
+            app.MapWhen(
+                (context) =>
+                {
+                    return CheckUsingJwtMiddleware(context);
+                },
+                appProduct =>
+                {
+                    appProduct.UseMiddleware<JwtMiddleware>();
+                });
+
+            app.UseEndpoints(x => x.MapControllers());
+        }
+
+
+        /// 
+        /// HELPER
+        /// 
+        
+        private static bool CheckUsingJwtMiddleware(HttpContext context)
+        {
+            bool result = context.Request.Path.Value.StartsWith("/user");
+            return result;
+        }
+    }
+
+
+}
+
+
+
+
+            // app.UseMiddleware<JwtMiddleware>();
 
             //             app.MapWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder =>
             // {
             //     appBuilder.UseMiddlewareTwo();
             // });
-
-            app.UseEndpoints(x => x.MapControllers());
-        }
-    }
-}

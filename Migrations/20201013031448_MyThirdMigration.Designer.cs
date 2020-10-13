@@ -10,7 +10,7 @@ using vocabteam.Models;
 namespace vocabteam.Migrations
 {
     [DbContext(typeof(VocabteamContext))]
-    [Migration("20201013024421_MyThirdMigration")]
+    [Migration("20201013031448_MyThirdMigration")]
     partial class MyThirdMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

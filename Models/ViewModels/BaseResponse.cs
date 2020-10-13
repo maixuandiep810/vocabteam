@@ -4,11 +4,19 @@ namespace vocabteam.Models.ViewModels
 {
     public class BaseResponse
     {
-        [JsonProperty(PropertyName = "success")]
-        public bool success { get; set; }
         [JsonProperty(PropertyName = "code")]
-        public int code { get; set; }
+        public int Code { get; set; }
         [JsonProperty(PropertyName = "message")]
-        public int message { get; set; }
+        public string Message { get; set; }
+        public BaseResponse(int code = 0, string message = "")
+        {
+            
+        }
+
+        public BaseResponse(BaseResponse baseRes)
+        {
+            Code = baseRes.Code;
+            Message = baseRes.Message;         
+        }
     }
 }

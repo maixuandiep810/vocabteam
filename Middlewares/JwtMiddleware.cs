@@ -25,12 +25,10 @@ namespace vocabteam.Middlewares
         public async Task Invoke(HttpContext context, IUserService userService)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-
             if (token != null)
                 attachUserToContext(context, userService, token);
             else
                 attachUserToGuestRole(context, userService);
-
             await _next(context);
         }
 

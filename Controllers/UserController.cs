@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using vocabteam.Models.Services;
 using vocabteam.Models.Entities;
 using vocabteam.Models.ViewModels;
+using vocabteam.Helpers;
 
 namespace vocabteam.Controllers
 {
@@ -27,8 +28,11 @@ namespace vocabteam.Controllers
         {
             var response = _UserService.Authenticate(model);
             if (response == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
-            return Ok(response);
+            {
+                var failResponse = new BaseResponse((int) ConstantVar.ResponseCode.FAIL, ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                return StatusCode(200, failResponse);
+            }
+            return StatusCode(200, response);
         }
 
         [HttpPost("register")]
@@ -38,7 +42,7 @@ namespace vocabteam.Controllers
             {
                 var newUserModel = _UserService.Insert(model);
                 var newUserInfoResponse = new UserInfoResponse(newUserModel);
-                return Ok(newUserInfoResponse);
+                return StatusCode(200, newUserInfoResponse);
             }
             catch (Exception ex)
             {
