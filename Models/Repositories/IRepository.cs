@@ -9,7 +9,7 @@ namespace vocabteam.Models.Repositories
     {
         IQueryable<T> GetAll();
         T GetById(int id);
-        void Insert(T entity, bool saveChange = true);
+        void Insert(T entity);
         void Update(T entity, bool saveChange = true);
         void Delete(T entity, bool saveChange = true);
         IEnumerable<T> Filter(Expression<Func<T, bool>> filter);

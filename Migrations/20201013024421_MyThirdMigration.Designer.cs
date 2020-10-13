@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using vocabteam.Models;
 
 namespace vocabteam.Migrations
 {
     [DbContext(typeof(VocabteamContext))]
-    partial class VocabteamContextModelSnapshot : ModelSnapshot
+    [Migration("20201013024421_MyThirdMigration")]
+    partial class MyThirdMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace vocabteam.Models.ViewModels
 {
-    public class RoleViewModel
+    public class RoleModel
     {
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }

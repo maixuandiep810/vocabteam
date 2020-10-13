@@ -26,20 +26,33 @@ namespace vocabteam.Controllers
         public IActionResult Authenticate(AuthenticateRequest model)
         {
             var response = _UserService.Authenticate(model);
-
             if (response == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
-
             return Ok(response);
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpPost("register")]
+        public IActionResult Register(RegisterRequest model)
         {
-            // User u = _UserService.GetById(1);
-            // return Ok(_UserService.GetRolesOfUser(u));
-            var a = _UserService.GetAll_WithRoles();
-            return Ok(_UserService.GetAll_WithRoles());
+            try
+            {
+                var newUserModel = _UserService.Insert(model);
+                var newUserInfoResponse = new UserInfoResponse(newUserModel);
+                return Ok(newUserInfoResponse);
+            }
+            catch (Exception ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
         }
+        // [HttpGet]
+        // public IActionResult Get()
+        // {
+        //     // User u = _UserService.GetById(1);
+        //     // return Ok(_UserService.GetRolesOfUser(u));
+        //     var a = _UserService.GetAll_WithRoles();
+        //     return Ok(_UserService.GetAll_WithRoles());
+        // }
     }
 }

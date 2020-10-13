@@ -17,26 +17,26 @@ namespace vocabteam.Models.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _UserRepo;
+        private readonly IUserRepository _VocabularyRepo;
         private readonly AppSettings _AppSettings;
 
         public UserService(IUserRepository userRepo, IOptions<AppSettings> appSettings)
         {
-            _UserRepo = userRepo;
+            _VocabularyRepo = userRepo;
             _AppSettings = appSettings.Value;
 
         }
         public IQueryable<User> GetAll()
         {
-            return _UserRepo.GetAll();
+            return _VocabularyRepo.GetAll();
         }
         public User GetById(int id)
         {
-            return _UserRepo.GetById(id);
+            return _VocabularyRepo.GetById(id);
         }
-        public void Insert(User entity, bool saveChange = true)
+        public void Insert(User entity)
         {
-
+            _VocabularyRepo.Insert(entity);
         }
         public void Update(User entity, bool saveChange = true)
         {
@@ -49,34 +49,49 @@ namespace vocabteam.Models.Services
 
         public IEnumerable<User> Filter(Expression<Func<User, bool>> filter)
         {
-            return _UserRepo.Filter(filter);
+            return _VocabularyRepo.Filter(filter);
         }
 
-        public IQueryable<RoleViewModel> GetRolesOfUser(User user) 
+        public IQueryable<RoleModel> GetRolesOfUser(User user)
         {
-            return _UserRepo.GetRolesOfUser(user.Id);
+            return _VocabularyRepo.GetRolesOfUser(user.Id);
         }
 
-        public UserResponse GetAll_WithRoles() {
-            var input = _UserRepo.GetAll_WithRoles();
-            var result = new UserResponse();
-            result.data = input;
-            return result;
-        }
+        // public UserInfoResponse GetAll_WithRoles() {
+        //     var input = _VocabularyRepo.GetAll_WithRoles();
+        //     var result = new UserInfoResponse();
+        //     result.data.Roles= input;
+        //     return result;
+        // }
 
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _UserRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
-
-            // return null if user not found
+            var user = _VocabularyRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
             if (user == null) return null;
-
-            // authentication successful so generate jwt token
             var token = generateJwtToken(user);
-
             return new AuthenticateResponse(user, token);
         }
+
+        public UserModel Insert(RegisterRequest model)
+        {
+            var insertUser = new User(){
+                Username = model.Username,
+                Password = model.Password,
+                Email = model.Email
+            };
+            this.Insert(insertUser);
+            var newUser = _VocabularyRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
+            if (newUser == null) return null;
+            var token = generateJwtToken(newUser);
+            var newUserModel = new UserModel(newUser, token);
+            return newUserModel;
+        }
+
+
+        ///
+        /// HELPER 
+        /// 
 
         private string generateJwtToken(User user)
         {

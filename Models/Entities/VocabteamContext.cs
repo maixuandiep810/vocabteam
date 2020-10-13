@@ -17,6 +17,11 @@ namespace vocabteam.Models
         public virtual DbSet<UserPermission> UserPermissions { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
 
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Vocabulary> Vocabularies { get; set; }
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region USER Entity
@@ -26,7 +31,7 @@ namespace vocabteam.Models
                     .HasComment("This is the User Table")
                     .HasKey(e => e.Id);
 
-                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>();
+                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>().ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Username)
                       .HasColumnName("Username")
@@ -59,7 +64,7 @@ namespace vocabteam.Models
                     .HasComment("This is the UserRoles Table")
                     .HasKey(e => e.Id);
 
-                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>();
+                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>().ValueGeneratedOnAdd();
 
                 entity.Property(e => e.UserId)
                       .HasColumnName("UserId")
@@ -69,16 +74,16 @@ namespace vocabteam.Models
                       .HasColumnName("RoleId")
                       .HasColumnType("int");
 
-                entity.HasOne(e => e.User)                      
-                .WithMany(p => p.UserRoles)         
-                .HasForeignKey("UserId")                
-                .OnDelete(DeleteBehavior.SetNull)         
+                entity.HasOne(e => e.User)
+                .WithMany(p => p.UserRoles)
+                .HasForeignKey("UserId")
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_UserRoles_Users");
 
-                entity.HasOne(e => e.Role)                      
-                .WithMany(p => p.UserRoles)         
-                .HasForeignKey("RoleId")                
-                .OnDelete(DeleteBehavior.SetNull)         
+                entity.HasOne(e => e.Role)
+                .WithMany(p => p.UserRoles)
+                .HasForeignKey("RoleId")
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_UserRoles_Roles");
             });
 
@@ -88,7 +93,7 @@ namespace vocabteam.Models
                     .HasComment("This is the Role Table")
                     .HasKey(e => e.Id);
 
-                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>();
+                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>().ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Name)
                       .HasColumnName("Name")
@@ -106,7 +111,7 @@ namespace vocabteam.Models
                     .HasComment("This is the RolePermissions Table")
                     .HasKey(e => e.Id);
 
-                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>();
+                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>().ValueGeneratedOnAdd();
 
                 entity.Property(e => e.RoleId)
                       .HasColumnName("RoleId")
@@ -116,16 +121,16 @@ namespace vocabteam.Models
                       .HasColumnName("PermissionId")
                       .HasColumnType("int");
 
-                entity.HasOne(e => e.Role)                      
-                .WithMany(p => p.RolePermissions)         
-                .HasForeignKey("RoleId")                
-                .OnDelete(DeleteBehavior.SetNull)         
+                entity.HasOne(e => e.Role)
+                .WithMany(p => p.RolePermissions)
+                .HasForeignKey("RoleId")
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_RolePermissions_Roles");
 
-                entity.HasOne(e => e.Permission)                      
-                .WithMany(p => p.RolePermissions)         
-                .HasForeignKey("PermissionId")                
-                .OnDelete(DeleteBehavior.SetNull)         
+                entity.HasOne(e => e.Permission)
+                .WithMany(p => p.RolePermissions)
+                .HasForeignKey("PermissionId")
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_RolePermissions_Permissions");
             });
 
@@ -135,7 +140,7 @@ namespace vocabteam.Models
                     .HasComment("This is the Permission Table")
                     .HasKey(e => e.Id);
 
-                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>();
+                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>().ValueGeneratedOnAdd();
 
                 entity.Property(e => e.ObjectName)
                       .HasColumnName("ObjectName")
@@ -152,7 +157,7 @@ namespace vocabteam.Models
                     .HasComment("This is the UserPermissions Table")
                     .HasKey(e => e.Id);
 
-                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>();
+                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>().ValueGeneratedOnAdd();
 
                 entity.Property(e => e.UserId)
                       .HasColumnName("UserId")
@@ -162,18 +167,83 @@ namespace vocabteam.Models
                       .HasColumnName("PermissionId")
                       .HasColumnType("int");
 
-                entity.HasOne(e => e.User)                      
-                .WithMany(p => p.UserPermissions)         
-                .HasForeignKey("UserId")                
-                .OnDelete(DeleteBehavior.SetNull)         
+                entity.HasOne(e => e.User)
+                .WithMany(p => p.UserPermissions)
+                .HasForeignKey("UserId")
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_UserPermissions_Users");
 
-                entity.HasOne(e => e.Permission)                      
-                .WithMany(p => p.UserPermissions)         
-                .HasForeignKey("PermissionId")                
-                .OnDelete(DeleteBehavior.SetNull)         
+                entity.HasOne(e => e.Permission)
+                .WithMany(p => p.UserPermissions)
+                .HasForeignKey("PermissionId")
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_UserPermissions_Permissions");
             });
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.ToTable("Categories")
+                    .HasComment("This is the Categories Table")
+                    .HasKey(e => e.Id);
+
+                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>().ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Name)
+                      .HasColumnName("Name")
+                      .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.Description)
+                      .HasColumnName("Description")
+                      .HasColumnType("text");
+            });
+
+            modelBuilder.Entity<Vocabulary>(entity =>
+            {
+                entity.ToTable("Vocabularies")
+                    .HasComment("This is the Vocabularies Table")
+                    .HasKey(e => e.Id);
+
+                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>().ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Word)
+                      .HasColumnName("Word")
+                      .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.Meaning)
+                      .HasColumnName("Meaning")
+                      .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.Meaning)
+                      .HasColumnName("Meaning")
+                      .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.Definition)
+                      .HasColumnName("Definition")
+                      .HasColumnType("text");
+
+                entity.Property(e => e.Sentence)
+                      .HasColumnName("Sentence")
+                      .HasColumnType("text");
+
+                entity.Property(e => e.AudioUrl)
+                      .HasColumnName("AudioUrl")
+                      .HasColumnType("text");
+
+                entity.Property(e => e.ImageUrl)
+                      .HasColumnName("ImageUrl")
+                      .HasColumnType("text");
+
+                entity.Property(e => e.CategoryId)
+                      .HasColumnName("CategoryId")
+                      .HasColumnType("int");
+
+                entity.HasOne(e => e.Category)
+                    .WithMany(p => p.Vocabularies)
+                    .HasForeignKey("CategoryId")
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_Vocabularies_Categories");
+            });
+
 
             // entity.Property(e => new {e.UserId, e.RoleId}).IsU();
 

@@ -14,12 +14,13 @@ namespace vocabteam.Models.Services
     { 
         IQueryable<User> GetAll();
         User GetById(int id);
-        void Insert(User entity, bool saveChange = true);
+        void Insert(User entity);
         void Update(User entity, bool saveChange = true);
         void Delete(User entity, bool saveChange = true);
         IEnumerable<User> Filter(Expression<Func<User, bool>> filter);
         AuthenticateResponse Authenticate(AuthenticateRequest model);
-        IQueryable<RoleViewModel> GetRolesOfUser(User user);
-        UserResponse GetAll_WithRoles();
+        IQueryable<RoleModel> GetRolesOfUser(User user);
+        UserModel Insert(RegisterRequest model);
+        // UserInfoResponse GetAll_WithRoles();
     }
 }

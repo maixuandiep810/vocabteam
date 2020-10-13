@@ -3,54 +3,22 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using vocabteam.Models;
 
 namespace vocabteam.Migrations
 {
     [DbContext(typeof(VocabteamContext))]
-    partial class VocabteamContextModelSnapshot : ModelSnapshot
+    [Migration("20201012040235_MySecondMigration")]
+    partial class MySecondMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
-
-            modelBuilder.Entity("vocabteam.Models.Entities.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Description")
-                        .HasColumnName("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnName("Name")
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<DateTime?>("UpdatedTime")
-                        .HasColumnType("datetime");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-
-                    b.HasComment("This is the Categories Table");
-                });
 
             modelBuilder.Entity("vocabteam.Models.Entities.Permission", b =>
                 {
@@ -265,59 +233,6 @@ namespace vocabteam.Migrations
                     b.HasComment("This is the UserRoles Table");
                 });
 
-            modelBuilder.Entity("vocabteam.Models.Entities.Vocabulary", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("AudioUrl")
-                        .HasColumnName("AudioUrl")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnName("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Definition")
-                        .HasColumnName("Definition")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnName("ImageUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Meaning")
-                        .HasColumnName("Meaning")
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Sentence")
-                        .HasColumnName("Sentence")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedTime")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Word")
-                        .HasColumnName("Word")
-                        .HasColumnType("varchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Vocabularies");
-
-                    b.HasComment("This is the Vocabularies Table");
-                });
-
             modelBuilder.Entity("vocabteam.Models.Entities.RolePermission", b =>
                 {
                     b.HasOne("vocabteam.Models.Entities.Permission", "Permission")
@@ -360,15 +275,6 @@ namespace vocabteam.Migrations
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .HasConstraintName("FK_UserRoles_Users")
-                        .OnDelete(DeleteBehavior.SetNull);
-                });
-
-            modelBuilder.Entity("vocabteam.Models.Entities.Vocabulary", b =>
-                {
-                    b.HasOne("vocabteam.Models.Entities.Category", "Category")
-                        .WithMany("Vocabularies")
-                        .HasForeignKey("CategoryId")
-                        .HasConstraintName("FK_Vocabularies_Categories")
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 #pragma warning restore 612, 618

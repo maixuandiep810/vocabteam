@@ -27,21 +27,16 @@ namespace vocabteam.Models.Repositories
             return entities.FirstOrDefault(s => s.Id == id);
         }
 
-        public void Insert(T entity, bool saveChange = true)
+        public void Insert(T entity)
         {
             if (entity == null)
             {
                 throw new ArgumentNullException("entity");
             }
-
             entity.CreatedTime = DateTime.Now;
             entity.UpdatedTime = DateTime.Now;
-
             entities.Add(entity);
-
-            if (saveChange)
-                this._context.SaveChanges();
-
+            int a = this._context.SaveChanges();
         }
 
         public void Update(T entity, bool saveChange = true)
