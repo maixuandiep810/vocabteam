@@ -17,26 +17,26 @@ namespace vocabteam.Models.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _VocabularyRepo;
+        private readonly IUserRepository _UserRepo;
         private readonly AppSettings _AppSettings;
 
         public UserService(IUserRepository userRepo, IOptions<AppSettings> appSettings)
         {
-            _VocabularyRepo = userRepo;
+            _UserRepo = userRepo;
             _AppSettings = appSettings.Value;
 
         }
         public IQueryable<User> GetAll()
         {
-            return _VocabularyRepo.GetAll();
+            return _UserRepo.GetAll();
         }
         public User GetById(int id)
         {
-            return _VocabularyRepo.GetById(id);
+            return _UserRepo.GetById(id);
         }
         public void Insert(User entity)
         {
-            _VocabularyRepo.Insert(entity);
+            _UserRepo.Insert(entity);
         }
         public void Update(User entity, bool saveChange = true)
         {
@@ -49,16 +49,16 @@ namespace vocabteam.Models.Services
 
         public IEnumerable<User> Filter(Expression<Func<User, bool>> filter)
         {
-            return _VocabularyRepo.Filter(filter);
+            return _UserRepo.Filter(filter);
         }
 
         public IQueryable<RoleModel> GetRolesOfUser(User user)
         {
-            return _VocabularyRepo.GetRolesOfUser(user.Id);
+            return _UserRepo.GetRolesOfUser(user.Id);
         }
 
         // public UserInfoResponse GetAll_WithRoles() {
-        //     var input = _VocabularyRepo.GetAll_WithRoles();
+        //     var input = _UserRepo.GetAll_WithRoles();
         //     var result = new UserInfoResponse();
         //     result.data.Roles= input;
         //     return result;
@@ -67,12 +67,18 @@ namespace vocabteam.Models.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _VocabularyRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
+            var user = _UserRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
             if (user == null) return null;
             var token = generateJwtToken(user);
             var data = new UserModel(user, token);
             var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS, ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
             return new AuthenticateResponse(data, baseResponse);
+        }
+
+        public User FindUserByUsername(string username)
+        {
+            var user = _UserRepo.Filter(x => x.Username == username).FirstOrDefault<User>();
+            return user;
         }
 
         public UserModel Insert(RegisterRequest model)
@@ -83,7 +89,7 @@ namespace vocabteam.Models.Services
                 Email = model.Email
             };
             this.Insert(insertUser);
-            var newUser = _VocabularyRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
+            var newUser = _UserRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
             if (newUser == null) return null;
             var token = generateJwtToken(newUser);
             var newUserModel = new UserModel(newUser, token);

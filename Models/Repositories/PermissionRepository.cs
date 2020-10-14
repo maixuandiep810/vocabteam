@@ -16,10 +16,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace vocabteam.Models.Repositories
 {
-    public class PermisisonRepository : MySqlRepository<Permission>, IPermissionRepository
+    public class PermissionRepository : MySqlRepository<Permission>, IPermissionRepository
     {
 
-        public PermisisonRepository(VocabteamContext context) : base(context)
+        public PermissionRepository(VocabteamContext context) : base(context)
         {
         }
 

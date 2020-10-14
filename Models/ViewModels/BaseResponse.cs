@@ -10,7 +10,8 @@ namespace vocabteam.Models.ViewModels
         public string Message { get; set; }
         public BaseResponse(int code = 0, string message = "")
         {
-            
+            Code = code;
+            Message = message;
         }
 
         public BaseResponse(BaseResponse baseRes)

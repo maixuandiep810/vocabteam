@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,8 @@ namespace vocabteam
             services.AddScoped(typeof(IUserService), typeof(UserService));
             services.AddScoped(typeof(IVocabularyRepository), typeof(VocabularyRepository));
             services.AddScoped(typeof(IVocabularyService), typeof(VocabularyService));
+            services.AddScoped(typeof(IPermissionRepository), typeof(PermissionRepository));
+            services.AddScoped(typeof(IPermissionService), typeof(PermissionService));
             #endregion
 
         }
@@ -65,15 +68,8 @@ namespace vocabteam
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            app.MapWhen(
-                (context) =>
-                {
-                    return CheckUsingJwtMiddleware(context);
-                },
-                appProduct =>
-                {
-                    appProduct.UseMiddleware<JwtMiddleware>();
-                });
+            app.UseJwtMiddleware();
+            app.UseAuthorizationMiddleware();
 
             app.UseEndpoints(x => x.MapControllers());
         }
@@ -83,11 +79,7 @@ namespace vocabteam
         /// HELPER
         /// 
         
-        private static bool CheckUsingJwtMiddleware(HttpContext context)
-        {
-            bool result = context.Request.Path.Value.StartsWith("/user");
-            return result;
-        }
+
     }
 
 
@@ -95,10 +87,26 @@ namespace vocabteam
 
 
 
+// private static bool CheckUsingJwtMiddleware(HttpContext context)
+// {
+//     bool result = context.Request.Path.Value.StartsWith("/user");
+//     return result;
+// }
 
-            // app.UseMiddleware<JwtMiddleware>();
+// app.MapWhen(
+//     (context) =>
+//     {
+//         return CheckUsingJwtMiddleware(context);
+//     },
+//     appProduct =>
+//     {
+//         appProduct.UseMiddleware<JwtMiddleware>();
+//     });
 
-            //             app.MapWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder =>
-            // {
-            //     appBuilder.UseMiddlewareTwo();
-            // });
+
+// app.UseMiddleware<JwtMiddleware>();
+// 
+//             app.MapWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder =>
+// {
+//     appBuilder.UseMiddlewareTwo();
+// });

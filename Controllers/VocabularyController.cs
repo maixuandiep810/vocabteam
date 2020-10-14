@@ -11,7 +11,7 @@ using vocabteam.Models.ViewModels;
 namespace vocabteam.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class VocabularyController : ControllerBase
     {
         private readonly IVocabularyService _VocabularyService;

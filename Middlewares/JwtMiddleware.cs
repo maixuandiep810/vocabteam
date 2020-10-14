@@ -38,6 +38,7 @@ namespace vocabteam.Middlewares
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+                var realToken = tokenHandler.ReadJwtToken(token);
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -65,7 +66,7 @@ namespace vocabteam.Middlewares
         {
             try
             {
-                context.Items["User"] = userService.Filter(x => x.Username == "guest");
+                context.Items["User"] = userService.FindUserByUsername("guest");
             }
             catch
             {
