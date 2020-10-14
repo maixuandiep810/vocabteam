@@ -16,6 +16,8 @@ namespace vocabteam.Helpers
             HAVE_LOGGED = 20,
             HAVE_LOGGED_DONT_NEED_TO_REGISTER = 21,
             EXISTED_USERNAME = 22,
+            PATH_DOESNOT_EXIST = 23,
+            PERMISSION_DENIED = 24,
 
             FAIL = 90,
         }
@@ -32,6 +34,10 @@ namespace vocabteam.Helpers
                     return "you have logged in system, you don't need to register.";
                 case ResponseCode.EXISTED_USERNAME:
                     return "username already exists";
+                case ResponseCode.PATH_DOESNOT_EXIST:
+                    return "the specified path does not exist";
+                case ResponseCode.PERMISSION_DENIED:
+                    return "you does not have permission to perform this action";
 
                 case ResponseCode.FAIL:
                     return "fail";
