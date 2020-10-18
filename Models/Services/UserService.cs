@@ -13,7 +13,7 @@ using vocabteam.Models.ViewModels;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Http;
-using vocabteam.Helpers;
+using vocabteam.Helpers.CustomExceptions;
 
 namespace vocabteam.Models.Services
 {
@@ -35,7 +35,7 @@ namespace vocabteam.Models.Services
             {
                 result = _UserRepo.GetAll();
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }
@@ -48,7 +48,7 @@ namespace vocabteam.Models.Services
             {
                 result = _UserRepo.GetById(id);
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }
@@ -61,7 +61,7 @@ namespace vocabteam.Models.Services
                 _UserRepo.Insert(u);
 
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }
@@ -73,7 +73,7 @@ namespace vocabteam.Models.Services
                 _UserRepo.Update(u);
 
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }
@@ -85,7 +85,7 @@ namespace vocabteam.Models.Services
                 _UserRepo.Delete(u);
 
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }
@@ -99,7 +99,7 @@ namespace vocabteam.Models.Services
                 result = _UserRepo.Filter(filter);
 
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }
@@ -114,7 +114,7 @@ namespace vocabteam.Models.Services
                 result = _UserRepo.GetRolesOfUser(user.Id);
 
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }
@@ -142,7 +142,7 @@ namespace vocabteam.Models.Services
                 user.Token = token;
                 Update(user);
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }
@@ -159,7 +159,7 @@ namespace vocabteam.Models.Services
             {
                 user = _UserRepo.Filter(x => x.Username == username).FirstOrDefault<User>();
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }
@@ -183,7 +183,7 @@ namespace vocabteam.Models.Services
                 var token = generateJwtToken(newUser);
                 newUserModel = new UserModel(newUser, token);
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }
@@ -197,7 +197,7 @@ namespace vocabteam.Models.Services
                 u.Token = null;
                 Update(u);
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }

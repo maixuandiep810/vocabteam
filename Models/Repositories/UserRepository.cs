@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using vocabteam.Helpers;
+using vocabteam.Helpers.CustomExceptions;
 using vocabteam.Models.Entities;
 using vocabteam.Models.Repositories;
 using vocabteam.Models.ViewModels;
@@ -38,7 +38,7 @@ namespace vocabteam.Models.Repositories
                               Displayname = x.DisplayName
                           });
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }
@@ -78,7 +78,7 @@ namespace vocabteam.Models.Repositories
                     result.Add(newUser);
                 }
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }
@@ -91,7 +91,7 @@ namespace vocabteam.Models.Repositories
             {
                 Update(u);
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }

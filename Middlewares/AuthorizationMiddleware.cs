@@ -1,10 +1,13 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using vocabteam.Helpers;
+using vocabteam.Helpers.CustomExceptions;
 using vocabteam.Models.Entities;
 using vocabteam.Models.Services;
 using vocabteam.Models.ViewModels;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace vocabteam.Middlewares
 {
@@ -23,17 +26,25 @@ namespace vocabteam.Middlewares
 
             if (user != null)
             {
-                if (checkAuthorization(context, permissionService, user) == true)
+                try
                 {
-                    await _next(context);
+                    if (checkAuthorization(context, permissionService, user) == true)
+                    {
+                        await _next(context);
+                    }
                 }
-            }
-            else
-            {
-                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
-                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
-                ResponseHelper.MiddlewareResponse(context, failResponse);
-                return;
+                catch (CustomException ex)
+                {
+                    var failResponse = new BaseResponse((int)ex.Response_Code,
+                                                        ConstantVar.ResponseString(ex.Response_Code));
+                    ResponseHelper.MiddlewareResponse(context, failResponse);
+                }
+                catch (System.Exception ex)
+                {
+                    var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
+                                                        ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                    ResponseHelper.MiddlewareResponse(context, failResponse);
+                }
             }
         }
 
@@ -49,38 +60,27 @@ namespace vocabteam.Middlewares
                     ObjectName = objectName,
                     Action = action
                 };
-                // FILE PERMISSION ok
-                permissionRequest = permissionService.GetByPermission(permissionRequest);
 
-                if (permissionRequest == null)
+                // FILE PERMISSION ok ?????
+                List<Permission> permissionConform = permissionService.GetByPermission(permissionRequest);
+                if (permissionConform == null)
                 {
-                    failResponse = new BaseResponse((int)ConstantVar.ResponseCode.PATH_DOESNOT_EXIST,
-                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.PATH_DOESNOT_EXIST));
-                    ResponseHelper.MiddlewareResponse(context, failResponse);
-                    return false;
+                    throw new CustomException(ConstantVar.ResponseCode.REQUEST_DOESNOT_EXIST);
                 }
 
-                bool checkPermission = permissionService.CheckPermission(permissionRequest, user);
+                bool checkPermission = permissionService.CheckPermission(permissionConform, user);
                 if (checkPermission == false)
-
                 {
-                    failResponse = new BaseResponse((int)ConstantVar.ResponseCode.PERMISSION_DENIED,
-                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.PERMISSION_DENIED));
-                    ResponseHelper.MiddlewareResponse(context, failResponse);
-                    return false;
+                    throw new CustomException(ConstantVar.ResponseCode.PERMISSION_DENIED);
                 }
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
-                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.SYSTEM_ERROR,
-                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SYSTEM_ERROR));
-                ResponseHelper.MiddlewareResponse(context, failResponse);
+                throw ex;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
-                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
-                ResponseHelper.MiddlewareResponse(context, failResponse);
+                throw ex;
             }
             return true;
         }

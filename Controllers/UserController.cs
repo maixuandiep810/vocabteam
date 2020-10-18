@@ -8,6 +8,7 @@ using vocabteam.Models.Services;
 using vocabteam.Models.Entities;
 using vocabteam.Models.ViewModels;
 using vocabteam.Helpers;
+using vocabteam.Helpers.CustomExceptions;
 
 namespace vocabteam.Controllers
 {
@@ -27,7 +28,7 @@ namespace vocabteam.Controllers
         public IActionResult Authenticate(AuthenticateRequest model)
         {
             var checkUser = HttpContext.Items["User"] as User;
-            if (checkUser.Username.Equals(ConstantVar.Role.guest.ToString()) == false)
+            if (checkUser.Username.Equals(ConstantVar.RoleString(ConstantVar.Role.guest)) == false)
             {
                 var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.HAVE_LOGGED, ConstantVar.ResponseString(ConstantVar.ResponseCode.HAVE_LOGGED));
                 return StatusCode(200, failResponse);
@@ -64,10 +65,10 @@ namespace vocabteam.Controllers
                 var newUserInfoResponse = new UserInfoResponse(newUserModel);
                 return StatusCode(200, newUserInfoResponse);
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
-                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.SYSTEM_ERROR,
-                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SYSTEM_ERROR));
+                var failResponse = new BaseResponse((int)ex.Response_Code,
+                                                    ConstantVar.ResponseString(ex.Response_Code));
                 return StatusCode(200, failResponse);
             }
             catch (Exception ex)
@@ -86,10 +87,10 @@ namespace vocabteam.Controllers
                 var user = HttpContext.Items["User"] as User;
                 _UserService.Logout(user);
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
-                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.SYSTEM_ERROR,
-                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SYSTEM_ERROR));
+                var failResponse = new BaseResponse((int)ex.Response_Code,
+                                                    ConstantVar.ResponseString(ex.Response_Code));
                 return StatusCode(200, failResponse);
             }
             catch (Exception ex)

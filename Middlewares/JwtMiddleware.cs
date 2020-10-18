@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vocabteam.Helpers;
+using vocabteam.Helpers.CustomExceptions;
 using vocabteam.Models.Services;
 using vocabteam.Models.ViewModels;
 
@@ -34,10 +35,10 @@ namespace vocabteam.Middlewares
                     attachUserToGuestRole(context, userService);
                 await _next(context);
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
-                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.SYSTEM_ERROR,
-                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SYSTEM_ERROR));
+                var failResponse = new BaseResponse((int)ex.Response_Code,
+                                                    ConstantVar.ResponseString(ex.Response_Code));
                 ResponseHelper.MiddlewareResponse(context, failResponse);
             }
             catch (Exception ex)
@@ -70,15 +71,16 @@ namespace vocabteam.Middlewares
 
                 // attach user to context on successful jwt validation
                 var user = userService.GetById(userId);
-                                if (user.Token == null)
-                                {
-                                    throw
-                                }
+                
+                if (user.Token == null)
+                {
+                    throw new CustomException(ConstantVar.ResponseCode.HAVE_LOGGED_OUT);
+                }
 
                 context.Items["User"] = user;
 
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }
@@ -94,7 +96,7 @@ namespace vocabteam.Middlewares
             {
                 context.Items["User"] = userService.FindUserByUsername("guest");
             }
-            catch (RepositoryException001 ex)
+            catch (CustomException ex)
             {
                 throw ex;
             }

@@ -15,8 +15,8 @@ namespace vocabteam.Models.Services
         IQueryable<Vocabulary> GetAll();
         Vocabulary GetById(int id);
         void Insert(Vocabulary entity);
-        void Update(Vocabulary entity, bool saveChange = true);
-        void Delete(Vocabulary entity, bool saveChange = true);
+        void Update(Vocabulary entity);
+        void Delete(Vocabulary entity);
         IEnumerable<Vocabulary> Filter(Expression<Func<Vocabulary, bool>> filter);
     }
 }

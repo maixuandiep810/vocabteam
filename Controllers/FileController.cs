@@ -24,40 +24,6 @@ namespace vocabteam.Controllers
             _appSettings = appSettings.Value;
         }
 
-        [HttpGet]
-        [Route("{type}/{name}")]
-        public IActionResult DownloadFile(string type, string name)
-        {
-            type = type.ToLower();
-            string source = _appSettings.StaticFilesPath + type + "/" + name;
-            var failResponse = new BaseResponse();
-            if (System.IO.File.Exists(source) == false)
-            {
-                failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
-                return StatusCode(200, failResponse);
-            }
-
-            try
-            {
-                var image = System.IO.File.OpenRead(source);
-                switch (type)
-                {
-                    case "image":
-                        return File(image, "image/jpeg");
-                    default:
-                        break;
-                }
-            }
-            catch (System.Exception)
-            {
-                failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
-                return StatusCode(200, failResponse);
-            }
-
-            failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
-            return StatusCode(200, failResponse);
-        }
-
         [HttpPost]
         [Route("{type}")]
         public IActionResult UploadFile(string type, IFormCollection formdata)
@@ -67,7 +33,7 @@ namespace vocabteam.Controllers
             {
                 var file = HttpContext.Request.Form.Files["file"];
                 var word = HttpContext.Request.Form["word"];
-                string source = _appSettings.StaticFilesPath + type;
+                string source = _appSettings.StaticFilesPath + "/" + type;
                 if (file.Length > 0)
                 {
                     string filename = word + System.IO.Path.GetExtension(file.FileName); // Give file name
@@ -77,13 +43,13 @@ namespace vocabteam.Controllers
                     }
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ex.Message);
                 return StatusCode(200, failResponse);
             }
             var response = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS, ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
-            return StatusCode(200, response);;
+            return StatusCode(200, response); ;
         }
 
     }
@@ -95,4 +61,57 @@ namespace vocabteam.Controllers
 // {
 //     var image = System.IO.File.OpenRead("C:\\test\\random_image.jpeg");
 //     return File(image, "image/jpeg");
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// [HttpGet]
+// [Route("{type}/{name}")]
+// public IActionResult DownloadFile(string type, string name)
+// {
+//     type = type.ToLower();
+//     string source = _appSettings.StaticFilesPath + type + "/" + name;
+//     var failResponse = new BaseResponse();
+//     if (System.IO.File.Exists(source) == false)
+//     {
+//         failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+//         return StatusCode(200, failResponse);
+//     }
+
+//     try
+//     {
+//         var image = System.IO.File.OpenRead(source);
+//         switch (type)
+//         {
+//             case "image":
+//                 return File(image, "image/jpeg");
+//             default:
+//                 break;
+//         }
+//     }
+//     catch (System.Exception)
+//     {
+//         failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+//         return StatusCode(200, failResponse);
+//     }
+
+//     failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+//     return StatusCode(200, failResponse);
 // }

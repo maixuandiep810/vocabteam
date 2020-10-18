@@ -17,36 +17,36 @@ namespace vocabteam.Models.Services
 {
     public class VocabularyService : IVocabularyService
     {
-        private readonly IVocabularyRepository _UserRepo;
+        private readonly IVocabularyRepository _VocabularyRepo;
 
         public VocabularyService(IVocabularyRepository vocabularyRepo)
         {
-            _UserRepo = vocabularyRepo;
+            _VocabularyRepo = vocabularyRepo;
         }
         public IQueryable<Vocabulary> GetAll()
         {
-            return _UserRepo.GetAll();
+            return _VocabularyRepo.GetAll();
         }
         public Vocabulary GetById(int id)
         {
-            return _UserRepo.GetById(id);
+            return _VocabularyRepo.GetById(id);
         }
         public void Insert(Vocabulary entity)
         {
-            _UserRepo.Insert(entity);
+            _VocabularyRepo.Insert(entity);
         }
-        public void Update(Vocabulary entity, bool saveChange = true)
+        public void Update(Vocabulary entity)
         {
 
         }
-        public void Delete(Vocabulary entity, bool saveChange = true)
+        public void Delete(Vocabulary entity)
         {
 
         }
 
         public IEnumerable<Vocabulary> Filter(Expression<Func<Vocabulary, bool>> filter)
         {
-            return _UserRepo.Filter(filter);
+            return _VocabularyRepo.Filter(filter);
         }
 
     }

@@ -71,6 +71,8 @@ namespace vocabteam
             app.UseJwtMiddleware();
             app.UseAuthorizationMiddleware();
 
+            app.UseStaticFiles();
+
             app.UseEndpoints(x => x.MapControllers());
         }
 
@@ -78,7 +80,7 @@ namespace vocabteam
         /// 
         /// HELPER
         /// 
-        
+
 
     }
 

@@ -19,9 +19,12 @@ namespace vocabteam.Helpers
             PATH_DOESNOT_EXIST = 23,
             PERMISSION_DENIED = 24,
             TOKEN_VALIDATION_ERROR = 25,
+            REQUEST_DOESNOT_EXIST = 26,
+            HAVE_LOGGED_OUT = 27,
 
             FAIL = 50,
-            SYSTEM_ERROR = 51
+            SYSTEM_ERROR = 51,
+            REPOSITORY_ERROR = 52
         }
         public static string ResponseString(ResponseCode code)
         {
@@ -42,9 +45,14 @@ namespace vocabteam.Helpers
                     return "you does not have permission to perform this action";
                 case ResponseCode.TOKEN_VALIDATION_ERROR:
                     return "access token could not be verified";
+                case ResponseCode.REQUEST_DOESNOT_EXIST:
+                    return "request does not exist";
+                case ResponseCode.HAVE_LOGGED_OUT:
+                    return "you have logged out";
 
                 case ResponseCode.FAIL:
                     return "fail";
+                case ResponseCode.REPOSITORY_ERROR:
                 case ResponseCode.SYSTEM_ERROR:
                     return "system error";
 
@@ -61,6 +69,17 @@ namespace vocabteam.Helpers
         {
             admin = 1,
             guest = 3
+        }
+        
+        public static string RoleString(Role role)
+        {
+            switch (role)
+            {
+                case Role.guest:
+                    return "guest";
+                default:
+                    return "guest";
+            }
         }
 
     }

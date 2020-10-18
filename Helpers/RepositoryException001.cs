@@ -2,18 +2,18 @@ using System;
 
 namespace vocabteam.Helpers
 {
-    public class RepositoryException001 : Exception
+    public class RepositoryException0012 : Exception
     {
-        public RepositoryException001()
+        public RepositoryException0012()
         {
         }
 
-        public RepositoryException001(string message)
+        public RepositoryException0012(string message)
             : base(message)
         {
         }
 
-        public RepositoryException001(string message, Exception inner)
+        public RepositoryException0012(string message, Exception inner)
             : base(message, inner)
         {
         }

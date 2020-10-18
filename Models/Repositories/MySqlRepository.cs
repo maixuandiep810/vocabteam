@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using vocabteam.Helpers;
+using vocabteam.Helpers.CustomExceptions;
 
 namespace vocabteam.Models.Repositories
 {
@@ -27,7 +28,7 @@ namespace vocabteam.Models.Repositories
             }
             catch (System.Exception)
             {
-                throw new RepositoryException001();
+                throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
             }
 
             return result;
@@ -42,7 +43,7 @@ namespace vocabteam.Models.Repositories
             }
             catch (System.Exception)
             {
-                throw new RepositoryException001();
+                throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
             }
 
             return result;
@@ -63,7 +64,7 @@ namespace vocabteam.Models.Repositories
             }
             catch (System.Exception)
             {
-                throw new RepositoryException001();
+                throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
             }
         }
 
@@ -80,7 +81,7 @@ namespace vocabteam.Models.Repositories
             }
             catch (System.Exception)
             {
-                throw new RepositoryException001();
+                throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
             }
         }
 
@@ -98,7 +99,7 @@ namespace vocabteam.Models.Repositories
             catch (System.Exception)
             {
 
-                throw new RepositoryException001();
+                throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
             }
         }
 
@@ -111,7 +112,7 @@ namespace vocabteam.Models.Repositories
             }
             catch (System.Exception)
             {
-                throw new RepositoryException001();
+                throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
             }
 
             return result;
