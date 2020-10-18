@@ -10,8 +10,8 @@ using vocabteam.Models;
 namespace vocabteam.Migrations
 {
     [DbContext(typeof(VocabteamContext))]
-    [Migration("20201013031448_MyThirdMigration")]
-    partial class MyThirdMigration
+    [Migration("20201018090326_MyFirstMigration")]
+    partial class MyFirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -177,6 +177,10 @@ namespace vocabteam.Migrations
                     b.Property<string>("Password")
                         .HasColumnName("Password")
                         .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Token")
+                        .HasColumnName("Token")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime");

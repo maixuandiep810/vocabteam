@@ -49,13 +49,13 @@ namespace vocabteam.Controllers
                 var checkUser = this.HttpContext.Items["User"] as User;
                 if (checkUser.Username.Equals(ConstantVar.Role.guest.ToString()) == false)
                 {
-                    var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.HAVE_LOGGED_DONT_NEED_TO_REGISTER, 
+                    var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.HAVE_LOGGED_DONT_NEED_TO_REGISTER,
                                                         ConstantVar.ResponseString(ConstantVar.ResponseCode.HAVE_LOGGED_DONT_NEED_TO_REGISTER));
                     return StatusCode(200, failResponse);
                 }
                 if (checkUser != null)
                 {
-                    var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.EXISTED_USERNAME, 
+                    var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.EXISTED_USERNAME,
                                                         ConstantVar.ResponseString(ConstantVar.ResponseCode.EXISTED_USERNAME));
                     return StatusCode(200, failResponse);
                 }
@@ -64,12 +64,46 @@ namespace vocabteam.Controllers
                 var newUserInfoResponse = new UserInfoResponse(newUserModel);
                 return StatusCode(200, newUserInfoResponse);
             }
+            catch (RepositoryException001 ex)
+            {
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.SYSTEM_ERROR,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SYSTEM_ERROR));
+                return StatusCode(200, failResponse);
+            }
             catch (Exception ex)
             {
-                // return error message if there was an exception
-                return BadRequest(new { message = ex.Message });
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                return StatusCode(200, failResponse);
             }
         }
+
+        [HttpGet("logout")]
+        public IActionResult Logout()
+        {
+            try
+            {
+                var user = HttpContext.Items["User"] as User;
+                _UserService.Logout(user);
+            }
+            catch (RepositoryException001 ex)
+            {
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.SYSTEM_ERROR,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SYSTEM_ERROR));
+                return StatusCode(200, failResponse);
+            }
+            catch (Exception ex)
+            {
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
+                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                return StatusCode(200, failResponse);
+            }
+            var logoutResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
+                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+            return StatusCode(200, logoutResponse);
+
+        }
+
 
     }
 }
@@ -79,11 +113,11 @@ namespace vocabteam.Controllers
 
 
 
-        // [HttpGet]
-        // public IActionResult Get()
-        // {
-        //     // User u = _UserService.GetById(1);
-        //     // return Ok(_UserService.GetRolesOfUser(u));
-        //     var a = _UserService.GetAll_WithRoles();
-        //     return Ok(_UserService.GetAll_WithRoles());
-        // }
+// [HttpGet]
+// public IActionResult Get()
+// {
+//     // User u = _UserService.GetById(1);
+//     // return Ok(_UserService.GetRolesOfUser(u));
+//     var a = _UserService.GetAll_WithRoles();
+//     return Ok(_UserService.GetAll_WithRoles());
+// }

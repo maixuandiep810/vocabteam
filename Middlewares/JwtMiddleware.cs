@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using vocabteam.Helpers;
 using vocabteam.Models.Services;
+using vocabteam.Models.ViewModels;
 
 namespace vocabteam.Middlewares
 {
@@ -24,12 +25,27 @@ namespace vocabteam.Middlewares
 
         public async Task Invoke(HttpContext context, IUserService userService)
         {
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            if (token != null)
-                attachUserToContext(context, userService, token);
-            else
-                attachUserToGuestRole(context, userService);
-            await _next(context);
+            var token = context.Request.Headers["Token"].FirstOrDefault()?.Split(" ").Last();
+            try
+            {
+                if (token != null)
+                    attachUserToContext(context, userService, token);
+                else
+                    attachUserToGuestRole(context, userService);
+                await _next(context);
+            }
+            catch (RepositoryException001 ex)
+            {
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.SYSTEM_ERROR,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SYSTEM_ERROR));
+                ResponseHelper.MiddlewareResponse(context, failResponse);
+            }
+            catch (Exception ex)
+            {
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.TOKEN_VALIDATION_ERROR,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.TOKEN_VALIDATION_ERROR));
+                ResponseHelper.MiddlewareResponse(context, failResponse);
+            }
         }
 
         private void attachUserToContext(HttpContext context, IUserService userService, string token)
@@ -53,12 +69,22 @@ namespace vocabteam.Middlewares
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
                 // attach user to context on successful jwt validation
-                context.Items["User"] = userService.GetById(userId);
+                var user = userService.GetById(userId);
+                                if (user.Token == null)
+                                {
+                                    throw
+                                }
+
+                context.Items["User"] = user;
+
             }
-            catch
+            catch (RepositoryException001 ex)
             {
-                // do nothing if jwt validation fails
-                // user is not attached to context so request won't have access to secure routes
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -68,9 +94,13 @@ namespace vocabteam.Middlewares
             {
                 context.Items["User"] = userService.FindUserByUsername("guest");
             }
-            catch
+            catch (RepositoryException001 ex)
             {
-
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

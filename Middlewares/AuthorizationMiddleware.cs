@@ -30,7 +30,7 @@ namespace vocabteam.Middlewares
             }
             else
             {
-                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, 
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
                                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
                 ResponseHelper.MiddlewareResponse(context, failResponse);
                 return;
@@ -49,28 +49,38 @@ namespace vocabteam.Middlewares
                     ObjectName = objectName,
                     Action = action
                 };
+                // FILE PERMISSION ok
                 permissionRequest = permissionService.GetByPermission(permissionRequest);
 
                 if (permissionRequest == null)
                 {
-                    failResponse = new BaseResponse((int)ConstantVar.ResponseCode.PATH_DOESNOT_EXIST, 
+                    failResponse = new BaseResponse((int)ConstantVar.ResponseCode.PATH_DOESNOT_EXIST,
                                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.PATH_DOESNOT_EXIST));
                     ResponseHelper.MiddlewareResponse(context, failResponse);
                     return false;
                 }
 
                 bool checkPermission = permissionService.CheckPermission(permissionRequest, user);
-
                 if (checkPermission == false)
+
                 {
-                    failResponse = new BaseResponse((int)ConstantVar.ResponseCode.PERMISSION_DENIED, 
+                    failResponse = new BaseResponse((int)ConstantVar.ResponseCode.PERMISSION_DENIED,
                                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.PERMISSION_DENIED));
                     ResponseHelper.MiddlewareResponse(context, failResponse);
                     return false;
                 }
             }
-            catch
+            catch (RepositoryException001 ex)
             {
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.SYSTEM_ERROR,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SYSTEM_ERROR));
+                ResponseHelper.MiddlewareResponse(context, failResponse);
+            }
+            catch (System.Exception ex)
+            {
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                ResponseHelper.MiddlewareResponse(context, failResponse);
             }
             return true;
         }

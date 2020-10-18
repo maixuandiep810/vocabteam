@@ -14,3 +14,22 @@ namespace vocabteam.Helpers
         }
     }
 }
+
+
+
+
+
+/// BINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+
+            //  StatusCode cannot be set because the response has already started.
+            // context.Response.StatusCode = 200;
+
+            // Headers are read-only, response has already started.
+            // context.Response.ContentType = "application/json";
+// {
+//     "code": 25,
+//     "message": "access token could not be verified"
+// }{
+//     "code": 50,
+//     "message": "fail"
+// }

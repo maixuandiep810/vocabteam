@@ -18,8 +18,10 @@ namespace vocabteam.Helpers
             EXISTED_USERNAME = 22,
             PATH_DOESNOT_EXIST = 23,
             PERMISSION_DENIED = 24,
+            TOKEN_VALIDATION_ERROR = 25,
 
-            FAIL = 90,
+            FAIL = 50,
+            SYSTEM_ERROR = 51
         }
         public static string ResponseString(ResponseCode code)
         {
@@ -38,9 +40,14 @@ namespace vocabteam.Helpers
                     return "the specified path does not exist";
                 case ResponseCode.PERMISSION_DENIED:
                     return "you does not have permission to perform this action";
+                case ResponseCode.TOKEN_VALIDATION_ERROR:
+                    return "access token could not be verified";
 
                 case ResponseCode.FAIL:
                     return "fail";
+                case ResponseCode.SYSTEM_ERROR:
+                    return "system error";
+
                 default:
                     return "";
             }

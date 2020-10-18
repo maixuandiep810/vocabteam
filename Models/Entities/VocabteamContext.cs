@@ -55,6 +55,11 @@ namespace vocabteam.Models
                       .HasColumnName("AvatarUrl")
                       .HasColumnType("text");
                 //   .IsRequired();
+
+                entity.Property(e => e.Token)
+                      .HasColumnName("Token")
+                      .HasColumnType("text");
+                //   .IsRequired();
             });
             #endregion
 

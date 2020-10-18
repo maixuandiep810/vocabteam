@@ -10,6 +10,7 @@ namespace vocabteam.Models.Entities
         public string Password { get; set; }
         public string Email { get; set; }
         public string AvatarUrl { get; set; }
+        public string Token { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
         public virtual ICollection<UserPermission> UserPermissions { get; set; }
     }

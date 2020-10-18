@@ -22,9 +22,13 @@ namespace vocabteam.Models.Repositories
         public UserRepository(VocabteamContext context) : base(context)
         {
         }
+
         public IQueryable<RoleModel> GetRolesOfUser(int id)
         {
-            var result = (from p in _context.Users
+            IQueryable<RoleModel> result = null;
+            try
+            {
+                result = (from p in _context.Users
                           join m in _context.UserRoles on p.Id equals m.UserId
                           join x in _context.Roles on m.RoleId equals x.Id
                           where p.Id == id
@@ -33,36 +37,64 @@ namespace vocabteam.Models.Repositories
                               Name = x.Name,
                               Displayname = x.DisplayName
                           });
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
+            }
+
             return result;
         }
+
         public List<UserModel> GetAll_WithRoles()
         {
-            var query = from p in _context.Users
-                        join m in _context.UserRoles on p.Id equals m.UserId
-                        join x in _context.Roles on m.RoleId equals x.Id
-                        select new { User = p, UserRole = m, Roles = x };
-            var data = query.ToLookup(p => p.User).ToList();
-            var result = new List<UserModel>();
-            foreach (var iGroup in data)
+            List<UserModel> result = null;
+            try
             {
-                var newUser = new UserModel {
-                    Username = iGroup.Key.Username,
-                    Email = iGroup.Key.Email,
-                    AvatarUrl = iGroup.Key.AvatarUrl,
-                    Roles = new List<RoleModel>()
-                };
-                foreach (var item in iGroup)
+                var query = from p in _context.Users
+                            join m in _context.UserRoles on p.Id equals m.UserId
+                            join x in _context.Roles on m.RoleId equals x.Id
+                            select new { User = p, UserRole = m, Roles = x };
+                var data = query.ToLookup(p => p.User).ToList();
+                result = new List<UserModel>();
+                foreach (var iGroup in data)
                 {
-                    var newRole = new RoleModel()
+                    var newUser = new UserModel
                     {
-                        Name = item.Roles.Name,
-                        Displayname = item.Roles.DisplayName
+                        Username = iGroup.Key.Username,
+                        Email = iGroup.Key.Email,
+                        AvatarUrl = iGroup.Key.AvatarUrl,
+                        Roles = new List<RoleModel>()
                     };
-                    newUser.Roles.Add(newRole);
+                    foreach (var item in iGroup)
+                    {
+                        var newRole = new RoleModel()
+                        {
+                            Name = item.Roles.Name,
+                            Displayname = item.Roles.DisplayName
+                        };
+                        newUser.Roles.Add(newRole);
+                    }
+                    result.Add(newUser);
                 }
-                result.Add(newUser);
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
             }
             return result;
+        }
+
+        public void AddToken(User u)
+        {
+            try
+            {
+                Update(u);
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
+            }
         }
 
     }

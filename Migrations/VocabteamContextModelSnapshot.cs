@@ -176,6 +176,10 @@ namespace vocabteam.Migrations
                         .HasColumnName("Password")
                         .HasColumnType("varchar(50)");
 
+                    b.Property<string>("Token")
+                        .HasColumnName("Token")
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime");
 

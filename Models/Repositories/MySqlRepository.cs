@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using vocabteam.Helpers;
 
 namespace vocabteam.Models.Repositories
 {
@@ -19,12 +20,32 @@ namespace vocabteam.Models.Repositories
         }
         public IQueryable<T> GetAll()
         {
-            return entities.AsQueryable();
+            IQueryable<T> result;
+            try
+            {
+                result = entities.AsQueryable();
+            }
+            catch (System.Exception)
+            {
+                throw new RepositoryException001();
+            }
+
+            return result;
         }
 
         public T GetById(int id)
         {
-            return entities.FirstOrDefault(s => s.Id == id);
+            T result;
+            try
+            {
+                result = entities.FirstOrDefault(s => s.Id == id);
+            }
+            catch (System.Exception)
+            {
+                throw new RepositoryException001();
+            }
+
+            return result;
         }
 
         public void Insert(T entity)
@@ -33,37 +54,67 @@ namespace vocabteam.Models.Repositories
             {
                 throw new ArgumentNullException("entity");
             }
-            entity.CreatedTime = DateTime.Now;
-            entity.UpdatedTime = DateTime.Now;
-            entities.Add(entity);
-            int a = this._context.SaveChanges();
+            try
+            {
+                entity.CreatedTime = DateTime.Now;
+                entity.UpdatedTime = DateTime.Now;
+                entities.Add(entity);
+                int a = this._context.SaveChanges();
+            }
+            catch (System.Exception)
+            {
+                throw new RepositoryException001();
+            }
         }
 
-        public void Update(T entity, bool saveChange = true)
+        public void Update(T entity)
         {
             if (entity == null)
             {
                 throw new ArgumentNullException("entity");
             }
-            entity.UpdatedTime = DateTime.Now;
-            if (saveChange)
+            try
+            {
+                entity.UpdatedTime = DateTime.Now;
                 this._context.SaveChanges();
+            }
+            catch (System.Exception)
+            {
+                throw new RepositoryException001();
+            }
         }
 
-        public void Delete(T entity, bool saveChange = true)
+        public void Delete(T entity)
         {
             if (entity == null)
             {
                 throw new ArgumentNullException("entity");
             }
-            entities.Remove(entity);
-            if (saveChange)
+            try
+            {
+                entities.Remove(entity);
                 this._context.SaveChanges();
+            }
+            catch (System.Exception)
+            {
+
+                throw new RepositoryException001();
+            }
         }
 
         public IEnumerable<T> Filter(Expression<Func<T, bool>> filter)
         {
-            return entities.Where(filter);
+            IEnumerable<T> result;
+            try
+            {
+                result = entities.Where(filter);
+            }
+            catch (System.Exception)
+            {
+                throw new RepositoryException001();
+            }
+
+            return result;
         }
     }
 }

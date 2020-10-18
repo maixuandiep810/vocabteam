@@ -12,6 +12,8 @@ using vocabteam.Models.Repositories;
 using vocabteam.Models.ViewModels;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Http;
+using vocabteam.Helpers;
 
 namespace vocabteam.Models.Services
 {
@@ -28,33 +30,96 @@ namespace vocabteam.Models.Services
         }
         public IQueryable<User> GetAll()
         {
-            return _UserRepo.GetAll();
+            IQueryable<User> result = null;
+            try
+            {
+                result = _UserRepo.GetAll();
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
+            }
+            return result;
         }
         public User GetById(int id)
         {
-            return _UserRepo.GetById(id);
+            User result = null;
+            try
+            {
+                result = _UserRepo.GetById(id);
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
+            }
+            return result;
         }
-        public void Insert(User entity)
+        public void Insert(User u)
         {
-            _UserRepo.Insert(entity);
-        }
-        public void Update(User entity, bool saveChange = true)
-        {
+            try
+            {
+                _UserRepo.Insert(u);
 
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
+            }
         }
-        public void Delete(User entity, bool saveChange = true)
+        public void Update(User u)
         {
+            try
+            {
+                _UserRepo.Update(u);
 
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
+            }
+        }
+        public void Delete(User u)
+        {
+            try
+            {
+                _UserRepo.Delete(u);
+
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
+            }
         }
 
         public IEnumerable<User> Filter(Expression<Func<User, bool>> filter)
         {
-            return _UserRepo.Filter(filter);
+            IEnumerable<User> result = null;
+            try
+            {
+                result = _UserRepo.Filter(filter);
+
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
+            }
+            return result;
         }
 
         public IQueryable<RoleModel> GetRolesOfUser(User user)
         {
-            return _UserRepo.GetRolesOfUser(user.Id);
+            IQueryable<RoleModel> result = null;
+            try
+            {
+                result = _UserRepo.GetRolesOfUser(user.Id);
+
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
+            }
+            return result;
+
         }
 
         // public UserInfoResponse GetAll_WithRoles() {
@@ -67,9 +132,21 @@ namespace vocabteam.Models.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _UserRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
-            if (user == null) return null;
-            var token = generateJwtToken(user);
+            User user = null;
+            String token = null;
+            try
+            {
+                user = _UserRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
+                if (user == null) return null;
+                token = generateJwtToken(user);
+                user.Token = token;
+                Update(user);
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
+            }
+
             var data = new UserModel(user, token);
             var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS, ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
             return new AuthenticateResponse(data, baseResponse);
@@ -77,24 +154,55 @@ namespace vocabteam.Models.Services
 
         public User FindUserByUsername(string username)
         {
-            var user = _UserRepo.Filter(x => x.Username == username).FirstOrDefault<User>();
+            User user = null;
+            try
+            {
+                user = _UserRepo.Filter(x => x.Username == username).FirstOrDefault<User>();
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
+            }
             return user;
         }
 
         public UserModel Insert(RegisterRequest model)
         {
-            var insertUser = new User(){
-                Username = model.Username,
-                Password = model.Password,
-                Email = model.Email
-            };
-            this.Insert(insertUser);
-            var newUser = _UserRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
-            if (newUser == null) return null;
-            var token = generateJwtToken(newUser);
-            var newUserModel = new UserModel(newUser, token);
+            UserModel newUserModel = null;
+            try
+            {
+                var insertUser = new User()
+                {
+                    Username = model.Username,
+                    Password = model.Password,
+                    Email = model.Email
+                };
+                this.Insert(insertUser);
+                var newUser = _UserRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
+                if (newUser == null) return null;
+                var token = generateJwtToken(newUser);
+                newUserModel = new UserModel(newUser, token);
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
+            }
             return newUserModel;
         }
+
+        public void Logout(User u)
+        {
+            try
+            {
+                u.Token = null;
+                Update(u);
+            }
+            catch (RepositoryException001 ex)
+            {
+                throw ex;
+            }
+        }
+
 
 
         ///

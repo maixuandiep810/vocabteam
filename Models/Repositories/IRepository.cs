@@ -10,8 +10,8 @@ namespace vocabteam.Models.Repositories
         IQueryable<T> GetAll();
         T GetById(int id);
         void Insert(T entity);
-        void Update(T entity, bool saveChange = true);
-        void Delete(T entity, bool saveChange = true);
+        void Update(T entity);
+        void Delete(T entity);
         IEnumerable<T> Filter(Expression<Func<T, bool>> filter);
 
     }
