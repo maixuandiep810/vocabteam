@@ -21,6 +21,10 @@ namespace vocabteam.Helpers
             TOKEN_VALIDATION_ERROR = 25,
             REQUEST_DOESNOT_EXIST = 26,
             HAVE_LOGGED_OUT = 27,
+            USERNAME_PASSWORD_INCORRECT = 28,
+
+            VOCABULARY_EXSITED = 40,
+            CREATE_VOCABULARY_SUCCESSFULLY = 41,
 
             FAIL = 50,
             SYSTEM_ERROR = 51,
@@ -49,6 +53,13 @@ namespace vocabteam.Helpers
                     return "request does not exist";
                 case ResponseCode.HAVE_LOGGED_OUT:
                     return "you have logged out";
+                case ResponseCode.USERNAME_PASSWORD_INCORRECT:
+                return "username or password is incorrect";
+
+                case ResponseCode.VOCABULARY_EXSITED:
+                return "vocabulary exsited";
+                case ResponseCode.CREATE_VOCABULARY_SUCCESSFULLY:
+                return "vocabulary have been successfully created ";
 
                 case ResponseCode.FAIL:
                     return "fail";

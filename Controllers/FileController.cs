@@ -31,7 +31,7 @@ namespace vocabteam.Controllers
             var failResponse = new BaseResponse();
             try
             {
-                var file = HttpContext.Request.Form.Files["file"];
+                var file = HttpContext.Request.Form.Files[type];
                 var word = HttpContext.Request.Form["word"];
                 string source = _appSettings.StaticFilesPath + "/" + type;
                 if (file.Length > 0)

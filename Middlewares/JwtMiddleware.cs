@@ -41,7 +41,7 @@ namespace vocabteam.Middlewares
                                                     ConstantVar.ResponseString(ex.Response_Code));
                 ResponseHelper.MiddlewareResponse(context, failResponse);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.TOKEN_VALIDATION_ERROR,
                                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.TOKEN_VALIDATION_ERROR));

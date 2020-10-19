@@ -11,12 +11,14 @@ using vocabteam.Models.ViewModels;
 namespace vocabteam.Models.Services
 {
     public interface IVocabularyService
-    { 
+    {
         IQueryable<Vocabulary> GetAll();
         Vocabulary GetById(int id);
         void Insert(Vocabulary entity);
         void Update(Vocabulary entity);
         void Delete(Vocabulary entity);
         IEnumerable<Vocabulary> Filter(Expression<Func<Vocabulary, bool>> filter);
+
+        Vocabulary FindByWord(string word);
     }
 }

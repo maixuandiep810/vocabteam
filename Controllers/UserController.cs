@@ -27,19 +27,33 @@ namespace vocabteam.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate(AuthenticateRequest model)
         {
-            var checkUser = HttpContext.Items["User"] as User;
-            if (checkUser.Username.Equals(ConstantVar.RoleString(ConstantVar.Role.guest)) == false)
+            AuthenticateResponse result = null;
+            try
             {
-                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.HAVE_LOGGED, ConstantVar.ResponseString(ConstantVar.ResponseCode.HAVE_LOGGED));
+                var checkUser = HttpContext.Items["User"] as User;
+                if (checkUser.Username.Equals(ConstantVar.RoleString(ConstantVar.Role.guest)) == false)
+                {
+                    throw new CustomException(ConstantVar.ResponseCode.HAVE_LOGGED);
+                }
+                result = _UserService.Authenticate(model);
+                if (result == null)
+                {
+                    throw new CustomException(ConstantVar.ResponseCode.USERNAME_PASSWORD_INCORRECT);
+                }
+            }
+            catch (CustomException ex)
+            {
+                var failResponse = new BaseResponse((int)ex.Response_Code,
+                                                    ConstantVar.ResponseString(ex.Response_Code));
                 return StatusCode(200, failResponse);
             }
-            var response = _UserService.Authenticate(model);
-            if (response == null)
+            catch (Exception)
             {
-                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
+                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
                 return StatusCode(200, failResponse);
             }
-            return StatusCode(200, response);
+            return StatusCode(200, result);
         }
 
         [HttpPost("register")]
@@ -71,7 +85,7 @@ namespace vocabteam.Controllers
                                                     ConstantVar.ResponseString(ex.Response_Code));
                 return StatusCode(200, failResponse);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
                                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
@@ -93,7 +107,7 @@ namespace vocabteam.Controllers
                                                     ConstantVar.ResponseString(ex.Response_Code));
                 return StatusCode(200, failResponse);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));

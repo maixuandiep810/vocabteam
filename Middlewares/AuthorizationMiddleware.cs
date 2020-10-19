@@ -39,7 +39,7 @@ namespace vocabteam.Middlewares
                                                         ConstantVar.ResponseString(ex.Response_Code));
                     ResponseHelper.MiddlewareResponse(context, failResponse);
                 }
-                catch (System.Exception ex)
+                catch (System.Exception)
                 {
                     var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
                                                         ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));

@@ -69,7 +69,7 @@ namespace vocabteam
                 .AllowAnyHeader());
 
             app.UseJwtMiddleware();
-            app.UseAuthorizationMiddleware();
+            // app.UseAuthorizationMiddleware();
 
             app.UseStaticFiles();
 
