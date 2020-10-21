@@ -28,7 +28,8 @@ namespace vocabteam.Helpers
 
             FAIL = 50,
             SYSTEM_ERROR = 51,
-            REPOSITORY_ERROR = 52
+            REPOSITORY_ERROR = 52,
+            SAVING_FILE_ERROR = 53
         }
         public static string ResponseString(ResponseCode code)
         {
@@ -66,6 +67,8 @@ namespace vocabteam.Helpers
                 case ResponseCode.REPOSITORY_ERROR:
                 case ResponseCode.SYSTEM_ERROR:
                     return "system error";
+                case ResponseCode.SAVING_FILE_ERROR:
+                    return "saving file error";
 
                 default:
                     return "";
@@ -92,6 +95,15 @@ namespace vocabteam.Helpers
                     return "guest";
             }
         }
+
+
+        ///
+        /// Path
+        ///
+
+        public static string VocabularyFolder = "/vocabulary";
+        public static string AccountFolder = "/account";
+
 
     }
 }
