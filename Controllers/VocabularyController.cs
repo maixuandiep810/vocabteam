@@ -49,7 +49,10 @@ namespace vocabteam.Controllers
                                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
                 return StatusCode(200, failResponse);
             }
-            return StatusCode(200, result);
+            var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+            var vocabularyResponse = new VocabularyResponse(result, baseResponse);
+            return StatusCode(200, vocabularyResponse);
         }
 
         [HttpPost]
