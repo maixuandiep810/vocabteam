@@ -32,10 +32,10 @@ namespace vocabteam.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            List<Vocabulary> result = null;
+            ListVocabularyModel result = null;
             try
             {
-                result = _VocabularyService.GetAll().ToList();
+                result = new ListVocabularyModel(_VocabularyService.GetAll().ToList());
             }
             catch (CustomException ex)
             {

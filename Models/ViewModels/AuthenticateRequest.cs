@@ -1,13 +1,15 @@
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace vocabteam.Models.ViewModels
 {
     public class AuthenticateRequest
     {
-        [Required]
-        public string Username { get; set; }
+        [JsonProperty(PropertyName = "username")]
 
-        [Required]
+        public string Username { get; set; }
+        [JsonProperty(PropertyName = "password")]
+
         public string Password { get; set; }
     }
 }

@@ -8,20 +8,20 @@ namespace vocabteam.Models.ViewModels
     public class VocabularyResponse : BaseResponse
     {
         [JsonProperty(PropertyName = "data")]
-        public List<Vocabulary> Data { get; set; }
+        public ListVocabularyModel Data { get; set; }
 
         public VocabularyResponse() : base()
         {
         }
 
-        public VocabularyResponse(List<Vocabulary> v) : base()
+        public VocabularyResponse(ListVocabularyModel list) : base()
         {
-            Data = v;
+            Data = list;
         }
 
-        public VocabularyResponse(List<Vocabulary> v, BaseResponse baseRes) : base(baseRes)
+        public VocabularyResponse(ListVocabularyModel list, BaseResponse baseRes) : base(baseRes)
         {
-            Data = v;
+            Data = list;
         }
     }
 }
