@@ -32,10 +32,10 @@ namespace vocabteam.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            ListVocabularyModel result = null;
+            ListCategoryModel result = null;
             try
             {
-                result = new ListVocabularyModel(_VocabularyService.GetAll().ToList());
+                result = new ListCategoryModel(_CategoryService.GetAll().ToList());
             }
             catch (CustomException ex)
             {
@@ -51,8 +51,8 @@ namespace vocabteam.Controllers
             }
             var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
                                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
-            var vocabularyResponse = new VocabularyResponse(result, baseResponse);
-            return StatusCode(200, vocabularyResponse);
+            var categoryResponse = new CategoryResponse(result, baseResponse);
+            return StatusCode(200, categoryResponse);
         }
 
     }

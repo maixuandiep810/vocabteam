@@ -4,29 +4,24 @@ using vocabteam.Models.Entities;
 
 namespace vocabteam.Models.ViewModels
 {
-    public class UserModel : BaseModel
+    public class UserModel : User
     {
-        [JsonProperty(PropertyName = "Username")]
-        public string Username { get; set; }
-        [JsonProperty(PropertyName = "Email")]
-        public string Email { get; set; }
-        [JsonProperty(PropertyName = "AvatarUrl")]
-        public string AvatarUrl { get; set; }
         [JsonProperty(PropertyName = "Roles")]
         public List<RoleModel> Roles { get; set; }
-        [JsonProperty(PropertyName = "Token")]
-        public string Token { get; set; }
-        public UserModel()
+
+        public UserModel() : base()
         {
+            
         }
-        
-        public UserModel(User u, string token)
+
+        public UserModel(User u) : base(u)
         {
             Id = u.Id;
             Username = u.Username;
             Email = u.Email;
             AvatarUrl = u.AvatarUrl;
-            Token = token;
+            Token = u.Token;
         }
+
     }
 }

@@ -18,7 +18,7 @@ namespace vocabteam.Models.Services
         void Update(User u);
         void Delete(User u);
         IEnumerable<User> Filter(Expression<Func<User, bool>> filter);
-        AuthenticateResponse Authenticate(AuthenticateRequest model);
+        UserModel Authenticate(AuthenticateRequest model);
         User FindUserByUsername(string username);
         IQueryable<RoleModel> GetRolesOfUser(User user);
         UserModel Insert(RegisterRequest model);

@@ -130,7 +130,7 @@ namespace vocabteam.Models.Services
         // }
 
 
-        public AuthenticateResponse Authenticate(AuthenticateRequest model)
+        public UserModel Authenticate(AuthenticateRequest model)
         {
             User user = null;
             String token = null;
@@ -146,10 +146,7 @@ namespace vocabteam.Models.Services
             {
                 throw ex;
             }
-
-            var data = new UserModel(user, token);
-            var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS, ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
-            return new AuthenticateResponse(data, baseResponse);
+            return new UserModel(user);
         }
 
         public User FindUserByUsername(string username)
@@ -168,7 +165,7 @@ namespace vocabteam.Models.Services
 
         public UserModel Insert(RegisterRequest model)
         {
-            UserModel newUserModel = null;
+            User user = null;
             try
             {
                 var insertUser = new User()
@@ -178,16 +175,17 @@ namespace vocabteam.Models.Services
                     Email = model.Email
                 };
                 this.Insert(insertUser);
-                var newUser = _UserRepo.Filter(x => x.Username == model.Username && x.Password == model.Password).FirstOrDefault<User>();
-                if (newUser == null) return null;
-                var token = generateJwtToken(newUser);
-                newUserModel = new UserModel(newUser, token);
+                user = _UserRepo.Filter(x => x.Username == insertUser.Username && x.Password == insertUser.Password).FirstOrDefault<User>();
+                if (user == null) return null;
+                var token = generateJwtToken(user);
+                user.Token = token;
+                Update(user);
             }
             catch (CustomException ex)
             {
                 throw ex;
             }
-            return newUserModel;
+            return new UserModel(user);
         }
 
         public void Logout(User u)
@@ -209,7 +207,7 @@ namespace vocabteam.Models.Services
         /// HELPER 
         /// 
 
-        private string generateJwtToken(User user)
+        private string generateJwtToken(User user) 
         {
             // generate token that is valid for 365 days
             var tokenHandler = new JwtSecurityTokenHandler();

@@ -27,7 +27,7 @@ namespace vocabteam.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate(AuthenticateRequest model)
         {
-            AuthenticateResponse result = null;
+            UserModel result = null;
             try
             {
                 var checkUser = HttpContext.Items["User"] as User;
@@ -53,7 +53,10 @@ namespace vocabteam.Controllers
                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
                 return StatusCode(200, failResponse);
             }
-            return StatusCode(200, result);
+            var successResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
+                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+            var authenticateResponse = new AuthenticateResponse(result, successResponse);
+            return StatusCode(200, authenticateResponse);
         }
 
         [HttpPost("register")]

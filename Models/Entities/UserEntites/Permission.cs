@@ -10,5 +10,15 @@ namespace vocabteam.Models.Entities
         public virtual ICollection<RolePermission> RolePermissions { get; set; }
         public virtual ICollection<UserPermission> UserPermissions { get; set; }
 
+        public Permission() : base()
+        {
+            
+        }
+
+        public Permission(BaseEntity baseEntity) : base(baseEntity)
+        {
+            
+        }
+
     }
 }

@@ -10,5 +10,15 @@ namespace vocabteam.Models.Entities
         public int? RoleId { get; set; }
         public virtual Role Role { get; set; }
 
+        public UserRole() : base()
+        {
+            
+        }
+
+        public UserRole(UserRole ur) : base(ur)
+        {
+            
+        }
+
     }
 }

@@ -9,5 +9,15 @@ namespace vocabteam.Models.Entities
         public virtual Role Role { get; set; }
         public int? PermissionId { get; set; }
         public virtual Permission Permission { get; set;}
+
+        public RolePermission() : base()
+        {
+            
+        }
+
+        public RolePermission(BaseEntity baseEntity) : base(baseEntity)
+        {
+            
+        }
     }
 }

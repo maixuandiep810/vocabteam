@@ -9,5 +9,15 @@ namespace vocabteam.Models.Entities
         public string DisplayName { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
         public virtual ICollection<RolePermission> RolePermissions { get; set; }
+
+        public Role() : base()
+        {
+            
+        }
+
+        public Role(BaseEntity baseEntity) : base(baseEntity)
+        {
+            
+        }
     }
 }

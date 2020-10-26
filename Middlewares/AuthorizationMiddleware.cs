@@ -55,7 +55,7 @@ namespace vocabteam.Middlewares
                 var failResponse = new BaseResponse();
                 var objectName = context.Request.Path.ToString();
                 var action = context.Request.Method;
-                var permissionRequest = new Permission
+                var permissionRequest = new Permission()
                 {
                     ObjectName = objectName,
                     Action = action

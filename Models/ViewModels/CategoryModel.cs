@@ -4,23 +4,17 @@ using vocabteam.Models.Entities;
 
 namespace vocabteam.Models.ViewModels
 {
-    public class CategoryModel : BaseModel
+    public class CategoryModel : Category
     {
-        [JsonProperty(PropertyName = "Name")]
-        public string Name { get; set; }
-        [JsonProperty(PropertyName = "Description")]
-        public string Description { get; set; }
-        [JsonProperty(PropertyName = "ImageUrl")]
-        public string ImageUrl { get; set; }
-        public CategoryModel()
+        public CategoryModel() : base()
         {
         }
         
-        public CategoryModel(Category cate)
+        public CategoryModel(Category cate) : base(cate)
         {
             Name = cate.Name;
             Description = cate.Description;
-            ImageUrl = cate
+            ImageUrl = cate.ImageUrl;
         }
     }
 }
