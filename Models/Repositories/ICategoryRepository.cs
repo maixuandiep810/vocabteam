@@ -8,10 +8,9 @@ using vocabteam.Models.Entities;
 using vocabteam.Models.Repositories;
 using vocabteam.Models.ViewModels;
 
-
 namespace vocabteam.Models.Repositories
 {
-    public interface IRoleRepository :IRepository<Role>
+    public interface ICategoryRepository : IRepository<Category>
     {
     }
 }

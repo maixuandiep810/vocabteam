@@ -5,6 +5,8 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using vocabteam.Helpers;
 using vocabteam.Helpers.CustomExceptions;
+using vocabteam.Models.Entities;
+
 
 namespace vocabteam.Models.Repositories
 {

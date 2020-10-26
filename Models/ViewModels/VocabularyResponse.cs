@@ -7,7 +7,7 @@ namespace vocabteam.Models.ViewModels
 {
     public class VocabularyResponse : BaseResponse
     {
-        [JsonProperty(PropertyName = "data")]
+        [JsonProperty(PropertyName = "Data")]
         public ListVocabularyModel Data { get; set; }
 
         public VocabularyResponse() : base()

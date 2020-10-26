@@ -53,6 +53,8 @@ namespace vocabteam
             services.AddScoped(typeof(IVocabularyService), typeof(VocabularyService));
             services.AddScoped(typeof(IPermissionRepository), typeof(PermissionRepository));
             services.AddScoped(typeof(IPermissionService), typeof(PermissionService));
+            services.AddScoped(typeof(ICategoryRepository), typeof(CategoryRepository));
+            services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
             #endregion
 
         }

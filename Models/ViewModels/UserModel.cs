@@ -4,17 +4,17 @@ using vocabteam.Models.Entities;
 
 namespace vocabteam.Models.ViewModels
 {
-    public class UserModel
+    public class UserModel : BaseModel
     {
-        [JsonProperty(PropertyName = "username")]
+        [JsonProperty(PropertyName = "Username")]
         public string Username { get; set; }
-        [JsonProperty(PropertyName = "email")]
+        [JsonProperty(PropertyName = "Email")]
         public string Email { get; set; }
-        [JsonProperty(PropertyName = "avatar_url")]
+        [JsonProperty(PropertyName = "AvatarUrl")]
         public string AvatarUrl { get; set; }
-        [JsonProperty(PropertyName = "roles")]
+        [JsonProperty(PropertyName = "Roles")]
         public List<RoleModel> Roles { get; set; }
-        [JsonProperty(PropertyName = "token")]
+        [JsonProperty(PropertyName = "Token")]
         public string Token { get; set; }
         public UserModel()
         {
@@ -22,6 +22,7 @@ namespace vocabteam.Models.ViewModels
         
         public UserModel(User u, string token)
         {
+            Id = u.Id;
             Username = u.Username;
             Email = u.Email;
             AvatarUrl = u.AvatarUrl;

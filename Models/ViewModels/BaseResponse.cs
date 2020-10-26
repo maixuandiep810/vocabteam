@@ -4,9 +4,9 @@ namespace vocabteam.Models.ViewModels
 {
     public class BaseResponse
     {
-        [JsonProperty(PropertyName = "code")]
+        [JsonProperty(PropertyName = "Code")]
         public int Code { get; set; }
-        [JsonProperty(PropertyName = "message")]
+        [JsonProperty(PropertyName = "Message")]
         public string Message { get; set; }
         public BaseResponse(int code = 0, string message = "")
         {

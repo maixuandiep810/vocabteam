@@ -4,9 +4,9 @@ namespace vocabteam.Models.ViewModels
 {
     public class RoleModel
     {
-        [JsonProperty(PropertyName = "name")]
+        [JsonProperty(PropertyName = "Name")]
         public string Name { get; set; }
-        [JsonProperty(PropertyName = "display_name")]
+        [JsonProperty(PropertyName = "DisplayName")]
         public string Displayname { get; set; }
     }
 }

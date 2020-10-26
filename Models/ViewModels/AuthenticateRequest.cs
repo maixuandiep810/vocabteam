@@ -5,10 +5,10 @@ namespace vocabteam.Models.ViewModels
 {
     public class AuthenticateRequest
     {
-        [JsonProperty(PropertyName = "username")]
+        [JsonProperty(PropertyName = "Username")]
 
         public string Username { get; set; }
-        [JsonProperty(PropertyName = "password")]
+        [JsonProperty(PropertyName = "Password")]
 
         public string Password { get; set; }
     }
