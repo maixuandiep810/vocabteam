@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using vocabteam.Models.Services;
 using vocabteam.Models.Entities;
 using vocabteam.Models.ViewModels;
@@ -25,7 +21,7 @@ namespace vocabteam.Controllers
 
 
         [HttpPost("authenticate")]
-        public IActionResult Authenticate(AuthenticateRequest model)
+        public IActionResult Authenticate(AuthenticateRequest reqModel)
         {
             UserModel result = null;
             try
@@ -35,7 +31,7 @@ namespace vocabteam.Controllers
                 {
                     throw new CustomException(ConstantVar.ResponseCode.HAVE_LOGGED);
                 }
-                result = _UserService.Authenticate(model);
+                result = _UserService.Authenticate(reqModel);
                 if (result == null)
                 {
                     throw new CustomException(ConstantVar.ResponseCode.USERNAME_PASSWORD_INCORRECT);

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using vocabteam.Models.Entities;
+using vocabteam.Helpers;
+
 
 namespace vocabteam.Models.ViewModels
 {
@@ -11,19 +13,8 @@ namespace vocabteam.Models.ViewModels
 
         public ListCategoryModel(List<Category> list)
         {
-            ListCategory = getListCategoryModel(list);
-        }
-
-        // HELPER
-        private List<CategoryModel> getListCategoryModel(List<Category> list)
-        {
-            List<CategoryModel> result = new List<CategoryModel>();
-            foreach (var item in list)
-            {
-                var itemModel = new CategoryModel(item);
-                result.Add(itemModel);
-            }
-            return result;
+            ListCategory =
+            TransformEntityModel.getListTransformEntityModel<Category, CategoryModel>(list);
         }
     }
 }

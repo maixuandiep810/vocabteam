@@ -62,13 +62,13 @@ namespace vocabteam.Middlewares
                 };
 
                 // FILE PERMISSION ok ?????
-                List<Permission> permissionConform = permissionService.GetByPermission(permissionRequest);
-                if (permissionConform == null)
+                List<Permission> permissionConfirm = permissionService.GetByPermission(permissionRequest);
+                if (permissionConfirm == null)
                 {
                     throw new CustomException(ConstantVar.ResponseCode.REQUEST_DOESNOT_EXIST);
                 }
 
-                bool checkPermission = permissionService.CheckPermission(permissionConform, user);
+                bool checkPermission = permissionService.CheckPermission(permissionConfirm, user);
                 if (checkPermission == false)
                 {
                     throw new CustomException(ConstantVar.ResponseCode.PERMISSION_DENIED);
