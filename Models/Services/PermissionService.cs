@@ -219,10 +219,10 @@ namespace vocabteam.Models.Services
         public void Add1PermissionNRole(Add1PermissonNRoleRequest reqModel)
         {
             string permId = reqModel.PermissionId;
-            List<string> listNRole = reqModel.ListNRole;
+            List<string> listNRoleId = reqModel.ListNRoleId;
             try
             {
-                foreach (var item in listNRole)
+                foreach (var item in listNRoleId)
                 {
                     RolePermission newRolePermission = new RolePermission()
                     {
@@ -234,7 +234,7 @@ namespace vocabteam.Models.Services
             }
             catch (CustomException ex)
             {
-                throw ex;
+                 throw ex;
             }
             catch (System.Exception ex)
             {

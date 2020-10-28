@@ -8,7 +8,7 @@ namespace vocabteam.Models.ViewModels
         [JsonProperty(PropertyName = "PermissionId")]
         public string PermissionId { get; set; }
         
-        [JsonProperty(PropertyName = "ListNRole")]
-        public List<string> ListNRole { get; set; }
+        [JsonProperty(PropertyName = "ListNRoleId")]
+        public List<string> ListNRoleId { get; set; }
     }
 }
