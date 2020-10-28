@@ -54,7 +54,7 @@ namespace vocabteam.Controllers
         {
             try
             {
-                PermissionService.
+                _PermissionService.Add1PermissionNRole(reqModel);
             }
             catch (CustomException ex)
             {
@@ -70,8 +70,7 @@ namespace vocabteam.Controllers
             }
             var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
                                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
-            var permissionResponse = new PermissionResponse(result, baseResponse);
-            return StatusCode(200, permissionResponse);
+            return StatusCode(200, baseResponse);
         }
 
     }

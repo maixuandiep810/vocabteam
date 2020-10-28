@@ -39,6 +39,10 @@ namespace vocabteam.Models.Services
             {
                 throw ex;
             }
+            catch (System.Exception ex)
+            {
+                throw ex; 
+            }
             return result;
         }
         public Category GetById(int id)
@@ -51,6 +55,10 @@ namespace vocabteam.Models.Services
             catch (CustomException ex)
             {
                 throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex; 
             }
             return result;
         }
@@ -65,6 +73,10 @@ namespace vocabteam.Models.Services
             {
                 throw ex;
             }
+            catch (System.Exception ex)
+            {
+                throw ex; 
+            }
         }
         public void Update(Category cate)
         {
@@ -77,6 +89,10 @@ namespace vocabteam.Models.Services
             {
                 throw ex;
             }
+            catch (System.Exception ex)
+            {
+                throw ex; 
+            }
         }
         public void Delete(Category cate)
         {
@@ -88,6 +104,10 @@ namespace vocabteam.Models.Services
             catch (CustomException ex)
             {
                 throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex; 
             }
         }
 
@@ -102,6 +122,10 @@ namespace vocabteam.Models.Services
             catch (CustomException ex)
             {
                 throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex; 
             }
             return result;
         }

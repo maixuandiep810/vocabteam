@@ -2,3 +2,12 @@
 
 
 Should add gitignore for vscode
+
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex; 
+            }

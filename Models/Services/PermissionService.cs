@@ -30,7 +30,7 @@ namespace vocabteam.Models.Services
             {
                 result = _PermissionRepo.GetAll();
             }
-            catch (CustomException ex)
+            catch (System.Exception ex)
             {
                 throw ex;
             }
@@ -47,6 +47,10 @@ namespace vocabteam.Models.Services
             {
                 throw ex;
             }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
             return result;
         }
         public void Insert(Permission perm)
@@ -56,6 +60,10 @@ namespace vocabteam.Models.Services
                 _PermissionRepo.Insert(perm);
             }
             catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
             {
                 throw ex;
             }
@@ -71,6 +79,10 @@ namespace vocabteam.Models.Services
             {
                 throw ex;
             }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
         public void Delete(Permission perm)
         {
@@ -79,6 +91,10 @@ namespace vocabteam.Models.Services
                 _PermissionRepo.Delete(perm);
             }
             catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
             {
                 throw ex;
             }
@@ -96,52 +112,92 @@ namespace vocabteam.Models.Services
             {
                 throw ex;
             }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
             return result;
         }
 
-        public List<Permission> GetByPermission(Permission permissionInput) {
-            IEnumerable<Permission> permissions =_PermissionRepo.Filter(p => p.Action == permissionInput.Action);
-            List<Permission> permissionsConform = new List<Permission>();
-            foreach (var item in permissions)
+        public List<Permission> GetByPermission(Permission permissionInput)
+        {
+            try
             {
-                var a = permissionInput.ObjectName;
-                var b = item.ObjectName;
-                var c = Regex.IsMatch(a, b);
-                if (Regex.IsMatch(permissionInput.ObjectName, item.ObjectName))
+                IEnumerable<Permission> permissions = _PermissionRepo.Filter(p => p.Action == permissionInput.Action);
+                List<Permission> permissionsConfirm = new List<Permission>();
+                foreach (var item in permissions)
                 {
-                    permissionsConform.Add(item);
-                }   
+                    var a = permissionInput.ObjectName;
+                    var b = item.ObjectName;
+                    var c = Regex.IsMatch(a, b);
+                    if (Regex.IsMatch(permissionInput.ObjectName, item.ObjectName))
+                    {
+                        permissionsConfirm.Add(item);
+                    }
+                }
+                return permissionsConfirm;
             }
-            return permissionsConform;
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public bool CheckPermission(List<Permission> permissionConform, User user) {
-            foreach (var item in permissionConform)
+        public bool CheckPermission(List<Permission> permissionConfirm, User user)
+        {
+            try
             {
-                if (_PermissionRepo.CheckPermission(item, user))
+                foreach (var item in permissionConfirm)
                 {
-                    return true;   
+                    if (_PermissionRepo.CheckPermission(item, user))
+                    {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public bool CheckPermission(Permission permission, User user) {
-            List<Permission> permissionConform = GetByPermission(permission);
-            foreach (var item in permissionConform)
+        public bool CheckPermission(Permission permission, User user)
+        {
+            try
             {
-                if (_PermissionRepo.CheckPermission(item, user))
+                List<Permission> permissionConfirm = GetByPermission(permission);
+                foreach (var item in permissionConfirm)
                 {
-                    return true;   
+                    if (_PermissionRepo.CheckPermission(item, user))
+                    {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
 
 
         ///
-        /// ROLE_PERMISSION REPOSITORY
+        /// ROLE_PERMISSION SERVICES
         ///
 
         public void InsertRolePermission(RolePermission rolePerm)
@@ -151,6 +207,10 @@ namespace vocabteam.Models.Services
                 _RolePermissionRepo.Insert(rolePerm);
             }
             catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
             {
                 throw ex;
             }
@@ -173,7 +233,11 @@ namespace vocabteam.Models.Services
                 }
             }
             catch (CustomException ex)
-            { 
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
                 throw ex;
             }
         }

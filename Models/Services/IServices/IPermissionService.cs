@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using vocabteam.Models.Entities;
+using vocabteam.Models.ViewModels;
 
 namespace vocabteam.Models.Services
 {
@@ -18,6 +19,11 @@ namespace vocabteam.Models.Services
         List<Permission> GetByPermission(Permission permissionInput);
         bool CheckPermission(List<Permission> permissionConform, User user);
         bool CheckPermission(Permission permission, User user);
-        
+
+        ///
+        /// ROLE_PERMISSION SERVICES
+        ///
+        void InsertRolePermission(RolePermission rolePerm);
+        void Add1PermissionNRole(Add1PermissonNRoleRequest reqModel);
     }
 }
