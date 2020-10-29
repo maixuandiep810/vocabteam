@@ -55,6 +55,37 @@ namespace vocabteam.Controllers
             return StatusCode(200, vocabularyResponse);
         }
 
+
+        [HttpGet]
+        [Route("{categoryId}")]
+        public IActionResult GetByCategoryId(int categoryId)
+        {
+            ListVocabularyModel result = null;
+            try
+            {
+                result = new ListVocabularyModel(_VocabularyService.Filter(x => x.CategoryId == categoryId).ToList());
+            }
+            catch (CustomException ex)
+            {
+                var failResponse = new BaseResponse((int)ex.Response_Code,
+                                                    ConstantVar.ResponseString(ex.Response_Code));
+                return StatusCode(200, failResponse);
+            }
+            catch (Exception)
+            {
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                return StatusCode(200, failResponse);
+            }
+            var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+            var vocabularyResponse = new VocabularyResponse(result, baseResponse);
+            return StatusCode(200, vocabularyResponse);
+        }
+
+
+
+
         [HttpPost]
         public IActionResult CreateVocabulary(IFormCollection formdata)
         {
