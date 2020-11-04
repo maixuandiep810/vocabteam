@@ -19,5 +19,11 @@ namespace vocabteam.Models.Entities
         {
             
         }
+
+        public RolePermission(int _roleId, int _permId)
+        {
+            RoleId = _roleId;
+            PermissionId = _permId;
+        }
     }
 }

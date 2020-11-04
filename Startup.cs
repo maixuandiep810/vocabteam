@@ -48,12 +48,14 @@ namespace vocabteam
             #region Add Custom Services
             services.AddScoped(typeof(IRepository<>), typeof(MySqlRepository<>));
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
-            services.AddScoped(typeof(IUserService), typeof(UserService));
             services.AddScoped(typeof(IVocabularyRepository), typeof(VocabularyRepository));
-            services.AddScoped(typeof(IVocabularyService), typeof(VocabularyService));
             services.AddScoped(typeof(IPermissionRepository), typeof(PermissionRepository));
-            services.AddScoped(typeof(IPermissionService), typeof(PermissionService));
             services.AddScoped(typeof(ICategoryRepository), typeof(CategoryRepository));
+            services.AddScoped(typeof(IRolePermissionRepository), typeof(RolePermissionRepository));
+
+            services.AddScoped(typeof(IUserService), typeof(UserService));
+            services.AddScoped(typeof(IVocabularyService), typeof(VocabularyService));
+            services.AddScoped(typeof(IPermissionService), typeof(PermissionService));
             services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
             #endregion
 

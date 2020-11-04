@@ -50,11 +50,11 @@ namespace vocabteam.Controllers
         }
         
         [HttpPost("1permission_nrole")]
-        public IActionResult Add1PermissionNRole(Add1PermissonNRoleRequest reqModel)
+        public IActionResult Add1PermissionNRole(Add_NRole_NPermissonRequest reqModel)
         {
             try
             {
-                _PermissionService.Add1PermissionNRole(reqModel);
+                _PermissionService.Add_NRole_NPermisson(reqModel);
             }
             catch (CustomException ex)
             {
@@ -62,7 +62,7 @@ namespace vocabteam.Controllers
                                                     ConstantVar.ResponseString(ex.Response_Code));
                 return StatusCode(200, failResponse);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
                                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));

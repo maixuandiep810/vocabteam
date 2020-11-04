@@ -8,6 +8,7 @@ using System;
 using vocabteam.Models.Entities;
 using vocabteam.Models.Repositories;
 using vocabteam.Models.ViewModels;
+using vocabteam.Helpers;
 
 namespace vocabteam.Models.Services
 {
@@ -200,7 +201,7 @@ namespace vocabteam.Models.Services
         /// ROLE_PERMISSION SERVICES
         ///
 
-        public void InsertRolePermission(RolePermission rolePerm)
+        public void Insert(RolePermission rolePerm)
         {
             try
             {
@@ -216,21 +217,11 @@ namespace vocabteam.Models.Services
             }
         }
 
-        public void Add1PermissionNRole(Add1PermissonNRoleRequest reqModel)
+        public void Add_NRole_NPermisson(Add_NRole_NPermissonRequest reqModel)
         {
-            string permId = reqModel.PermissionId;
-            List<string> listNRoleId = reqModel.ListNRoleId;
             try
             {
-                foreach (var item in listNRoleId)
-                {
-                    RolePermission newRolePermission = new RolePermission()
-                    {
-                        PermissionId = Convert.ToInt32(permId),
-                        RoleId = Convert.ToInt32(item)
-                    };
-                    InsertRolePermission(newRolePermission);
-                }
+                ServiceHelper.AddManyManyRecord<RolePermission, OneRole_NPermission>(Insert, reqModel);
             }
             catch (CustomException ex)
             {

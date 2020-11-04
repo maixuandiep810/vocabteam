@@ -1,5 +1,7 @@
 using System;
 
+using vocabteam.Models.Entities;
+
 namespace vocabteam.Helpers
 {
     public class GenericHelper

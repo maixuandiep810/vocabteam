@@ -23,7 +23,7 @@ namespace vocabteam.Models.Services
         ///
         /// ROLE_PERMISSION SERVICES
         ///
-        void InsertRolePermission(RolePermission rolePerm);
-        void Add1PermissionNRole(Add1PermissonNRoleRequest reqModel);
+        void Insert(RolePermission rolePerm);
+        void Add_NRole_NPermisson(Add_NRole_NPermissonRequest reqModel);
     }
 }
