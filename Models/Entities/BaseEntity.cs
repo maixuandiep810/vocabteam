@@ -16,7 +16,8 @@ namespace vocabteam.Models.Entities
 
         public BaseEntity()
         {
-            
+            Active = true;
+            UpdatedTime = DateTime.UtcNow;
         }
 
         public BaseEntity(BaseEntity baseEntity)

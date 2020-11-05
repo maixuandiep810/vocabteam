@@ -1,20 +1,9 @@
-using System.Net.Mime;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using vocabteam.Helpers;
-using vocabteam.Middlewares;
 using vocabteam.Models;
 using vocabteam.Models.Repositories;
 using vocabteam.Models.Services;
@@ -52,11 +41,15 @@ namespace vocabteam
             services.AddScoped(typeof(IPermissionRepository), typeof(PermissionRepository));
             services.AddScoped(typeof(ICategoryRepository), typeof(CategoryRepository));
             services.AddScoped(typeof(IRolePermissionRepository), typeof(RolePermissionRepository));
+            services.AddScoped(typeof(IUserRoleRepository), typeof(UserRoleRepository));
+            services.AddScoped(typeof(IRoleRepository), typeof(RoleRepository));     
 
             services.AddScoped(typeof(IUserService), typeof(UserService));
             services.AddScoped(typeof(IVocabularyService), typeof(VocabularyService));
             services.AddScoped(typeof(IPermissionService), typeof(PermissionService));
             services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
+            services.AddScoped(typeof(IRoleService), typeof(RoleService));
+
             #endregion
 
         }

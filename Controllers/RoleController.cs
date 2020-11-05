@@ -11,25 +11,25 @@ namespace vocabteam.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PermissionController : ControllerBase
+    public class RoleController : ControllerBase
     {
         private readonly AppSettings _appSettings;
-        private readonly IPermissionService _PermissionService;
+        private readonly IRoleService _RoleService;
 
-        public PermissionController(IOptions<AppSettings> appSettings, IPermissionService permissionService)
+        public RoleController(IOptions<AppSettings> appSettings, IRoleService roleService)
         {
-            this._PermissionService = permissionService;
-            this._appSettings = appSettings.Value;
+            _RoleService = roleService;
+            _appSettings = appSettings.Value;
         }
 
 
         [HttpGet]
         public IActionResult Get()
         {
-            ListPermissionModel result = null;
+            ListRoleModel result = null;
             try
             {
-                result = new ListPermissionModel(_PermissionService.GetAll().ToList());
+                result = new ListRoleModel(_RoleService.GetAll().ToList());
             }
             catch (CustomException ex)
             {
@@ -45,16 +45,16 @@ namespace vocabteam.Controllers
             }
             var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
                                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
-            var permissionResponse = new PermissionResponse(result, baseResponse);
-            return StatusCode(200, permissionResponse);
+            var roleResponse = new RoleResponse(result, baseResponse);
+            return StatusCode(200, roleResponse);
         }
         
-        [HttpPost("nrole_npermission")]
-        public IActionResult Add_NRole_NPermission(Add_NRole_NPermissonRequest reqModel)
+        [HttpPost("nuser_nrole")]
+        public IActionResult Add_NUser_NRole(Add_NUser_NRoleRequest reqModel)
         {
             try
             {
-                _PermissionService.Add_NRole_NPermisson(reqModel);
+                _RoleService.Add_NUser_NRole(reqModel);
             }
             catch (CustomException ex)
             {

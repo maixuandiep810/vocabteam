@@ -20,5 +20,11 @@ namespace vocabteam.Models.Entities
             
         }
 
+        public UserRole(int userId, int roleId) 
+        {
+            UserId = userId;
+            RoleId = roleId;
+        }
+
     }
 }
