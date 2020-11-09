@@ -13,19 +13,21 @@ namespace vocabteam.Models.Entities
         [JsonProperty(PropertyName = "OrdinalNumber")]
         public int OrdinalNumber { get; set; }
         [JsonProperty(PropertyName = "Result")]
-        public Double Result { get; set; }
+        public float Result { get; set; }
         [JsonIgnore]
-        public virtual List<Vocabulary> Vocabularies { get; set; }
+        public virtual User User { get; set; }
+        [JsonIgnore]
+        public virtual Category Category { get; set; }
 
 
         public Test() : base()
         {
-            
+
         }
 
         public Test(BaseEntity baseEntity) : base(baseEntity)
         {
-            
+
         }
     }
 }

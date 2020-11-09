@@ -17,37 +17,20 @@ using vocabteam.Helpers;
 
 namespace vocabteam.Models.Services
 {
-    public class VocabularyService : IVocabularyService
+    public class TestService : ITestService
     {
-        private readonly IVocabularyRepository _VocabularyRepo;
+        private readonly ITestRepository _TestRepo;
 
-        public VocabularyService(IVocabularyRepository vocabularyRepo)
+        public TestService(ITestRepository testRepo)
         {
-            _VocabularyRepo = vocabularyRepo;
+            _TestRepo = testRepo;
         }
-        public IQueryable<Vocabulary> GetAll()
+        public IQueryable<Test> GetAll()
         {
-            IQueryable<Vocabulary> result = null;
+            IQueryable<Test> result = null;
             try
             {
-                result = _VocabularyRepo.GetAll();
-            }
-            catch (CustomException ex)
-            {
-                throw ex;
-            }
-            catch (System.Exception)
-            {
-                throw new CustomException(ConstantVar.ResponseCode.SYSTEM_ERROR);
-            }
-            return result;
-        }
-        public IQueryable<Vocabulary> GetAllQuestion()
-        {
-            IQueryable<Vocabulary> result = null;
-            try
-            {
-                result = _VocabularyRepo.GetAllQuestion();
+                result = _TestRepo.GetAll();
             }
             catch (CustomException ex)
             {
@@ -60,12 +43,13 @@ namespace vocabteam.Models.Services
             return result;
         }
 
-        public Vocabulary GetById(int id)
+
+        public Test GetById(int id)
         {
-            Vocabulary result = null;
+            Test result = null;
             try
             {
-                result = _VocabularyRepo.GetById(id);
+                result = _TestRepo.GetById(id);
             }
             catch (CustomException ex)
             {
@@ -77,11 +61,11 @@ namespace vocabteam.Models.Services
             }
             return result;
         }
-        public void Insert(Vocabulary entity)
+        public void Insert(Test entity)
         {
             try
             {
-                _VocabularyRepo.Insert(entity);
+                _TestRepo.Insert(entity);
             }
             catch (CustomException ex)
             {
@@ -92,11 +76,11 @@ namespace vocabteam.Models.Services
                 throw new CustomException(ConstantVar.ResponseCode.SYSTEM_ERROR);
             }
         }
-        public void Update(Vocabulary entity)
+        public void InsertIncludeOrdinalNumber(Test entity)
         {
             try
             {
-                _VocabularyRepo.Update(entity);
+                _TestRepo.InsertIncludeOrdinalNumber(entity);
             }
             catch (CustomException ex)
             {
@@ -107,17 +91,11 @@ namespace vocabteam.Models.Services
                 throw new CustomException(ConstantVar.ResponseCode.SYSTEM_ERROR);
             }
         }
-        public void Delete(Vocabulary entity)
+        public void Update(Test entity)
         {
-
-        }
-
-        public IEnumerable<Vocabulary> Filter(Expression<Func<Vocabulary, bool>> filter)
-        {
-            IEnumerable<Vocabulary> result = null;
             try
             {
-                result = _VocabularyRepo.Filter(filter);
+                _TestRepo.Update(entity);
             }
             catch (CustomException ex)
             {
@@ -127,15 +105,18 @@ namespace vocabteam.Models.Services
             {
                 throw new CustomException(ConstantVar.ResponseCode.SYSTEM_ERROR);
             }
-            return result;
+        }
+        public void Delete(Test entity)
+        {
+
         }
 
-        public Vocabulary FindByWord(string word)
+        public IEnumerable<Test> Filter(Expression<Func<Test, bool>> filter)
         {
-            Vocabulary result = null;
+            IEnumerable<Test> result = null;
             try
             {
-                result = Filter(x => x.Word == word).FirstOrDefault<Vocabulary>();
+                result = _TestRepo.Filter(filter);
             }
             catch (CustomException ex)
             {
@@ -152,26 +133,3 @@ namespace vocabteam.Models.Services
 }
 
 
-// public void Create(VocabularyRequest model)
-// {
-//     Vocabulary newVocabulary = new Vocabulary
-//     {
-//         Word = model.Word,
-//         Meaning = model.Meaning,
-//         Sentence = model.Sentence,
-//         Definition = model.Definition
-//     };
-
-//     try
-//     {
-//         _VocabularyRepo.Insert(newVocabulary);
-//     }
-//     catch (CustomException ex)
-//     {
-//         throw ex;
-//     }
-//     catch (System.Exception)
-//     {
-//         throw new CustomException(ConstantVar.ResponseCode.SYSTEM_ERROR);
-//     }
-// }

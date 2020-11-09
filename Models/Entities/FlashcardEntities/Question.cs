@@ -11,15 +11,20 @@ namespace vocabteam.Models.Entities
         public string SecondAnswer { get; set; }
         [JsonProperty(PropertyName = "ThirdAnswer")]
         public string ThirdAnswer { get; set; }
+        [JsonProperty(PropertyName = "VocabularyId")]
+        public int? VocabularyId { get; set; }
+        [JsonIgnore]
+        public virtual Vocabulary Vocabulary { get; set; }
+
 
         public Question() : base()
         {
-            
+
         }
 
         public Question(BaseEntity baseEntity) : base(baseEntity)
         {
-            
+
         }
     }
 }

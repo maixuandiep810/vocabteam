@@ -13,16 +13,18 @@ namespace vocabteam.Models.Entities
         public string ImageUrl { get; set; }
         [JsonIgnore]
         public virtual List<Vocabulary> Vocabularies { get; set; }
+        [JsonIgnore]
+        public virtual List<Test> Tests { get; set; }
 
 
         public Category() : base()
         {
-            
+
         }
 
         public Category(BaseEntity baseEntity) : base(baseEntity)
         {
-            
+
         }
     }
 }

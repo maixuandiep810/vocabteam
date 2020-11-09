@@ -19,6 +19,8 @@ namespace vocabteam.Models
 
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Vocabulary> Vocabularies { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
+
 
 
 
@@ -243,6 +245,75 @@ namespace vocabteam.Models
                     .HasForeignKey("CategoryId")
                     .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("FK_Vocabularies_Categories");
+            });
+
+            modelBuilder.Entity<Question>(entity =>
+            {
+                entity.ToTable("Questions")
+                    .HasComment("This is the Questions Table")
+                    .HasKey(e => e.Id);
+
+                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>().ValueGeneratedOnAdd();
+
+                entity.Property(e => e.FirstAnswer)
+                      .HasColumnName("FirstAnswer")
+                      .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.SecondAnswer)
+                      .HasColumnName("SecondAnswer")
+                      .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.ThirdAnswer)
+                      .HasColumnName("ThirdAnswer")
+                      .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.VocabularyId)
+                      .HasColumnName("VocabularyId")
+                      .HasColumnType("int");
+
+                entity.HasOne(e => e.Vocabulary)
+                    .WithMany(p => p.Questions)
+                    .HasForeignKey("VocabularyId")
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_Questions_Vocabularies");
+            });
+
+
+            modelBuilder.Entity<Test>(entity =>
+            {
+                entity.ToTable("Tests")
+                    .HasComment("This is the Tests Table")
+                    .HasKey(e => e.Id);
+
+                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>().ValueGeneratedOnAdd();
+
+                entity.Property(e => e.UserId)
+                      .HasColumnName("UserId")
+                      .HasColumnType("int");
+
+                entity.Property(e => e.CategoryId)
+                      .HasColumnName("CategoryId")
+                      .HasColumnType("int");
+
+                entity.Property(e => e.OrdinalNumber)
+                      .HasColumnName("OrdinalNumber")
+                      .HasColumnType("int");
+
+                entity.Property(e => e.Result)
+                      .HasColumnName("Result")
+                      .HasColumnType("float");
+
+                entity.HasOne(e => e.User)
+                .WithMany(p => p.Tests)
+                .HasForeignKey("UserId")
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_Tests_Users");
+
+                entity.HasOne(e => e.Category)
+                .WithMany(p => p.Tests)
+                .HasForeignKey("CategoryId")
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_Tests_Categories");
             });
 
 

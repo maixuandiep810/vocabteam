@@ -33,7 +33,7 @@ namespace vocabteam.Controllers
             ListVocabularyModel result = null;
             try
             {
-                result = new ListVocabularyModel(_VocabularyService.GetAll().ToList());
+                result = new ListVocabularyModel(_VocabularyService.GetAllQuestion().ToList());
             }
             catch (CustomException ex)
             {

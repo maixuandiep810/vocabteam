@@ -10,8 +10,8 @@ using vocabteam.Models.ViewModels;
 
 namespace vocabteam.Models.Repositories
 {
-    public interface IVocabularyRepository :IRepository<Vocabulary>
+    public interface ITestRepository :IRepository<Test>
     {
-        IQueryable<Vocabulary> GetAllQuestion();
+        void InsertIncludeOrdinalNumber(Test entity);
     }
 }

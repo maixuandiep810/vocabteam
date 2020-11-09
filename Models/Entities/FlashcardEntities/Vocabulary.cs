@@ -22,6 +22,8 @@ namespace vocabteam.Models.Entities
         public int? CategoryId { get; set; }
         [JsonIgnore]
         public virtual Category Category { get; set; }
+        [JsonProperty(PropertyName = "Questions")]
+        public virtual List<Question> Questions { get; set; }
 
         public Vocabulary() : base()
         {
