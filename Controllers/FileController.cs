@@ -24,36 +24,67 @@ namespace vocabteam.Controllers
             _appSettings = appSettings.Value;
         }
 
-        // [HttpPost]
-        // [Route("vocabulary/{type}")]
-        // public IActionResult UploadFile(string type, IFormCollection formdata)
-        // {
-        //     var failResponse = new BaseResponse();
-        //     try
-        //     {
-        //         var file = HttpContext.Request.Form.Files[type];
-        //         var word = HttpContext.Request.Form["word"];
-        //         string source = _appSettings.StaticFilesPath + "/" + type;
-        //         if (file.Length > 0)
-        //         {
-        //             string filename = word + System.IO.Path.GetExtension(file.FileName); // Give file name
-        //             using (var fileStream = new FileStream(Path.Combine(source, filename), FileMode.Create))
-        //             {
-        //                 file.CopyToAsync(fileStream);
-        //             }
-        //         }
-        //     }
-        //     catch (System.Exception ex)
-        //     {
-        //         failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ex.Message);
-        //         return StatusCode(200, failResponse);
-        //     }
-        //     var response = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS, ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
-        //     return StatusCode(200, response); ;
-        // }
+        [HttpPost]
+        [Route("check_pronunciation/{id}")]
+        public IActionResult UploadFile(string id, IFormCollection formdata)
+        {
+            var failResponse = new BaseResponse();
+            try
+            {
+                var file = HttpContext.Request.Form.Files["audio"];
+                string source = _appSettings.StaticFilesPath + ConstantVar.VocabularyFolder + "/" + "test";
+
+                if (file.Length > 0)
+                {
+                    string filename = "aaa" + System.IO.Path.GetExtension(file.FileName); // Give file name
+                    using (var fileStream = new FileStream(Path.Combine(source, filename), FileMode.Create))
+                    {
+                        file.CopyToAsync(fileStream);
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ex.Message);
+                return StatusCode(200, failResponse);
+            }
+            var response = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS, ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+            return StatusCode(200, response); ;
+        }
 
     }
 }
+
+
+
+
+// [HttpPost]
+// [Route("vocabulary/{type}")]
+// public IActionResult UploadFile(string type, IFormCollection formdata)
+// {
+//     var failResponse = new BaseResponse();
+//     try
+//     {
+//         var file = HttpContext.Request.Form.Files[type];
+//         var word = HttpContext.Request.Form["word"];
+//         string source = _appSettings.StaticFilesPath + "/" + type;
+//         if (file.Length > 0)
+//         {
+//             string filename = word + System.IO.Path.GetExtension(file.FileName); // Give file name
+//             using (var fileStream = new FileStream(Path.Combine(source, filename), FileMode.Create))
+//             {
+//                 file.CopyToAsync(fileStream);
+//             }
+//         }
+//     }
+//     catch (System.Exception ex)
+//     {
+//         failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ex.Message);
+//         return StatusCode(200, failResponse);
+//     }
+//     var response = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS, ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+//     return StatusCode(200, response); ;
+// }
 
 
 // [HttpGet]
