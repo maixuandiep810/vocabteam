@@ -17,12 +17,15 @@ namespace vocabteam.Models.Entities
         public BaseEntity()
         {
             Active = true;
+            CreatedTime = DateTime.UtcNow;
             UpdatedTime = DateTime.UtcNow;
         }
 
         public BaseEntity(BaseEntity baseEntity)
         {
             Id = baseEntity.Id;
+            CreatedTime = baseEntity.CreatedTime;
+            UpdatedTime = baseEntity.UpdatedTime;
         }
     }
 }

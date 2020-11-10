@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using System.IO;
 
 using vocabteam.Models.Services;
 using vocabteam.Models.Entities;

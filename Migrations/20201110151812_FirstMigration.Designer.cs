@@ -10,7 +10,7 @@ using vocabteam.Models;
 namespace vocabteam.Migrations
 {
     [DbContext(typeof(VocabteamContext))]
-    [Migration("20201110062014_FirstMigration")]
+    [Migration("20201110151812_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -211,7 +211,7 @@ namespace vocabteam.Migrations
                     b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("OrdinalNumber")
+                    b.Property<int>("Order")
                         .HasColumnName("OrdinalNumber")
                         .HasColumnType("int");
 

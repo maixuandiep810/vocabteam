@@ -295,7 +295,7 @@ namespace vocabteam.Models
                       .HasColumnName("CategoryId")
                       .HasColumnType("int");
 
-                entity.Property(e => e.OrdinalNumber)
+                entity.Property(e => e.Order)
                       .HasColumnName("OrdinalNumber")
                       .HasColumnType("int");
 

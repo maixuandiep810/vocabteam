@@ -10,10 +10,12 @@ namespace vocabteam.Models.Entities
         public int? UserId { get; set; }
         [JsonProperty(PropertyName = "CategoryId")]
         public int? CategoryId { get; set; }
-        [JsonProperty(PropertyName = "OrdinalNumber")]
-        public int OrdinalNumber { get; set; }
+        [JsonProperty(PropertyName = "Order")]
+        public int Order { get; set; }
         [JsonProperty(PropertyName = "Result")]
-        public float Result { get; set; }
+        public double Result { get; set; }
+        [JsonProperty(PropertyName = "Result")]
+        public double N_Index { get; set; }
         [JsonIgnore]
         public virtual User User { get; set; }
         [JsonIgnore]

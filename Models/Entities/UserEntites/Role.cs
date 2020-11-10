@@ -7,8 +7,8 @@ namespace vocabteam.Models.Entities
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
-        public virtual ICollection<UserRole> UserRoles { get; set; }
-        public virtual ICollection<RolePermission> RolePermissions { get; set; }
+        public virtual List<UserRole> UserRoles { get; set; }
+        public virtual List<RolePermission> RolePermissions { get; set; }
 
         public Role() : base()
         {

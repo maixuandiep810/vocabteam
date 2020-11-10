@@ -1,6 +1,7 @@
 using System.Net.Mime;
 
 using System;
+using System.
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -31,9 +32,13 @@ namespace vocabteam.Models.Repositories
             }
             try
             {
-                entity.OrdinalNumber = entities.Count() + 1;
+                int maxId = entities.OrderByDescending(p => p.UpdatedTime).ToList()[0].Id;
+
+                entity.Order = entities.Where(p => p.CategoryId == entity.CategoryId).Count() + 1;
                 entity.CreatedTime = DateTime.Now;
                 entity.UpdatedTime = DateTime.Now;
+                Test lastTest = GetById(maxId);
+                entity.N_Index = entity.UpdatedTime
                 entities.Add(entity);
                 int a = this._context.SaveChanges();
             }

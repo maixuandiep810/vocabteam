@@ -129,6 +129,17 @@ namespace vocabteam.Models.Services
             return result;
         }
 
+        public void getStrength(int Order)
+        {
+            List<Test> listTest = Filter(x => x.Order == Order).ToList();
+            List<TestModel> listTestModel = TransformEntityModel.getListTransformEntityModel<Test, TestModel>(listTest);
+            for (int i = 0; i < listTestModel.Count; i++)
+            {
+                double n = 
+                listTestModel[i].Strength = Math.Log(listTestModel[i].Result/100);
+            }
+        }
+
     }
 }
 

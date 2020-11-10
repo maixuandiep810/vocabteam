@@ -209,7 +209,7 @@ namespace vocabteam.Migrations
                     b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("OrdinalNumber")
+                    b.Property<int>("Order")
                         .HasColumnName("OrdinalNumber")
                         .HasColumnType("int");
 

@@ -16,11 +16,11 @@ namespace vocabteam.Models.Entities
         [JsonProperty(PropertyName = "Token")]
         public string Token { get; set; }
         [JsonIgnore]
-        public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual List<UserRole> UserRoles { get; set; }
         [JsonIgnore]
-        public virtual ICollection<UserPermission> UserPermissions { get; set; }
+        public virtual List<UserPermission> UserPermissions { get; set; }
         [JsonIgnore]
-        public virtual ICollection<Test> Tests { get; set; }
+        public virtual List<Test> Tests { get; set; }
 
         public User() : base()
         {
