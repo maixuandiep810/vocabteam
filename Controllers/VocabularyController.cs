@@ -61,7 +61,7 @@ namespace vocabteam.Controllers
             ListVocabularyModel result = null;
             try
             {
-                result = new ListVocabularyModel(_VocabularyService.Filter(x => x.CategoryId == categoryId).ToList());
+                result = new ListVocabularyModel(_VocabularyService.GetByCategoryAllQuestion(categoryId));
             }
             catch (CustomException ex)
             {

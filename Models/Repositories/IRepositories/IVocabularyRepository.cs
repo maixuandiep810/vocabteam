@@ -12,6 +12,7 @@ namespace vocabteam.Models.Repositories
 {
     public interface IVocabularyRepository :IRepository<Vocabulary>
     {
-        IQueryable<Vocabulary> GetAllQuestion();
+        List<Vocabulary> GetAllQuestion();
+        List<Vocabulary> GetByCategoryAllQuestion(int categoryId);
     }
 }

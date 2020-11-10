@@ -13,7 +13,8 @@ namespace vocabteam.Models.Services
     public interface IVocabularyService
     {
         IQueryable<Vocabulary> GetAll();
-        IQueryable<Vocabulary> GetAllQuestion();
+        List<Vocabulary> GetAllQuestion();
+        List<Vocabulary> GetByCategoryAllQuestion(int categoryId);
         Vocabulary GetById(int id);
         void Insert(Vocabulary entity);
         void Update(Vocabulary entity);

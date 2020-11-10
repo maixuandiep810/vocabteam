@@ -42,13 +42,15 @@ namespace vocabteam
             services.AddScoped(typeof(ICategoryRepository), typeof(CategoryRepository));
             services.AddScoped(typeof(IRolePermissionRepository), typeof(RolePermissionRepository));
             services.AddScoped(typeof(IUserRoleRepository), typeof(UserRoleRepository));
-            services.AddScoped(typeof(IRoleRepository), typeof(RoleRepository));     
+            services.AddScoped(typeof(IRoleRepository), typeof(RoleRepository));
+            services.AddScoped(typeof(ITestRepository), typeof(TestRepository)); 
 
             services.AddScoped(typeof(IUserService), typeof(UserService));
             services.AddScoped(typeof(IVocabularyService), typeof(VocabularyService));
             services.AddScoped(typeof(IPermissionService), typeof(PermissionService));
             services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
             services.AddScoped(typeof(IRoleService), typeof(RoleService));
+            services.AddScoped(typeof(ITestService), typeof(TestService));
 
             #endregion
 

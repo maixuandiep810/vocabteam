@@ -42,12 +42,30 @@ namespace vocabteam.Models.Services
             }
             return result;
         }
-        public IQueryable<Vocabulary> GetAllQuestion()
+        public List<Vocabulary> GetAllQuestion()
         {
-            IQueryable<Vocabulary> result = null;
+            List<Vocabulary> result = null;
             try
             {
                 result = _VocabularyRepo.GetAllQuestion();
+            }
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception)
+            {
+                throw new CustomException(ConstantVar.ResponseCode.SYSTEM_ERROR);
+            }
+            return result;
+        }
+
+        public List<Vocabulary> GetByCategoryAllQuestion(int categoryId)
+        {
+            List<Vocabulary> result = null;
+            try
+            {
+                result = _VocabularyRepo.GetByCategoryAllQuestion(categoryId);
             }
             catch (CustomException ex)
             {

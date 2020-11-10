@@ -18,6 +18,7 @@ namespace vocabteam.Models.ViewModels
             AudioUrl = vocab.AudioUrl;
             ImageUrl = vocab.ImageUrl;
             CategoryId = vocab.CategoryId;
+            Questions = vocab.Questions;
         }
 
     }

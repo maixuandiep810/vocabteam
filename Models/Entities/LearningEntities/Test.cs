@@ -7,9 +7,9 @@ namespace vocabteam.Models.Entities
     public class Test : BaseEntity
     {
         [JsonProperty(PropertyName = "UserId")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         [JsonProperty(PropertyName = "CategoryId")]
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         [JsonProperty(PropertyName = "OrdinalNumber")]
         public int OrdinalNumber { get; set; }
         [JsonProperty(PropertyName = "Result")]

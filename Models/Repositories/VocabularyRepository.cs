@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using vocabteam.Helpers;
 using vocabteam.Helpers.CustomExceptions;
@@ -12,15 +13,15 @@ namespace vocabteam.Models.Repositories
         {
         }
 
-        public IQueryable<Vocabulary> GetAllQuestion()
+        public List<Vocabulary> GetAllQuestion()
         {
-            IQueryable<Vocabulary> result;
+            List<Vocabulary> result;
             try
             {
-                result = GetAll();
-                foreach (var item in result)
+                result = GetAll().ToList();
+                for (int i = 0; i < result.Count(); i++)
                 {
-                    item.Questions = _context.Questions.Where(p => p.VocabularyId == item.Id).ToList();
+                    result[i].Questions = _context.Questions.Where(p => p.VocabularyId == result[i].Id).ToList();
                 }
             }
             catch (System.Exception)
@@ -30,6 +31,27 @@ namespace vocabteam.Models.Repositories
 
             return result;
         }
+
+        public List<Vocabulary> GetByCategoryAllQuestion(int categoryId)
+        {
+            List<Vocabulary> result;
+            try
+            {
+                result = Filter(x => x.CategoryId == categoryId).ToList();
+                for (int i = 0; i < result.Count(); i++)
+                {
+                    result[i].Questions = _context.Questions.Where(p => p.VocabularyId == result[i].Id).ToList();
+                }
+            }
+            catch (System.Exception)
+            {
+                throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
+            }
+
+            return result;
+        }
+
+        
  
     }
 }
