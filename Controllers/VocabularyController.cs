@@ -153,5 +153,37 @@ namespace vocabteam.Controllers
             return fileUrl;
         }
 
+        [HttpPost]
+        [Route("check_pronunciation/{id}")]
+        public IActionResult CheckPronunciation(string id, IFormCollection formdata)
+        {
+            var failResponse = new BaseResponse();
+            string source = _appSettings.StaticFilesPath + _appSettings.DefaultAudioRelativePath;
+            try
+            {
+                var file = HttpContext.Request.Form.Files["audio"];
+
+                if (file.Length > 0)
+                {
+                    using (var fileStream = new FileStream(source, FileMode.Create))
+                    {
+                        file.CopyToAsync(fileStream);
+                    }
+                }
+
+                
+            }
+            catch (System.Exception ex)
+            { 
+                System.IO.File.Delete(source);
+                failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ex.Message);
+                return StatusCode(200, failResponse);
+            }
+            System.IO.File.Delete(source);
+            var response = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS, ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+            return StatusCode(200, response);
+        }
+
+
     }
 }

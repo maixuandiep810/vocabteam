@@ -4,5 +4,6 @@ namespace vocabteam.Helpers
     {
         public string Secret { get; set; }
         public string StaticFilesPath { get; set; }
+        public string DefaultAudioRelativePath { get; set; }
     }
 }

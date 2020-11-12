@@ -1,7 +1,6 @@
 using System.Net.Mime;
 
 using System;
-using System.
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -38,7 +37,7 @@ namespace vocabteam.Models.Repositories
                 entity.CreatedTime = DateTime.Now;
                 entity.UpdatedTime = DateTime.Now;
                 Test lastTest = GetById(maxId);
-                entity.N_Index = entity.UpdatedTime
+                // entity.N_Index = entity.UpdatedTime
                 entities.Add(entity);
                 int a = this._context.SaveChanges();
             }
