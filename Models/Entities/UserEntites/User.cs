@@ -7,20 +7,35 @@ namespace vocabteam.Models.Entities
     {
         [JsonProperty(PropertyName = "Username")]
         public string Username { get; set; }
+
         [JsonProperty(PropertyName = "Email")]
         public string Email { get; set; }
+
         [JsonProperty(PropertyName = "AvatarUrl")]
         public string AvatarUrl { get; set; }
+
         [JsonIgnore]
         public string Password { get; set; }
+
         [JsonProperty(PropertyName = "Token")]
         public string Token { get; set; }
+
+        public virtual UserSetting UserSetting { get; set; }
+
         [JsonIgnore]
         public virtual List<UserRole> UserRoles { get; set; }
+
         [JsonIgnore]
         public virtual List<UserPermission> UserPermissions { get; set; }
+
         [JsonIgnore]
         public virtual List<Test> Tests { get; set; }
+
+        [JsonIgnore]
+        public virtual List<Category> Categories { get; set; }
+
+        [JsonIgnore]
+        public virtual List<N_Index> N_Indexes { get; set; }
 
         public User() : base()
         {

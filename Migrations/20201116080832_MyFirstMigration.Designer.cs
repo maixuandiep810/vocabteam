@@ -10,8 +10,8 @@ using vocabteam.Models;
 namespace vocabteam.Migrations
 {
     [DbContext(typeof(VocabteamContext))]
-    [Migration("20201110151812_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20201116080832_MyFirstMigration")]
+    partial class MyFirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,6 +38,54 @@ namespace vocabteam.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("ImageUrl")
+                        .HasColumnName("ImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<short>("IsCustomCategory")
+                        .HasColumnName("IsCustomCategory")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LevelId")
+                        .HasColumnName("LevelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnName("Name")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnName("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LevelId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Categories");
+
+                    b.HasComment("This is the Categories Table");
+                });
+
+            modelBuilder.Entity("vocabteam.Models.Entities.Level", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("Description")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -49,9 +97,50 @@ namespace vocabteam.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Level");
 
                     b.HasComment("This is the Categories Table");
+                });
+
+            modelBuilder.Entity("vocabteam.Models.Entities.N_Index", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<float>("Index")
+                        .HasColumnName("Index")
+                        .HasColumnType("float");
+
+                    b.Property<int>("LevelId")
+                        .HasColumnName("LevelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Order")
+                        .HasColumnName("Order")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnName("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("N_Indexes");
+
+                    b.HasComment("This is the N_Indexes Table");
                 });
 
             modelBuilder.Entity("vocabteam.Models.Entities.Permission", b =>
@@ -211,8 +300,12 @@ namespace vocabteam.Migrations
                     b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime");
 
+                    b.Property<float>("N_Index")
+                        .HasColumnName("N_Index")
+                        .HasColumnType("float");
+
                     b.Property<int>("Order")
-                        .HasColumnName("OrdinalNumber")
+                        .HasColumnName("Order")
                         .HasColumnType("int");
 
                     b.Property<float>("Result")
@@ -355,6 +448,60 @@ namespace vocabteam.Migrations
                     b.HasComment("This is the UserRoles Table");
                 });
 
+            modelBuilder.Entity("vocabteam.Models.Entities.UserSetting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("A1_ChangeInTime")
+                        .HasColumnName("A1_ChangeInTime")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("A2_ChangeInTime")
+                        .HasColumnName("A2_ChangeInTime")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("B1_ChangeInTime")
+                        .HasColumnName("B1_ChangeInTime")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("B2_ChangeInTime")
+                        .HasColumnName("B2_ChangeInTime")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("C1_ChangeInTime")
+                        .HasColumnName("C1_ChangeInTime")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("C2_ChangeInTime")
+                        .HasColumnName("C2_ChangeInTime")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnName("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserSettings");
+
+                    b.HasComment("This is the UserSettings Table");
+                });
+
             modelBuilder.Entity("vocabteam.Models.Entities.Vocabulary", b =>
                 {
                     b.Property<int>("Id")
@@ -406,6 +553,30 @@ namespace vocabteam.Migrations
                     b.ToTable("Vocabularies");
 
                     b.HasComment("This is the Vocabularies Table");
+                });
+
+            modelBuilder.Entity("vocabteam.Models.Entities.Category", b =>
+                {
+                    b.HasOne("vocabteam.Models.Entities.Level", "Level")
+                        .WithMany("Categories")
+                        .HasForeignKey("LevelId")
+                        .HasConstraintName("FK_Categories_Levels")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("vocabteam.Models.Entities.User", "User")
+                        .WithMany("Categories")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_Categories_Users")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("vocabteam.Models.Entities.N_Index", b =>
+                {
+                    b.HasOne("vocabteam.Models.Entities.User", "User")
+                        .WithMany("N_Indexes")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_N_Indexes_Users")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("vocabteam.Models.Entities.Question", b =>
@@ -475,6 +646,13 @@ namespace vocabteam.Migrations
                         .HasForeignKey("UserId")
                         .HasConstraintName("FK_UserRoles_Users")
                         .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("vocabteam.Models.Entities.UserSetting", b =>
+                {
+                    b.HasOne("vocabteam.Models.Entities.User", null)
+                        .WithOne("UserSetting")
+                        .HasForeignKey("vocabteam.Models.Entities.UserSetting", "UserId");
                 });
 
             modelBuilder.Entity("vocabteam.Models.Entities.Vocabulary", b =>

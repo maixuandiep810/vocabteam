@@ -13,9 +13,9 @@ namespace vocabteam.Models.Entities
         [JsonProperty(PropertyName = "Order")]
         public int Order { get; set; }
         [JsonProperty(PropertyName = "Result")]
-        public double Result { get; set; }
-        [JsonProperty(PropertyName = "Result")]
-        public double N_Index { get; set; }
+        public float Result { get; set; }
+        [JsonProperty(PropertyName = "N_Index")]
+        public float N_Index { get; set; }
         [JsonIgnore]
         public virtual User User { get; set; }
         [JsonIgnore]

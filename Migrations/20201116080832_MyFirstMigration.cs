@@ -4,12 +4,12 @@ using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace vocabteam.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class MyFirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Level",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -18,12 +18,11 @@ namespace vocabteam.Migrations
                     UpdatedTime = table.Column<DateTime>(nullable: true),
                     CreatedTime = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(type: "varchar(50)", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    ImageUrl = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.PrimaryKey("PK_Level", x => x.Id);
                 },
                 comment: "This is the Categories Table");
 
@@ -85,35 +84,6 @@ namespace vocabteam.Migrations
                 comment: "This is the User Table");
 
             migrationBuilder.CreateTable(
-                name: "Vocabularies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Active = table.Column<bool>(nullable: false),
-                    UpdatedTime = table.Column<DateTime>(nullable: true),
-                    CreatedTime = table.Column<DateTime>(nullable: true),
-                    Word = table.Column<string>(type: "varchar(50)", nullable: true),
-                    Meaning = table.Column<string>(type: "varchar(50)", nullable: true),
-                    Definition = table.Column<string>(type: "text", nullable: true),
-                    Sentence = table.Column<string>(type: "text", nullable: true),
-                    AudioUrl = table.Column<string>(type: "text", nullable: true),
-                    ImageUrl = table.Column<string>(type: "text", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vocabularies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Vocabularies_Categories",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                },
-                comment: "This is the Vocabularies Table");
-
-            migrationBuilder.CreateTable(
                 name: "RolePermissions",
                 columns: table => new
                 {
@@ -144,7 +114,41 @@ namespace vocabteam.Migrations
                 comment: "This is the RolePermissions Table");
 
             migrationBuilder.CreateTable(
-                name: "Tests",
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(nullable: false),
+                    UpdatedTime = table.Column<DateTime>(nullable: true),
+                    CreatedTime = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    LevelId = table.Column<int>(type: "int", nullable: true),
+                    IsCustomCategory = table.Column<short>(type: "bit", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_Levels",
+                        column: x => x.LevelId,
+                        principalTable: "Level",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_Categories_Users",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                },
+                comment: "This is the Categories Table");
+
+            migrationBuilder.CreateTable(
+                name: "N_Indexes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -153,27 +157,21 @@ namespace vocabteam.Migrations
                     UpdatedTime = table.Column<DateTime>(nullable: true),
                     CreatedTime = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: true),
-                    OrdinalNumber = table.Column<int>(type: "int", nullable: false),
-                    Result = table.Column<float>(type: "float", nullable: false)
+                    LevelId = table.Column<int>(type: "int", nullable: false),
+                    Order = table.Column<int>(type: "int", nullable: false),
+                    Index = table.Column<float>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tests", x => x.Id);
+                    table.PrimaryKey("PK_N_Indexes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tests_Categories",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_Tests_Users",
+                        name: "FK_N_Indexes_Users",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
                 },
-                comment: "This is the Tests Table");
+                comment: "This is the N_Indexes Table");
 
             migrationBuilder.CreateTable(
                 name: "UserPermissions",
@@ -236,6 +234,97 @@ namespace vocabteam.Migrations
                 comment: "This is the UserRoles Table");
 
             migrationBuilder.CreateTable(
+                name: "UserSettings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(nullable: false),
+                    UpdatedTime = table.Column<DateTime>(nullable: true),
+                    CreatedTime = table.Column<DateTime>(nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    A1_ChangeInTime = table.Column<int>(type: "int", nullable: true),
+                    A2_ChangeInTime = table.Column<int>(type: "int", nullable: true),
+                    B1_ChangeInTime = table.Column<int>(type: "int", nullable: true),
+                    B2_ChangeInTime = table.Column<int>(type: "int", nullable: true),
+                    C1_ChangeInTime = table.Column<int>(type: "int", nullable: true),
+                    C2_ChangeInTime = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserSettings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserSettings_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                },
+                comment: "This is the UserSettings Table");
+
+            migrationBuilder.CreateTable(
+                name: "Tests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(nullable: false),
+                    UpdatedTime = table.Column<DateTime>(nullable: true),
+                    CreatedTime = table.Column<DateTime>(nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: true),
+                    Order = table.Column<int>(type: "int", nullable: false),
+                    Result = table.Column<float>(type: "float", nullable: false),
+                    N_Index = table.Column<float>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tests_Categories",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_Tests_Users",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                },
+                comment: "This is the Tests Table");
+
+            migrationBuilder.CreateTable(
+                name: "Vocabularies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(nullable: false),
+                    UpdatedTime = table.Column<DateTime>(nullable: true),
+                    CreatedTime = table.Column<DateTime>(nullable: true),
+                    Word = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Meaning = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Definition = table.Column<string>(type: "text", nullable: true),
+                    Sentence = table.Column<string>(type: "text", nullable: true),
+                    AudioUrl = table.Column<string>(type: "text", nullable: true),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vocabularies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vocabularies_Categories",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                },
+                comment: "This is the Vocabularies Table");
+
+            migrationBuilder.CreateTable(
                 name: "Questions",
                 columns: table => new
                 {
@@ -260,6 +349,21 @@ namespace vocabteam.Migrations
                         onDelete: ReferentialAction.SetNull);
                 },
                 comment: "This is the Questions Table");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_LevelId",
+                table: "Categories",
+                column: "LevelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_UserId",
+                table: "Categories",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_N_Indexes_UserId",
+                table: "N_Indexes",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_VocabularyId",
@@ -313,6 +417,12 @@ namespace vocabteam.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserSettings_UserId",
+                table: "UserSettings",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Vocabularies_CategoryId",
                 table: "Vocabularies",
                 column: "CategoryId");
@@ -320,6 +430,9 @@ namespace vocabteam.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "N_Indexes");
+
             migrationBuilder.DropTable(
                 name: "Questions");
 
@@ -336,6 +449,9 @@ namespace vocabteam.Migrations
                 name: "UserRoles");
 
             migrationBuilder.DropTable(
+                name: "UserSettings");
+
+            migrationBuilder.DropTable(
                 name: "Vocabularies");
 
             migrationBuilder.DropTable(
@@ -345,10 +461,13 @@ namespace vocabteam.Migrations
                 name: "Roles");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Level");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }
