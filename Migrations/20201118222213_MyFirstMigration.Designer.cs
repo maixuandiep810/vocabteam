@@ -10,7 +10,7 @@ using vocabteam.Models;
 namespace vocabteam.Migrations
 {
     [DbContext(typeof(VocabteamContext))]
-    [Migration("20201116080832_MyFirstMigration")]
+    [Migration("20201118222213_MyFirstMigration")]
     partial class MyFirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,47 +100,6 @@ namespace vocabteam.Migrations
                     b.ToTable("Level");
 
                     b.HasComment("This is the Categories Table");
-                });
-
-            modelBuilder.Entity("vocabteam.Models.Entities.N_Index", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime");
-
-                    b.Property<float>("Index")
-                        .HasColumnName("Index")
-                        .HasColumnType("float");
-
-                    b.Property<int>("LevelId")
-                        .HasColumnName("LevelId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Order")
-                        .HasColumnName("Order")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedTime")
-                        .HasColumnType("datetime");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnName("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("N_Indexes");
-
-                    b.HasComment("This is the N_Indexes Table");
                 });
 
             modelBuilder.Entity("vocabteam.Models.Entities.Permission", b =>
@@ -283,6 +242,51 @@ namespace vocabteam.Migrations
                     b.HasComment("This is the RolePermissions Table");
                 });
 
+            modelBuilder.Entity("vocabteam.Models.Entities.SM_Index", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<float>("EF_Index")
+                        .HasColumnName("EF_Index")
+                        .HasColumnType("float");
+
+                    b.Property<float>("I_Index")
+                        .HasColumnName("I_Index")
+                        .HasColumnType("float");
+
+                    b.Property<int>("LevelId")
+                        .HasColumnName("LevelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Order")
+                        .HasColumnName("Order")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnName("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EF_Indexes");
+
+                    b.HasComment("This is the EF_Indexes Table");
+                });
+
             modelBuilder.Entity("vocabteam.Models.Entities.Test", b =>
                 {
                     b.Property<int>("Id")
@@ -300,9 +304,16 @@ namespace vocabteam.Migrations
                     b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime");
 
-                    b.Property<float>("N_Index")
-                        .HasColumnName("N_Index")
+                    b.Property<float>("EF_Index")
+                        .HasColumnName("EF_Index")
                         .HasColumnType("float");
+
+                    b.Property<float>("I_Index")
+                        .HasColumnName("I_Index")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("NextTime")
+                        .HasColumnType("datetime");
 
                     b.Property<int>("Order")
                         .HasColumnName("Order")
@@ -570,15 +581,6 @@ namespace vocabteam.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 
-            modelBuilder.Entity("vocabteam.Models.Entities.N_Index", b =>
-                {
-                    b.HasOne("vocabteam.Models.Entities.User", "User")
-                        .WithMany("N_Indexes")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK_N_Indexes_Users")
-                        .OnDelete(DeleteBehavior.SetNull);
-                });
-
             modelBuilder.Entity("vocabteam.Models.Entities.Question", b =>
                 {
                     b.HasOne("vocabteam.Models.Entities.Vocabulary", "Vocabulary")
@@ -600,6 +602,15 @@ namespace vocabteam.Migrations
                         .WithMany("RolePermissions")
                         .HasForeignKey("RoleId")
                         .HasConstraintName("FK_RolePermissions_Roles")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("vocabteam.Models.Entities.SM_Index", b =>
+                {
+                    b.HasOne("vocabteam.Models.Entities.User", "User")
+                        .WithMany("SM_Indexes")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_SM_Indexes_Users")
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 

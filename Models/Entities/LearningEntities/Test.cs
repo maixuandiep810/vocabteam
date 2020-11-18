@@ -14,8 +14,12 @@ namespace vocabteam.Models.Entities
         public int Order { get; set; }
         [JsonProperty(PropertyName = "Result")]
         public float Result { get; set; }
-        [JsonProperty(PropertyName = "N_Index")]
-        public float N_Index { get; set; }
+        [JsonProperty(PropertyName = "I_Index")]
+        public float I_Index { get; set; }
+        [JsonProperty(PropertyName = "EF_Index")]
+        public float EF_Index { get; set; }
+        [JsonProperty(PropertyName = "NextTime")]
+        public DateTime NextTime { get; set; }
         [JsonIgnore]
         public virtual User User { get; set; }
         [JsonIgnore]

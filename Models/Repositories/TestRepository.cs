@@ -36,21 +36,37 @@ namespace vocabteam.Models.Repositories
                 Test lastTest = null;
                 List<Test> listTest = entities.Where(p => p.CategoryId == entity.CategoryId).OrderByDescending(p => p.UpdatedTime).ToList();
 
-                if (listTest.Count() > 0)
+                switch (listTest.Count())
                 {
+                    case 0:
+                    entity.Order = 0;
+                    entity.Result = 5;
+                    entity.I_Index = 1;
+                    entity.EF_Index = 1.3f;
+                    TimeSpan? i1 = TimeSpan.FromDays(1);
+                    entity.NextTime = entity.CreatedTime?.Add(i1 ?? new TimeSpan()) ?? DateTime.Now;
+                    break;
+                    // case 1:
+                    // entity.Order = 1;
+                    // entity.I_Index = 6;
+                    // TimeSpan? i2 = TimeSpan.FromDays(6);
+                    // entity.NextTime = entity.CreatedTime?.Add(i2 ?? new TimeSpan()) ?? DateTime.Now;
+                    // break;
+                    default:
                     lastTest = listTest[0];
                     entity.Order = lastTest.Order + 1;
-
-                    // entity.N_Index = entity.UpdatedTime
                     TimeSpan? interval = entity.CreatedTime - lastTest.CreatedTime;
-                    float totalDays = Convert.ToSingle(interval?.TotalDays);
-                    entity.N_Index = Convert.ToSingle(-totalDays / Math.Log(entity.Result));
+                    float I_N_Time = Convert.ToSingle(interval?.TotalDays);
+                    float EF_N_Time = lastTest.EF_Index;
+                    float EF_N1_Time = Convert.ToSingle(EF_N_Time + (0.1-(5-entity.Result)*(0.08+(5-entity.Result)*0.02)));
+                    float I_N1_Time = I_N_Time * EF_N1_Time;
+                    interval = TimeSpan.FromDays(I_N1_Time);
+                    entity.I_Index = I_N1_Time;
+                    entity.EF_Index = EF_N1_Time >= 1.3 ? EF_N1_Time : 1.3f;
+                    entity.NextTime = entity.CreatedTime?.Add(interval ?? new TimeSpan()) ?? DateTime.Now;
+                    break;
                 }
-                else
-                {
-                    entity.Order = 0;
-                    entity.Result = 100;
-                }
+
                 entities.Add(entity);
                 int a = this._context.SaveChanges();
             }

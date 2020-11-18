@@ -35,7 +35,7 @@ namespace vocabteam.Models.Entities
         public virtual List<Category> Categories { get; set; }
 
         [JsonIgnore]
-        public virtual List<N_Index> N_Indexes { get; set; }
+        public virtual List<SM_Index> SM_Indexes { get; set; }
 
         public User() : base()
         {

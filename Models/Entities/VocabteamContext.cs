@@ -24,7 +24,7 @@ namespace vocabteam.Models
         public virtual DbSet<Question> Questions { get; set; }
 
         public virtual DbSet<Test> Tests { get; set; }
-        public virtual DbSet<N_Index> N_Indexes { get; set; }
+        public virtual DbSet<SM_Index> EF_Indexes { get; set; }
 
 
 
@@ -385,8 +385,12 @@ namespace vocabteam.Models
                         .HasColumnName("Result")
                         .HasColumnType("float");
 
-                entity.Property(e => e.N_Index)
-                        .HasColumnName("N_Index")
+                entity.Property(e => e.I_Index)
+                        .HasColumnName("I_Index")
+                        .HasColumnType("float");
+
+                entity.Property(e => e.EF_Index)
+                        .HasColumnName("EF_Index")
                         .HasColumnType("float");
 
                 entity.HasOne(e => e.User)
@@ -402,10 +406,10 @@ namespace vocabteam.Models
                         .HasConstraintName("FK_Tests_Categories");
             });
 
-            modelBuilder.Entity<N_Index>(entity =>
+            modelBuilder.Entity<SM_Index>(entity =>
             {
-                entity.ToTable("N_Indexes")
-                        .HasComment("This is the N_Indexes Table")
+                entity.ToTable("EF_Indexes")
+                        .HasComment("This is the EF_Indexes Table")
                         .HasKey(e => e.Id);
 
                 entity.Property(e => e.Id).UseMySqlIdentityColumn<int>().ValueGeneratedOnAdd();
@@ -422,15 +426,19 @@ namespace vocabteam.Models
                         .HasColumnName("Order")
                         .HasColumnType("int");
 
-                entity.Property(e => e.Index)
-                        .HasColumnName("Index")
+                entity.Property(e => e.I_Index)
+                        .HasColumnName("I_Index")
+                        .HasColumnType("float");
+
+                entity.Property(e => e.EF_Index)
+                        .HasColumnName("EF_Index")
                         .HasColumnType("float");
 
                 entity.HasOne(e => e.User)
-                        .WithMany(p => p.N_Indexes)
+                        .WithMany(p => p.SM_Indexes)
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_N_Indexes_Users");
+                        .HasConstraintName("FK_SM_Indexes_Users");
             });
 
 

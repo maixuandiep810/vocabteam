@@ -148,7 +148,7 @@ namespace vocabteam.Migrations
                 comment: "This is the Categories Table");
 
             migrationBuilder.CreateTable(
-                name: "N_Indexes",
+                name: "EF_Indexes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -159,19 +159,20 @@ namespace vocabteam.Migrations
                     UserId = table.Column<int>(type: "int", nullable: true),
                     LevelId = table.Column<int>(type: "int", nullable: false),
                     Order = table.Column<int>(type: "int", nullable: false),
-                    Index = table.Column<float>(type: "float", nullable: false)
+                    I_Index = table.Column<float>(type: "float", nullable: false),
+                    EF_Index = table.Column<float>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_N_Indexes", x => x.Id);
+                    table.PrimaryKey("PK_EF_Indexes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_N_Indexes_Users",
+                        name: "FK_SM_Indexes_Users",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
                 },
-                comment: "This is the N_Indexes Table");
+                comment: "This is the EF_Indexes Table");
 
             migrationBuilder.CreateTable(
                 name: "UserPermissions",
@@ -275,7 +276,9 @@ namespace vocabteam.Migrations
                     CategoryId = table.Column<int>(type: "int", nullable: true),
                     Order = table.Column<int>(type: "int", nullable: false),
                     Result = table.Column<float>(type: "float", nullable: false),
-                    N_Index = table.Column<float>(type: "float", nullable: false)
+                    I_Index = table.Column<float>(type: "float", nullable: false),
+                    EF_Index = table.Column<float>(type: "float", nullable: false),
+                    NextTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -361,8 +364,8 @@ namespace vocabteam.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_N_Indexes_UserId",
-                table: "N_Indexes",
+                name: "IX_EF_Indexes_UserId",
+                table: "EF_Indexes",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -431,7 +434,7 @@ namespace vocabteam.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "N_Indexes");
+                name: "EF_Indexes");
 
             migrationBuilder.DropTable(
                 name: "Questions");
