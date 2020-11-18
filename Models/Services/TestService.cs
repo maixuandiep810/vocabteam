@@ -76,11 +76,11 @@ namespace vocabteam.Models.Services
                 throw new CustomException(ConstantVar.ResponseCode.SYSTEM_ERROR);
             }
         }
-        public void InsertIncludeOrdinalNumber(Test entity)
+        public void InsertIncludeOrder(Test entity)
         {
             try
             {
-                _TestRepo.InsertIncludeOrdinalNumber(entity);
+                _TestRepo.InsertIncludeOrder(entity);
             }
             catch (CustomException ex)
             {

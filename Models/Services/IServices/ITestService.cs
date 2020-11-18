@@ -15,7 +15,7 @@ namespace vocabteam.Models.Services
         IQueryable<Test> GetAll();
         Test GetById(int id);
         void Insert(Test entity);
-        void InsertIncludeOrdinalNumber(Test entity);
+        void InsertIncludeOrder(Test entity);
         void Update(Test entity);
         void Delete(Test entity);
         IEnumerable<Test> Filter(Expression<Func<Test, bool>> filter);

@@ -19,11 +19,13 @@ namespace vocabteam.Controllers
     {
         private readonly AppSettings _appSettings;
         private readonly IVocabularyService _VocabularyService;
+        private readonly ICategoryService _CategoryService;
 
-        public VocabularyController(IOptions<AppSettings> appSettings, IVocabularyService vocabularyService)
+        public VocabularyController(IOptions<AppSettings> appSettings, IVocabularyService vocabularyService, ICategoryService categoryService)
         {
             this._VocabularyService = vocabularyService;
             this._appSettings = appSettings.Value;
+            this._CategoryService = categoryService;
         }
 
 
@@ -84,8 +86,8 @@ namespace vocabteam.Controllers
 
 
 
-        [HttpPost]
-        public IActionResult CreateVocabulary(IFormCollection formdata)
+        [HttpPost("{categoryId}")]
+        public IActionResult CreateVocabulary(int categoryId, IFormCollection formdata)
         {
 
             Vocabulary newVocabulary = new Vocabulary
@@ -97,6 +99,11 @@ namespace vocabteam.Controllers
             };
             try
             {
+                if (_CategoryService.GetById(categoryId) == null)
+                {
+                    throw new CustomException(ConstantVar.ResponseCode.CATEGORY_DOESNOT_EXIST);
+                }
+                newVocabulary.CategoryId = categoryId;
                 string imageUrl = UploadFile("image", formdata);
                 newVocabulary.ImageUrl = imageUrl;
                 string audioUrl = UploadFile("audio", formdata);
@@ -105,15 +112,16 @@ namespace vocabteam.Controllers
             }
             catch (CustomException ex)
             {
-                if (ex.Response_Code == ConstantVar.ResponseCode.SAVING_FILE_ERROR)
+                switch (ex.Response_Code)
                 {
-                    _VocabularyService.Insert(newVocabulary);
-                }
-                else
-                {
-                    var failResponse = new BaseResponse((int)ex.Response_Code,
-                                                    ConstantVar.ResponseString(ex.Response_Code));
-                    return StatusCode(200, failResponse);
+                    case ConstantVar.ResponseCode.SAVING_FILE_ERROR:
+                        _VocabularyService.Insert(newVocabulary);
+                        break;
+                    case ConstantVar.ResponseCode.CATEGORY_DOESNOT_EXIST:
+                    default:
+                        var failResponse = new BaseResponse((int)ex.Response_Code,
+                                    ConstantVar.ResponseString(ex.Response_Code));
+                        return StatusCode(200, failResponse);
                 }
 
             }
@@ -146,7 +154,7 @@ namespace vocabteam.Controllers
                     fileUrl = ConstantVar.VocabularyFolder + "/" + type + "/" + filename;
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 throw new CustomException(ConstantVar.ResponseCode.SAVING_FILE_ERROR);
             }
@@ -171,10 +179,10 @@ namespace vocabteam.Controllers
                     }
                 }
 
-                
+
             }
             catch (System.Exception ex)
-            { 
+            {
                 System.IO.File.Delete(source);
                 failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ex.Message);
                 return StatusCode(200, failResponse);

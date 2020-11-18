@@ -7,7 +7,6 @@ namespace vocabteam.Models.Entities
     {
         [JsonProperty(PropertyName = "Name")]
         public string Name { get; set; }
-
         [JsonProperty(PropertyName = "Description")]
         public string Description { get; set; }
         

@@ -23,7 +23,7 @@ namespace vocabteam.Models.Repositories
         public TestRepository(VocabteamContext context) : base(context)
         {
         }
-        public void InsertIncludeOrdinalNumber(Test entity)
+        public void InsertIncludeOrder(Test entity)
         {
             if (entity == null)
             {
@@ -31,13 +31,26 @@ namespace vocabteam.Models.Repositories
             }
             try
             {
-                int maxId = entities.OrderByDescending(p => p.UpdatedTime).ToList()[0].Id;
-
-                entity.Order = entities.Where(p => p.CategoryId == entity.CategoryId).Count() + 1;
                 entity.CreatedTime = DateTime.Now;
                 entity.UpdatedTime = DateTime.Now;
-                Test lastTest = GetById(maxId);
-                // entity.N_Index = entity.UpdatedTime
+                Test lastTest = null;
+                List<Test> listTest = entities.Where(p => p.CategoryId == entity.CategoryId).OrderByDescending(p => p.UpdatedTime).ToList();
+
+                if (listTest.Count() > 0)
+                {
+                    lastTest = listTest[0];
+                    entity.Order = lastTest.Order + 1;
+
+                    // entity.N_Index = entity.UpdatedTime
+                    TimeSpan? interval = entity.CreatedTime - lastTest.CreatedTime;
+                    float totalDays = Convert.ToSingle(interval?.TotalDays);
+                    entity.N_Index = Convert.ToSingle(-totalDays / Math.Log(entity.Result));
+                }
+                else
+                {
+                    entity.Order = 0;
+                    entity.Result = 100;
+                }
                 entities.Add(entity);
                 int a = this._context.SaveChanges();
             }

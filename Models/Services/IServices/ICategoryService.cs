@@ -18,5 +18,6 @@ namespace vocabteam.Models.Services
         void Update(Category u);
         void Delete(Category u);
         IEnumerable<Category> Filter(Expression<Func<Category, bool>> filter);
+        List<Category> GetByLevel(int levelId);
     }
 }

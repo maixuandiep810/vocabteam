@@ -12,6 +12,6 @@ namespace vocabteam.Models.Repositories
 {
     public interface ITestRepository :IRepository<Test>
     {
-        void InsertIncludeOrdinalNumber(Test entity);
+        void InsertIncludeOrder(Test entity);
     }
 }

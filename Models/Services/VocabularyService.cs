@@ -19,9 +19,10 @@ namespace vocabteam.Models.Services
 {
     public class VocabularyService : IVocabularyService
     {
+        private readonly AppSettings _AppSettings;
         private readonly IVocabularyRepository _VocabularyRepo;
 
-        public VocabularyService(IVocabularyRepository vocabularyRepo)
+        public VocabularyService(IVocabularyRepository vocabularyRepo, IOptions<AppSettings> appSettings)
         {
             _VocabularyRepo = vocabularyRepo;
         }
@@ -99,13 +100,17 @@ namespace vocabteam.Models.Services
         {
             try
             {
+                if (entity.ImageUrl.Count() == 0)
+                {
+                    entity.ImageUrl = ConstantVar.VocabularyFolder + ConstantVar.ImageFolder + "/" + ConstantVar.DefaultImageVocabulary;
+                }
                 _VocabularyRepo.Insert(entity);
             }
             catch (CustomException ex)
             {
                 throw ex;
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 throw new CustomException(ConstantVar.ResponseCode.SYSTEM_ERROR);
             }

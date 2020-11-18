@@ -55,5 +55,63 @@ namespace vocabteam.Controllers
             return StatusCode(200, categoryResponse);
         }
 
+        [HttpGet("level")]
+        [HttpGet("level/{levelId}")]
+        public IActionResult GetByLevel(int? levelId)
+        {
+            ListCategoryModel result = null;
+            try
+            {
+                if (levelId == null || levelId == 0)
+                {
+                    result = new ListCategoryModel(_CategoryService.GetAll().ToList());
+                }
+                else
+                {
+                    result = new ListCategoryModel(_CategoryService.GetByLevel(levelId.Value));
+                }
+            }
+            catch (CustomException ex)
+            {
+                var failResponse = new BaseResponse((int)ex.Response_Code,
+                                                    ConstantVar.ResponseString(ex.Response_Code));
+                return StatusCode(200, failResponse);
+            }
+            catch (Exception)
+            {
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                return StatusCode(200, failResponse);
+            }
+            var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+            var categoryResponse = new CategoryResponse(result, baseResponse);
+            return StatusCode(200, categoryResponse);
+        }
+
+        [HttpPost]
+        public IActionResult Create(CategoryModel model)
+        {
+            try
+            {
+                _CategoryService.Insert(model);
+            }
+            catch (CustomException ex)
+            {
+                var failResponse = new BaseResponse((int)ex.Response_Code,
+                                                    ConstantVar.ResponseString(ex.Response_Code));
+                return StatusCode(200, failResponse);
+            }
+            catch (Exception ex)
+            {
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                return StatusCode(200, failResponse);
+            }
+            var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+            return StatusCode(200, baseResponse);
+        }
+
     }
 }

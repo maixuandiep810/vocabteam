@@ -25,6 +25,7 @@ namespace vocabteam.Helpers
 
             VOCABULARY_EXSITED = 40,
             CREATE_VOCABULARY_SUCCESSFULLY = 41,
+            CATEGORY_DOESNOT_EXIST = 42,
 
             FAIL = 50,
             SYSTEM_ERROR = 51,
@@ -61,6 +62,8 @@ namespace vocabteam.Helpers
                 return "vocabulary exsited";
                 case ResponseCode.CREATE_VOCABULARY_SUCCESSFULLY:
                 return "vocabulary have been successfully created ";
+                case ResponseCode.CATEGORY_DOESNOT_EXIST:
+                return "category does not exist";
 
                 case ResponseCode.FAIL:
                     return "fail";
@@ -103,6 +106,12 @@ namespace vocabteam.Helpers
 
         public static string VocabularyFolder = "/vocabulary";
         public static string AccountFolder = "/account";
+        public static string CategoryFolder = "/category";
+        public static string ImageFolder = "/image";
+        public static string AudioFolder = "/audio";
+        public static string DefaultImageCategory = "default_image_001.png";
+        public static string DefaultImageVocabulary = "default_image_001.png";
+        
 
 
     }

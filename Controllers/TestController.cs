@@ -30,7 +30,7 @@ namespace vocabteam.Controllers
         {
             try
             {
-                _TestService.InsertIncludeOrdinalNumber(model);
+                _TestService.InsertIncludeOrder(model);
             }
             catch (CustomException ex)
             {
@@ -48,5 +48,7 @@ namespace vocabteam.Controllers
                                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
             return StatusCode(200, baseResponse);
         }
+
+        
     }
 }

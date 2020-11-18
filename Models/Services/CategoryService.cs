@@ -66,6 +66,10 @@ namespace vocabteam.Models.Services
         {
             try
             {
+                if (cate.ImageUrl.Count() == 0)
+                {
+                    cate.ImageUrl = ConstantVar.CategoryFolder + ConstantVar.ImageFolder + "/" + ConstantVar.DefaultImageCategory;
+                }
                 _CategoryRepo.Insert(cate);
 
             }
@@ -118,6 +122,24 @@ namespace vocabteam.Models.Services
             {
                 result = _CategoryRepo.Filter(filter);
 
+            }
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex; 
+            }
+            return result;
+        }
+
+        public List<Category> GetByLevel(int levelId)
+        {
+            List<Category> result = null;
+            try
+            {
+                result = _CategoryRepo.GetByLevel(levelId);
             }
             catch (CustomException ex)
             {

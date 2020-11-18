@@ -12,5 +12,6 @@ namespace vocabteam.Models.Repositories
 {
     public interface ICategoryRepository : IRepository<Category>
     {
+        List<Category> GetByLevel(int levelId);
     }
 }
