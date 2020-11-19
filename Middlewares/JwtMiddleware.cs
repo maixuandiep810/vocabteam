@@ -43,8 +43,11 @@ namespace vocabteam.Middlewares
             }
             catch (Exception ex)
             {
-                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.TOKEN_VALIDATION_ERROR,
-                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.TOKEN_VALIDATION_ERROR));
+                // var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.TOKEN_VALIDATION_ERROR,
+                //                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.TOKEN_VALIDATION_ERROR));
+                // ResponseHelper.MiddlewareResponse(context, failResponse);
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
                 ResponseHelper.MiddlewareResponse(context, failResponse);
             }
         }

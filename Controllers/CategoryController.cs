@@ -90,17 +90,34 @@ namespace vocabteam.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CategoryModel model)
+        public IActionResult Create(IFormCollection formdata)
         {
+            CategoryModel model = new CategoryModel
+            {
+                Name = HttpContext.Request.Form["Name"],
+                Description = HttpContext.Request.Form["Description"],
+                ImageUrl = "",
+                LevelId = Convert.ToInt32(HttpContext.Request.Form["LevelId"]),
+                IsCustomCategory = Convert.ToBoolean(HttpContext.Request.Form["IsCustomCategory"])
+            };
             try
             {
+                string imageUrl = UploadFile(formdata);
+                model.ImageUrl = imageUrl;
                 _CategoryService.Insert(model);
             }
             catch (CustomException ex)
             {
-                var failResponse = new BaseResponse((int)ex.Response_Code,
-                                                    ConstantVar.ResponseString(ex.Response_Code));
-                return StatusCode(200, failResponse);
+                switch (ex.Response_Code)
+                {
+                    case ConstantVar.ResponseCode.SAVING_FILE_ERROR:
+                        _CategoryService.Insert(model);
+                        break;
+                    default:
+                        var failResponse = new BaseResponse((int)ex.Response_Code,
+                                    ConstantVar.ResponseString(ex.Response_Code));
+                        return StatusCode(200, failResponse);
+                }
             }
             catch (Exception ex)
             {
@@ -113,5 +130,29 @@ namespace vocabteam.Controllers
             return StatusCode(200, baseResponse);
         }
 
+        public string UploadFile(IFormCollection formdata)
+        {
+            string fileUrl = null;
+            var file = HttpContext.Request.Form.Files["Image"];
+            string source = _appSettings.StaticFilesPath + ConstantVar.CategoryFolder + "/" + "image";
+            var name = HttpContext.Request.Form["Name"];
+            try
+            {
+                if (file.Length > 0)
+                {
+                    string filename = name + System.IO.Path.GetExtension(file.FileName); // Give file name
+                    using (var fileStream = new FileStream(Path.Combine(source, filename), FileMode.Create))
+                    {
+                        file.CopyToAsync(fileStream);
+                    }
+                    fileUrl = ConstantVar.CategoryFolder + "/" + "image" + "/" + filename;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw new CustomException(ConstantVar.ResponseCode.SAVING_FILE_ERROR);
+            }
+            return fileUrl;
+        }
     }
 }

@@ -1,13 +1,13 @@
-    "MySqlConnection": "server=localhost;port=3306;user=root;password=rocky@123;database=vocab;"
+"MySqlConnection": "server=localhost;port=3306;user=root;password=rocky@123;database=vocab;"
 
 
 Should add gitignore for vscode
 
-            catch (CustomException ex)
-            {
-                throw ex;
-            }
-            catch (System.Exception ex)
-            {
-                throw ex; 
-            }
+NHO
+1
+Doi Path
+"StaticFilesPath": "/Users/rocky/Desktop/vocabteam/wwwroot"
+"/home/p/Documents/Code/vocabteam/wwwroot"
+
+TODO:
+Task, nho through dung khi quay lui
