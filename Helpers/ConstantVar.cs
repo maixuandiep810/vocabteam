@@ -56,14 +56,14 @@ namespace vocabteam.Helpers
                 case ResponseCode.HAVE_LOGGED_OUT:
                     return "you have logged out";
                 case ResponseCode.USERNAME_PASSWORD_INCORRECT:
-                return "username or password is incorrect";
+                    return "username or password is incorrect";
 
                 case ResponseCode.VOCABULARY_EXSITED:
-                return "vocabulary exsited";
+                    return "vocabulary exsited";
                 case ResponseCode.CREATE_VOCABULARY_SUCCESSFULLY:
-                return "vocabulary have been successfully created ";
+                    return "vocabulary have been successfully created ";
                 case ResponseCode.CATEGORY_DOESNOT_EXIST:
-                return "category does not exist";
+                    return "category does not exist";
 
                 case ResponseCode.FAIL:
                     return "fail";
@@ -87,7 +87,7 @@ namespace vocabteam.Helpers
             admin = 1,
             guest = 3
         }
-        
+
         public static string RoleString(Role role)
         {
             switch (role)
@@ -100,6 +100,69 @@ namespace vocabteam.Helpers
         }
 
 
+
+        ///
+        /// Setting
+        ///
+        public enum ENUM_UserSetting
+        {
+            PREFIX_TODOTEST = 1,
+            TODOTEST_A1 = 2,
+            TODOTEST_A2 = 3,
+            TODOTEST_B1 = 4,
+            TODOTEST_B2 = 5,
+            TODOTEST_C1 = 6,
+            TODOTEST_C2 = 7
+        }
+
+        public static string ENUM_UserSettingString(ENUM_UserSetting userSetting)
+        {
+            switch (userSetting)
+            {
+                case ENUM_UserSetting.PREFIX_TODOTEST:
+                    return "ToDoTest";
+                case ENUM_UserSetting.TODOTEST_A1:
+                    return "ToDoTestA1";
+                case ENUM_UserSetting.TODOTEST_A2:
+                    return "ToDoTestA2";
+                case ENUM_UserSetting.TODOTEST_B1:
+                    return "ToDoTestB1";
+                case ENUM_UserSetting.TODOTEST_B2:
+                    return "ToDoTestB2";
+                case ENUM_UserSetting.TODOTEST_C1:
+                    return "ToDoTestC1";
+                case ENUM_UserSetting.TODOTEST_C2:
+                    return "ToDoTestC2";
+                default:
+                    return "guest";
+            }
+        }
+
+        public static string GetLevel(ENUM_UserSetting userSetting)
+        {
+            switch (userSetting)
+            {
+                case ENUM_UserSetting.TODOTEST_A1:
+                    return "A1";
+                case ENUM_UserSetting.TODOTEST_A2:
+                    return "A2";
+                case ENUM_UserSetting.TODOTEST_B1:
+                    return "B1";
+                case ENUM_UserSetting.TODOTEST_B2:
+                    return "B2";
+                case ENUM_UserSetting.TODOTEST_C1:
+                    return "C1";
+                case ENUM_UserSetting.TODOTEST_C2:
+                    return "C2";
+                default:
+                    return "guest";
+            }
+        }
+
+        public static ENUM_UserSetting[] ARRAY_ENUM_UserSetting = { ENUM_UserSetting.TODOTEST_A1, 
+        ENUM_UserSetting.TODOTEST_A1, ENUM_UserSetting.TODOTEST_A1, ENUM_UserSetting.TODOTEST_A1, 
+        ENUM_UserSetting.TODOTEST_A1, ENUM_UserSetting.TODOTEST_A1 };
+
         ///
         /// Path
         ///
@@ -111,7 +174,7 @@ namespace vocabteam.Helpers
         public static string AudioFolder = "/audio";
         public static string DefaultImageCategory = "default_image_001.png";
         public static string DefaultImageVocabulary = "default_image_001.png";
-        
+
 
 
     }

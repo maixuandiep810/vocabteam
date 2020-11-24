@@ -83,24 +83,15 @@ namespace vocabteam.Models
                         .HasColumnName("UserId")
                         .HasColumnType("int");
 
-                entity.Property(e => e.A1_ChangeInTime)
-                        .HasColumnName("A1_ChangeInTime")
-                        .HasColumnType("int");
-                entity.Property(e => e.A2_ChangeInTime)
-                        .HasColumnName("A2_ChangeInTime")
-                        .HasColumnType("int");
-                entity.Property(e => e.B1_ChangeInTime)
-                        .HasColumnName("B1_ChangeInTime")
-                        .HasColumnType("int");
-                entity.Property(e => e.B2_ChangeInTime)
-                        .HasColumnName("B2_ChangeInTime")
-                        .HasColumnType("int");
-                entity.Property(e => e.C1_ChangeInTime)
-                        .HasColumnName("C1_ChangeInTime")
-                        .HasColumnType("int");
-                entity.Property(e => e.C2_ChangeInTime)
-                        .HasColumnName("C2_ChangeInTime")
-                        .HasColumnType("int");
+                entity.Property(e => e.Name)
+                        .HasColumnName("Name")
+                        .HasColumnType("text");
+                entity.Property(e => e.Value)
+                        .HasColumnName("Value")
+                        .HasColumnType("text");
+                entity.Property(e => e.Description)
+                        .HasColumnName("Description")
+                        .HasColumnType("text");
             });
 
             modelBuilder.Entity<UserRole>(entity =>

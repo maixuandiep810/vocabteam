@@ -7,7 +7,10 @@ NHO
 1
 Doi Path
 "StaticFilesPath": "/Users/rocky/Desktop/vocabteam/wwwroot"
-"/home/p/Documents/Code/vocabteam/wwwroot"
+"/home/paracel/Documents/source/16t3/vocabteam/wwwroot",
 
 TODO:
 Task, nho through dung khi quay lui
+
+TECH
+dotnet restore

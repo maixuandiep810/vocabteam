@@ -20,11 +20,13 @@ namespace vocabteam.Models.Services
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _CategoryRepo;
+        private readonly IUserSettingRepository _UserSettingRepo;
         private readonly AppSettings _AppSettings;
 
-        public CategoryService(ICategoryRepository categoryRepo, IOptions<AppSettings> appSettings)
+        public CategoryService(ICategoryRepository categoryRepo, UserSettingRepository userSettingRepo, IOptions<AppSettings> appSettings)
         {
             _CategoryRepo = categoryRepo;
+            _UserSettingRepo = userSettingRepo;
             _AppSettings = appSettings.Value;
 
         }
@@ -135,6 +137,24 @@ namespace vocabteam.Models.Services
         }
 
         public List<Category> GetByLevel(int levelId)
+        {
+            List<Category> result = null;
+            try
+            {
+                result = _CategoryRepo.GetByLevel(levelId);
+            }
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex; 
+            }
+            return result;
+        }
+
+        public List<Category> GetBySetting_HaveToDoTest(int levelId)
         {
             List<Category> result = null;
             try
