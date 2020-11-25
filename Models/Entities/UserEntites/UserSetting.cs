@@ -14,7 +14,9 @@ namespace vocabteam.Models.Entities
         [JsonProperty(PropertyName = "Value")]
         public string Value { get; set; }
         [JsonProperty(PropertyName = "Description")]
-        public int? Description { get; set; }
+        public string Description { get; set; }
+        [JsonIgnore]
+        public virtual User User { get; set; }
 
         public UserSetting() : base()
         {

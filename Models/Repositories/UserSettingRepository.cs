@@ -25,13 +25,13 @@ namespace vocabteam.Models.Repositories
 
         }
 
-        public List<UserSetting> GetSetting_ToDoTest()
+        public List<UserSetting> GetSetting_ToDoTest(int userId)
         {
             UserSetting[] settings = new UserSetting[6];
             List<UserSetting> result;
             try
             {
-                result = _context.UserSettings.Where(p => p.Name.StartsWith(ConstantVar.ENUM_UserSettingString(ConstantVar.ENUM_UserSetting.PREFIX_TODOTEST))).ToList();
+                result = _context.UserSettings.Where(p => p.Name.StartsWith(ConstantVar.ENUM_UserSettingString(ConstantVar.ENUM_UserSetting.PREFIX_TODOTEST)) && p.UserId == userId).ToList();
             }
             catch (System.Exception)
             {

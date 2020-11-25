@@ -37,6 +37,9 @@ namespace vocabteam.Models.Entities
         [JsonIgnore]
         public virtual List<SM_Index> SM_Indexes { get; set; }
 
+        [JsonIgnore]
+        public virtual List<UserSetting> UserSettings { get; set; }
+
         public User() : base()
         {
 

@@ -19,5 +19,6 @@ namespace vocabteam.Models.Services
         void Delete(Category u);
         IEnumerable<Category> Filter(Expression<Func<Category, bool>> filter);
         List<Category> GetByLevel(int levelId);
+        List<Category> GetBySetting_HaveToDoTest(int levelId);
     }
 }

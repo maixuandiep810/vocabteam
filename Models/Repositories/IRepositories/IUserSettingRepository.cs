@@ -10,7 +10,8 @@ using vocabteam.Models.ViewModels;
 
 namespace vocabteam.Models.Repositories
 {
-    public interface IRoleRepository :IRepository<UserSetting>
+    public interface IUserSettingRepository :IRepository<UserSetting>
     {
+        public List<UserSetting> GetSetting_ToDoTest(int userId);
     }
 }

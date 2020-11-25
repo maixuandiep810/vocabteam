@@ -12,6 +12,7 @@ namespace vocabteam.Models.Services
     public interface IUserSettingService
     { 
         IQueryable<UserSetting> GetAll();
+        List<UserSetting> GetSetting_ToDoTest(int userId);
         UserSetting GetById(int id);
         void Insert(UserSetting u);
         void Update(UserSetting u);

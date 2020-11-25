@@ -4,7 +4,7 @@ using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace vocabteam.Migrations
 {
-    public partial class MyFirstMigration : Migration
+    public partial class SecondMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -244,19 +244,23 @@ namespace vocabteam.Migrations
                     UpdatedTime = table.Column<DateTime>(nullable: true),
                     CreatedTime = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true),
-                    A1_ChangeInTime = table.Column<int>(type: "int", nullable: true),
-                    A2_ChangeInTime = table.Column<int>(type: "int", nullable: true),
-                    B1_ChangeInTime = table.Column<int>(type: "int", nullable: true),
-                    B2_ChangeInTime = table.Column<int>(type: "int", nullable: true),
-                    C1_ChangeInTime = table.Column<int>(type: "int", nullable: true),
-                    C2_ChangeInTime = table.Column<int>(type: "int", nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Value = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    UserId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserSettings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserSettings_Users_UserId",
+                        name: "FK_UserSettings_User",
                         column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_UserSettings_Users_UserId1",
+                        column: x => x.UserId1,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -422,7 +426,12 @@ namespace vocabteam.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_UserSettings_UserId",
                 table: "UserSettings",
-                column: "UserId",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSettings_UserId1",
+                table: "UserSettings",
+                column: "UserId1",
                 unique: true);
 
             migrationBuilder.CreateIndex(

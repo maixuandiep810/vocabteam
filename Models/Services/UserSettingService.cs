@@ -43,6 +43,23 @@ namespace vocabteam.Models.Services
             }
             return result;
         }
+        public List<UserSetting> GetSetting_ToDoTest(int userId)
+        {
+            List<UserSetting> result = null;
+            try
+            {
+                result = _UserSettingRepo.GetSetting_ToDoTest(userId);
+            }
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex; 
+            }
+            return result;
+        }
         public UserSetting GetById(int id)
         {
             UserSetting result = null;

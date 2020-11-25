@@ -23,7 +23,7 @@ namespace vocabteam.Models.Services
         private readonly IUserSettingRepository _UserSettingRepo;
         private readonly AppSettings _AppSettings;
 
-        public CategoryService(ICategoryRepository categoryRepo, UserSettingRepository userSettingRepo, IOptions<AppSettings> appSettings)
+        public CategoryService(ICategoryRepository categoryRepo, IUserSettingRepository userSettingRepo, IOptions<AppSettings> appSettings)
         {
             _CategoryRepo = categoryRepo;
             _UserSettingRepo = userSettingRepo;

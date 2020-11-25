@@ -92,6 +92,11 @@ namespace vocabteam.Models
                 entity.Property(e => e.Description)
                         .HasColumnName("Description")
                         .HasColumnType("text");
+                entity.HasOne(e => e.User)
+                        .WithMany(p => p.UserSettings)
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("FK_UserSettings_User");
             });
 
             modelBuilder.Entity<UserRole>(entity =>

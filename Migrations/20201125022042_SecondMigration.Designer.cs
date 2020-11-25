@@ -10,8 +10,8 @@ using vocabteam.Models;
 namespace vocabteam.Migrations
 {
     [DbContext(typeof(VocabteamContext))]
-    [Migration("20201118222213_MyFirstMigration")]
-    partial class MyFirstMigration
+    [Migration("20201125022042_SecondMigration")]
+    partial class SecondMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -466,35 +466,19 @@ namespace vocabteam.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("A1_ChangeInTime")
-                        .HasColumnName("A1_ChangeInTime")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("A2_ChangeInTime")
-                        .HasColumnName("A2_ChangeInTime")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("B1_ChangeInTime")
-                        .HasColumnName("B1_ChangeInTime")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("B2_ChangeInTime")
-                        .HasColumnName("B2_ChangeInTime")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("C1_ChangeInTime")
-                        .HasColumnName("C1_ChangeInTime")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("C2_ChangeInTime")
-                        .HasColumnName("C2_ChangeInTime")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnName("Name")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime");
@@ -503,9 +487,18 @@ namespace vocabteam.Migrations
                         .HasColumnName("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .HasColumnName("Value")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1")
                         .IsUnique();
 
                     b.ToTable("UserSettings");
@@ -661,9 +654,15 @@ namespace vocabteam.Migrations
 
             modelBuilder.Entity("vocabteam.Models.Entities.UserSetting", b =>
                 {
+                    b.HasOne("vocabteam.Models.Entities.User", "User")
+                        .WithMany("UserSettings")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_UserSettings_User")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("vocabteam.Models.Entities.User", null)
                         .WithOne("UserSetting")
-                        .HasForeignKey("vocabteam.Models.Entities.UserSetting", "UserId");
+                        .HasForeignKey("vocabteam.Models.Entities.UserSetting", "UserId1");
                 });
 
             modelBuilder.Entity("vocabteam.Models.Entities.Vocabulary", b =>
