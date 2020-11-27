@@ -16,14 +16,6 @@ namespace vocabteam.Models.Entities
         [JsonProperty(PropertyName = "LevelId")]
         public int? LevelId { get; set; }
 
-        [JsonProperty(PropertyName = "IsCustomCategory")]
-        public bool IsCustomCategory { get; set; }
-
-        [JsonProperty(PropertyName = "UserId")]
-        public int? UserId { get; set; }
-
-
-
         [JsonIgnore]
         public virtual List<Vocabulary> Vocabularies { get; set; }
 
@@ -31,7 +23,7 @@ namespace vocabteam.Models.Entities
         public virtual List<Test> Tests { get; set; }
 
         [JsonIgnore]
-        public virtual User User { get; set; }
+        public virtual List<UserCategory> UserCategories { get; set; }
         
         [JsonIgnore]
         public virtual Level Level { get; set; }
@@ -39,7 +31,6 @@ namespace vocabteam.Models.Entities
 
         public Category() : base()
         {
-            IsCustomCategory = false;
         }
 
         public Category(BaseEntity baseEntity) : base(baseEntity)

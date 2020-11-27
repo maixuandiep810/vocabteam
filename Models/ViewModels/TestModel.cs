@@ -7,9 +7,6 @@ namespace vocabteam.Models.ViewModels
 {
     public class TestModel : Test
     {
-        [JsonProperty(PropertyName = "Strength")]
-        public double Strength { get; set; }
-
         public TestModel() : base()
         {
             
@@ -20,6 +17,8 @@ namespace vocabteam.Models.ViewModels
             UserId = t.UserId;
             CategoryId = t.CategoryId;
             Result = t.Result;
+            ImproveIndex = t.ImproveIndex;
+            NextTime = t.NextTime;
         }
 
     }

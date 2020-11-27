@@ -19,6 +19,7 @@ namespace vocabteam.Models.Services
         void Delete(Category u);
         IEnumerable<Category> Filter(Expression<Func<Category, bool>> filter);
         List<Category> GetByLevel(int levelId);
+        List<UserCategoryModel> GetByUser(int userId, int? levelId, bool? isDifficult);
         List<Category> GetBySetting_HaveToDoTest(int levelId);
     }
 }

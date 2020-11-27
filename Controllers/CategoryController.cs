@@ -25,13 +25,34 @@ namespace vocabteam.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("{userId}/{levelIdValue}/{isDifficultValue}")]
+        public IActionResult Get(int userId, int levelIdValue, int isDifficultValue)
         {
-            ListCategoryModel result = null;
+            int? levelId = null;
+
+            // TODO : switch case
+            if (levelIdValue == 0)
+            {
+                levelId = null;
+            }
+            else 
+            {
+                levelId = levelIdValue;
+            }
+            bool? isDifficult = null;
+            if (isDifficultValue == 2)
+            {
+                isDifficult = null;
+            }
+            else 
+            {
+                isDifficult = levelIdValue == 0 ? false : true;
+            }
+            
+            ListUserCategoryModel result = null;
             try
             {
-                result = new ListCategoryModel(_CategoryService.GetAll().ToList());
+                result = new ListUserCategoryModel(_CategoryService.GetByUser(userId, levelId, isDifficult));
             }
             catch (CustomException ex)
             {
@@ -47,8 +68,8 @@ namespace vocabteam.Controllers
             }
             var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
                                                     ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
-            var categoryResponse = new CategoryResponse(result, baseResponse);
-            return StatusCode(200, categoryResponse);
+            var userCategoryResponse = new UserCategoryResponse(result, baseResponse);
+            return StatusCode(200, userCategoryResponse);
         }
 
         [HttpGet("level")]
@@ -92,9 +113,7 @@ namespace vocabteam.Controllers
             {
                 Name = HttpContext.Request.Form["Name"],
                 Description = HttpContext.Request.Form["Description"],
-                ImageUrl = "",
-                LevelId = Convert.ToInt32(HttpContext.Request.Form["LevelId"]),
-                IsCustomCategory = Convert.ToBoolean(HttpContext.Request.Form["IsCustomCategory"])
+                ImageUrl = ""
             };
             try
             {
@@ -152,3 +171,39 @@ namespace vocabteam.Controllers
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+        // [HttpGet("{userId}")]
+        // public IActionResult Get(int userId)
+        // {
+        //     ListCategoryModel result = null;
+        //     try
+        //     {
+        //         result = new ListCategoryModel(_CategoryService.GetAll(userId).ToList());
+        //     }
+        //     catch (CustomException ex)
+        //     {
+        //         var failResponse = new BaseResponse((int)ex.Response_Code,
+        //                                             ConstantVar.ResponseString(ex.Response_Code));
+        //         return StatusCode(200, failResponse);
+        //     }
+        //     catch (Exception)
+        //     {
+        //         var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
+        //                                             ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+        //         return StatusCode(200, failResponse);
+        //     }
+        //     var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
+        //                                             ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+        //     var categoryResponse = new CategoryResponse(result, baseResponse);
+        //     return StatusCode(200, categoryResponse);
+        // }

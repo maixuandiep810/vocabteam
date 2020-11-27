@@ -20,12 +20,14 @@ namespace vocabteam.Models.Services
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _CategoryRepo;
+        private readonly IUserCategoryRepository _UserCategoryRepo;
         private readonly IUserSettingRepository _UserSettingRepo;
         private readonly AppSettings _AppSettings;
 
-        public CategoryService(ICategoryRepository categoryRepo, IUserSettingRepository userSettingRepo, IOptions<AppSettings> appSettings)
+        public CategoryService(ICategoryRepository categoryRepo, IUserCategoryRepository userCategoryRepo, IUserSettingRepository userSettingRepo, IOptions<AppSettings> appSettings)
         {
             _CategoryRepo = categoryRepo;
+            _UserCategoryRepo = userCategoryRepo;
             _UserSettingRepo = userSettingRepo;
             _AppSettings = appSettings.Value;
 
@@ -154,6 +156,24 @@ namespace vocabteam.Models.Services
             return result;
         }
 
+        public List<UserCategoryModel> GetByUser(int userId, int? levelId, bool? isDifficult)
+        {
+            List<UserCategoryModel> result = null;
+            try
+            {
+                result = _UserCategoryRepo.GetByUser(userId, levelId, isDifficult);
+            }
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex; 
+            }
+            return result;
+        }
+
         public List<Category> GetBySetting_HaveToDoTest(int levelId)
         {
             List<Category> result = null;
@@ -174,3 +194,34 @@ namespace vocabteam.Models.Services
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // public List<UserCategoryModel> GetByLevelUser(int levelId, int userId)
+        // {
+        //     List<UserCategoryModel> result = null;
+        //     try
+        //     {
+        //         result = _UserCategoryRepo.GetByLevelUser(levelId, userId);
+        //     }
+        //     catch (CustomException ex)
+        //     {
+        //         throw ex;
+        //     }
+        //     catch (System.Exception ex)
+        //     {
+        //         throw ex; 
+        //     }
+        //     return result;
+        // }

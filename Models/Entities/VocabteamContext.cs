@@ -19,6 +19,7 @@ namespace vocabteam.Models
         public virtual DbSet<Permission> Permissions { get; set; }
 
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<UserCategory> UserCategories { get; set; }
         public virtual DbSet<Level> Levels { get; set; }
         public virtual DbSet<Vocabulary> Vocabularies { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
@@ -245,18 +246,6 @@ namespace vocabteam.Models
                         .HasColumnName("LevelId")
                         .HasColumnType("int");
                   // TODO: check BOOL in MYSQL
-                entity.Property(e => e.IsCustomCategory)
-                        .HasColumnName("IsCustomCategory")
-                        .HasColumnType("bit");
-                entity.Property(e => e.UserId)
-                        .HasColumnName("UserId")
-                        .HasColumnType("int");
-
-                entity.HasOne(e => e.User)
-                        .WithMany(p => p.Categories)
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_Categories_Users");
 
                 entity.HasOne(e => e.Level)
                         .WithMany(p => p.Categories)
@@ -280,6 +269,44 @@ namespace vocabteam.Models
                 entity.Property(e => e.Description)
                         .HasColumnName("Description")
                         .HasColumnType("text");
+            });
+
+            modelBuilder.Entity<UserCategory>(entity =>
+            {
+                entity.ToTable("UserCategories")
+                        .HasComment("This is the UserCategories Table")
+                        .HasKey(e => e.Id);
+
+                entity.Property(e => e.Id).UseMySqlIdentityColumn<int>().ValueGeneratedOnAdd();
+
+                entity.Property(e => e.UserId)
+                        .HasColumnName("UserId")
+                        .HasColumnType("int");
+
+                entity.Property(e => e.CategoryId)
+                        .HasColumnName("CategoryId")
+                        .HasColumnType("int");
+
+                entity.Property(e => e.IsCustomCategory)
+                        .HasColumnName("IsCustomCategory")
+                        .HasColumnType("bit");
+                
+                entity.Property(e => e.IsDifficult)
+                        .HasColumnName("IsDifficult")
+                        .HasColumnType("bit");
+
+
+                entity.HasOne(e => e.User)
+                        .WithMany(p => p.UserCategories)
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("FK_UserCategories_Users");
+
+                entity.HasOne(e => e.User)
+                        .WithMany(p => p.UserCategories)
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("FK_UserCategories_Categories");
             });
 
             modelBuilder.Entity<Vocabulary>(entity =>

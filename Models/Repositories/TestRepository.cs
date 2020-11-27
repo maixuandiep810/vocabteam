@@ -63,6 +63,7 @@ namespace vocabteam.Models.Repositories
                     interval = TimeSpan.FromDays(I_N1_Time);
                     entity.I_Index = I_N1_Time;
                     entity.EF_Index = EF_N1_Time >= 1.3 ? EF_N1_Time : 1.3f;
+                    entity.ImproveIndex = Convert.ToSingle(entity.EF_Index/lastTest.EF_Index);
                     entity.NextTime = entity.CreatedTime?.Add(interval ?? new TimeSpan()) ?? DateTime.Now;
                     break;
                 }

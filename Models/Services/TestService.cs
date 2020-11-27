@@ -76,11 +76,13 @@ namespace vocabteam.Models.Services
                 throw new CustomException(ConstantVar.ResponseCode.SYSTEM_ERROR);
             }
         }
-        public void InsertIncludeOrder(Test entity)
+        public Test InsertIncludeOrder(Test entity)
         {
+            Test testInsert = null; 
             try
             {
                 _TestRepo.InsertIncludeOrder(entity);
+                testInsert = _TestRepo.Filter(p => p.UserId == entity.UserId && p.CategoryId == entity.CategoryId && p.Order == entity.Order).FirstOrDefault();
             }
             catch (CustomException ex)
             {
@@ -90,6 +92,7 @@ namespace vocabteam.Models.Services
             {
                 throw new CustomException(ConstantVar.ResponseCode.SYSTEM_ERROR);
             }
+            return testInsert;
         }
         public void Update(Test entity)
         {
@@ -129,16 +132,7 @@ namespace vocabteam.Models.Services
             return result;
         }
 
-        public void getStrength(int Order)
-        {
-            List<Test> listTest = Filter(x => x.Order == Order).ToList();
-            List<TestModel> listTestModel = TransformEntityModel.getListTransformEntityModel<Test, TestModel>(listTest);
-            for (int i = 0; i < listTestModel.Count; i++)
-            {
-                double n = 
-                listTestModel[i].Strength = Math.Log(listTestModel[i].Result/100);
-            }
-        }
+
 
     }
 }

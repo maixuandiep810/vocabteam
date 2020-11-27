@@ -18,6 +18,8 @@ namespace vocabteam.Models.Entities
         public float I_Index { get; set; }
         [JsonProperty(PropertyName = "EF_Index")]
         public float EF_Index { get; set; }
+        [JsonProperty(PropertyName = "ImproveIndex")]
+        public float ImproveIndex { get; set; }
         [JsonProperty(PropertyName = "NextTime")]
         public DateTime NextTime { get; set; }
         [JsonIgnore]

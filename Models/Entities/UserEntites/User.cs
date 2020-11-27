@@ -40,6 +40,9 @@ namespace vocabteam.Models.Entities
         [JsonIgnore]
         public virtual List<UserSetting> UserSettings { get; set; }
 
+        [JsonIgnore]
+        public virtual List<UserCategory> UserCategories { get; set; }
+
         public User() : base()
         {
 
