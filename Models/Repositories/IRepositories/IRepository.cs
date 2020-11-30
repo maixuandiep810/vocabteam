@@ -11,7 +11,7 @@ namespace vocabteam.Models.Repositories
     {
         IQueryable<T> GetAll();
         T GetById(int id);
-        void Insert(T entity);
+        int Insert(T entity);
         void Update(T entity);
         void Delete(T entity);
         IEnumerable<T> Filter(Expression<Func<T, bool>> filter);

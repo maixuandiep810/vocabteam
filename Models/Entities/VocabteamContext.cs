@@ -302,7 +302,7 @@ namespace vocabteam.Models
                         .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("FK_UserCategories_Users");
 
-                entity.HasOne(e => e.User)
+                entity.HasOne(e => e.Category)
                         .WithMany(p => p.UserCategories)
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.SetNull)

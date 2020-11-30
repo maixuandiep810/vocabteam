@@ -20,8 +20,6 @@ namespace vocabteam.Models.Entities
         [JsonProperty(PropertyName = "Token")]
         public string Token { get; set; }
 
-        public virtual UserSetting UserSetting { get; set; }
-
         [JsonIgnore]
         public virtual List<UserRole> UserRoles { get; set; }
 
@@ -30,9 +28,6 @@ namespace vocabteam.Models.Entities
 
         [JsonIgnore]
         public virtual List<Test> Tests { get; set; }
-
-        [JsonIgnore]
-        public virtual List<Category> Categories { get; set; }
 
         [JsonIgnore]
         public virtual List<SM_Index> SM_Indexes { get; set; }

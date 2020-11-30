@@ -24,20 +24,7 @@ namespace vocabteam.Models.Repositories
         {
         }
 
-        public List<Category> GetByLevel(int levelId)
-        {
-            List<Category> result;
-            try
-            {
-                result = _context.Categories.Where(p => p.LevelId == levelId).ToList();
-            }
-            catch (System.Exception)
-            {
-                throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
-            }
 
-            return result;
-        }
  
     }
 }

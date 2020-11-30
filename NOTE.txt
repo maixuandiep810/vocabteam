@@ -10,7 +10,9 @@ Doi Path
 "/home/paracel/Documents/source/16t3/vocabteam/wwwroot",
 
 TODO:
-Task, nho through dung khi quay lui
+Task, nho through dung khi quay lui??
+
+Tinh nang theo doi TOPIC o lop hoc
 
 TECH
 dotnet restore

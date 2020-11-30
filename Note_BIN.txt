@@ -1,0 +1,107 @@
+        ----------------------------------------------------------------------------------------------------------------------------------------------
+        
+        List<Category> GetByLevel(int levelId);
+
+        public List<Category> GetByLevel(int levelId)
+        {
+            List<Category> result;
+            try
+            {
+                result = _context.Categories.Where(p => p.LevelId == levelId).ToList();
+            }
+            catch (System.Exception)
+            {
+                throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
+            }
+
+            return result;
+        }
+
+        ------
+
+        List<Category> GetByLevel(int levelId);
+
+        public List<Category> GetByLevel(int levelId)
+        {
+            List<Category> result = null;
+            try
+            {
+                result = _CategoryRepo.GetByLevel(levelId);
+            }
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex; 
+            }
+            return result;
+        }
+        ------
+
+        
+
+        List<Category> GetBySetting_HaveToDoTest(int levelId);
+
+        public List<Category> GetBySetting_HaveToDoTest(int levelId)
+        {
+            List<Category> result = null;
+            try
+            {
+                result = _CategoryRepo.GetByLevel(levelId);
+            }
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex; 
+            }
+            return result;
+        }
+        -------
+
+
+        [HttpGet("level")]
+        [HttpGet("level/{levelId}")]
+        public IActionResult GetByLevel(int? levelId)
+        {
+            ListCategoryModel result = null;
+            try
+            {
+                if (levelId == null || levelId == 0)
+                {
+                    result = new ListCategoryModel(_CategoryService.GetAll().ToList());
+                }
+                else
+                {
+                    result = new ListCategoryModel(_CategoryService.GetByLevel(levelId.Value));
+                }
+            }
+            catch (CustomException ex)
+            {
+                var failResponse = new BaseResponse((int)ex.Response_Code,
+                                                    ConstantVar.ResponseString(ex.Response_Code));
+                return StatusCode(200, failResponse);
+            }
+            catch (Exception)
+            {
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                return StatusCode(200, failResponse);
+            }
+            var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+            var categoryResponse = new CategoryResponse(result, baseResponse);
+            return StatusCode(200, categoryResponse);
+        }
+        ----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+        ----------------------------------------------------------------------------------------------------------------------------------------------
+
+

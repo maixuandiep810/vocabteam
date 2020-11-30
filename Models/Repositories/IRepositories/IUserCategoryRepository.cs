@@ -12,6 +12,6 @@ namespace vocabteam.Models.Repositories
 {
     public interface IUserCategoryRepository : IRepository<UserCategory>
     {
-        List<UserCategoryModel> GetByUser(int userId, int? levelId, bool? isDifficult);
+        List<UserCategoryModel> GetByUser(int userId, int? levelId, bool? isDifficult, bool? isTodoTest);
     }
 }

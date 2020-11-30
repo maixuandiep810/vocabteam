@@ -14,12 +14,9 @@ namespace vocabteam.Models.Services
     { 
         IQueryable<Category> GetAll();
         Category GetById(int id);
-        void Insert(Category u);
+        int Insert(Category u);
         void Update(Category u);
         void Delete(Category u);
         IEnumerable<Category> Filter(Expression<Func<Category, bool>> filter);
-        List<Category> GetByLevel(int levelId);
-        List<UserCategoryModel> GetByUser(int userId, int? levelId, bool? isDifficult);
-        List<Category> GetBySetting_HaveToDoTest(int levelId);
     }
 }

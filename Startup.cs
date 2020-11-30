@@ -45,6 +45,7 @@ namespace vocabteam
             services.AddScoped(typeof(IRoleRepository), typeof(RoleRepository));
             services.AddScoped(typeof(ITestRepository), typeof(TestRepository)); 
             services.AddScoped(typeof(IUserSettingRepository), typeof(UserSettingRepository)); 
+            services.AddScoped(typeof(IUserCategoryRepository), typeof(UserCategoryRepository)); 
 
 
             services.AddScoped(typeof(IUserService), typeof(UserService));
@@ -54,6 +55,7 @@ namespace vocabteam
             services.AddScoped(typeof(IRoleService), typeof(RoleService));
             services.AddScoped(typeof(ITestService), typeof(TestService));
             services.AddScoped(typeof(IUserSettingService), typeof(UserSettingService));
+            services.AddScoped(typeof(IUserCategoryService), typeof(UserCategoryService));
 
             #endregion
 

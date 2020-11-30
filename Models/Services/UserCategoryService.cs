@@ -17,14 +17,14 @@ using vocabteam.Helpers.CustomExceptions;
 
 namespace vocabteam.Models.Services
 {
-    public class CategoryService : ICategoryService
+    public class UserCategoryService : IUserCategoryService
     {
         private readonly ICategoryRepository _CategoryRepo;
         private readonly IUserCategoryRepository _UserCategoryRepo;
         private readonly IUserSettingRepository _UserSettingRepo;
         private readonly AppSettings _AppSettings;
 
-        public CategoryService(ICategoryRepository categoryRepo, IUserCategoryRepository userCategoryRepo, IUserSettingRepository userSettingRepo, IOptions<AppSettings> appSettings)
+        public UserCategoryService(ICategoryRepository categoryRepo, IUserCategoryRepository userCategoryRepo, IUserSettingRepository userSettingRepo, IOptions<AppSettings> appSettings)
         {
             _CategoryRepo = categoryRepo;
             _UserCategoryRepo = userCategoryRepo;
@@ -32,12 +32,12 @@ namespace vocabteam.Models.Services
             _AppSettings = appSettings.Value;
 
         }
-        public IQueryable<Category> GetAll()
+        public IQueryable<UserCategory> GetAll()
         {
-            IQueryable<Category> result = null;
+            IQueryable<UserCategory> result = null;
             try
             {
-                result = _CategoryRepo.GetAll();
+                result = _UserCategoryRepo.GetAll();
             }
             catch (CustomException ex)
             {
@@ -49,12 +49,12 @@ namespace vocabteam.Models.Services
             }
             return result;
         }
-        public Category GetById(int id)
+        public UserCategory GetById(int id)
         {
-            Category result = null;
+            UserCategory result = null;
             try
             {
-                result = _CategoryRepo.GetById(id);
+                result = _UserCategoryRepo.GetById(id);
             }
             catch (CustomException ex)
             {
@@ -66,16 +66,11 @@ namespace vocabteam.Models.Services
             }
             return result;
         }
-        public int Insert(Category cate)
+        public void Insert(UserCategory userCate)
         {
             try
             {
-                if (cate.ImageUrl.Count() == 0)
-                {
-                    cate.ImageUrl = ConstantVar.CategoryFolder + ConstantVar.ImageFolder + "/" + ConstantVar.DefaultImageCategory;
-                }
-                _CategoryRepo.Insert(cate);
-                return cate.Id;
+                _UserCategoryRepo.Insert(userCate);
 
             }
             catch (CustomException ex)
@@ -87,11 +82,11 @@ namespace vocabteam.Models.Services
                 throw ex; 
             }
         }
-        public void Update(Category cate)
+        public void Update(UserCategory userCate)
         {
             try
             {
-                _CategoryRepo.Update(cate);
+                _UserCategoryRepo.Update(userCate);
 
             }
             catch (CustomException ex)
@@ -103,11 +98,11 @@ namespace vocabteam.Models.Services
                 throw ex; 
             }
         }
-        public void Delete(Category cate)
+        public void Delete(UserCategory userCate)
         {
             try
             {
-                _CategoryRepo.Delete(cate);
+                _UserCategoryRepo.Delete(userCate);
 
             }
             catch (CustomException ex)
@@ -120,12 +115,12 @@ namespace vocabteam.Models.Services
             }
         }
 
-        public IEnumerable<Category> Filter(Expression<Func<Category, bool>> filter)
+        public IEnumerable<UserCategory> Filter(Expression<Func<UserCategory, bool>> filter)
         {
-            IEnumerable<Category> result = null;
+            IEnumerable<UserCategory> result = null;
             try
             {
-                result = _CategoryRepo.Filter(filter);
+                result = _UserCategoryRepo.Filter(filter);
 
             }
             catch (CustomException ex)
@@ -138,6 +133,27 @@ namespace vocabteam.Models.Services
             }
             return result;
         }
+
+        public List<UserCategoryModel> GetByUser(int userId, int? levelId, bool? isDifficult, bool? isTodoTest)
+        {
+            List<UserCategoryModel> result = null;
+            try
+            {
+                result = _UserCategoryRepo.GetByUser(userId, levelId, isDifficult, isTodoTest);
+            }
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex; 
+            }
+            return result;
+        }
+
+
+
     }
 }
 

@@ -51,7 +51,7 @@ namespace vocabteam.Models.Repositories
             return result;
         }
 
-        public void Insert(T entity)
+        public int Insert(T entity)
         {
             if (entity == null)
             {
@@ -62,7 +62,8 @@ namespace vocabteam.Models.Repositories
                 entity.CreatedTime = DateTime.Now;
                 entity.UpdatedTime = DateTime.Now;
                 entities.Add(entity);
-                int a = this._context.SaveChanges();
+                int id = this._context.SaveChanges();
+                return id;
             }
             catch (System.Exception)
             {

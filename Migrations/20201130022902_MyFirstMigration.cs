@@ -4,7 +4,7 @@ using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace vocabteam.Migrations
 {
-    public partial class SecondMigration : Migration
+    public partial class MyFirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -84,6 +84,32 @@ namespace vocabteam.Migrations
                 comment: "This is the User Table");
 
             migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(nullable: false),
+                    UpdatedTime = table.Column<DateTime>(nullable: true),
+                    CreatedTime = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    LevelId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_Levels",
+                        column: x => x.LevelId,
+                        principalTable: "Level",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                },
+                comment: "This is the Categories Table");
+
+            migrationBuilder.CreateTable(
                 name: "RolePermissions",
                 columns: table => new
                 {
@@ -112,40 +138,6 @@ namespace vocabteam.Migrations
                         onDelete: ReferentialAction.SetNull);
                 },
                 comment: "This is the RolePermissions Table");
-
-            migrationBuilder.CreateTable(
-                name: "Categories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Active = table.Column<bool>(nullable: false),
-                    UpdatedTime = table.Column<DateTime>(nullable: true),
-                    CreatedTime = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(type: "varchar(50)", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    ImageUrl = table.Column<string>(type: "text", nullable: true),
-                    LevelId = table.Column<int>(type: "int", nullable: true),
-                    IsCustomCategory = table.Column<short>(type: "bit", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Categories_Levels",
-                        column: x => x.LevelId,
-                        principalTable: "Level",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_Categories_Users",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                },
-                comment: "This is the Categories Table");
 
             migrationBuilder.CreateTable(
                 name: "EF_Indexes",
@@ -246,8 +238,7 @@ namespace vocabteam.Migrations
                     UserId = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: true),
                     Value = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    UserId1 = table.Column<int>(nullable: true)
+                    Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -258,12 +249,6 @@ namespace vocabteam.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_UserSettings_Users_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 },
                 comment: "This is the UserSettings Table");
 
@@ -282,6 +267,7 @@ namespace vocabteam.Migrations
                     Result = table.Column<float>(type: "float", nullable: false),
                     I_Index = table.Column<float>(type: "float", nullable: false),
                     EF_Index = table.Column<float>(type: "float", nullable: false),
+                    ImproveIndex = table.Column<float>(nullable: false),
                     NextTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -301,6 +287,38 @@ namespace vocabteam.Migrations
                         onDelete: ReferentialAction.SetNull);
                 },
                 comment: "This is the Tests Table");
+
+            migrationBuilder.CreateTable(
+                name: "UserCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(nullable: false),
+                    UpdatedTime = table.Column<DateTime>(nullable: true),
+                    CreatedTime = table.Column<DateTime>(nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: true),
+                    IsCustomCategory = table.Column<short>(type: "bit", nullable: false),
+                    IsDifficult = table.Column<short>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserCategories_Categories",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_UserCategories_Users",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                },
+                comment: "This is the UserCategories Table");
 
             migrationBuilder.CreateTable(
                 name: "Vocabularies",
@@ -363,11 +381,6 @@ namespace vocabteam.Migrations
                 column: "LevelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_UserId",
-                table: "Categories",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_EF_Indexes_UserId",
                 table: "EF_Indexes",
                 column: "UserId");
@@ -395,6 +408,16 @@ namespace vocabteam.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Tests_UserId",
                 table: "Tests",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCategories_CategoryId",
+                table: "UserCategories",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCategories_UserId",
+                table: "UserCategories",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -429,12 +452,6 @@ namespace vocabteam.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserSettings_UserId1",
-                table: "UserSettings",
-                column: "UserId1",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Vocabularies_CategoryId",
                 table: "Vocabularies",
                 column: "CategoryId");
@@ -455,6 +472,9 @@ namespace vocabteam.Migrations
                 name: "Tests");
 
             migrationBuilder.DropTable(
+                name: "UserCategories");
+
+            migrationBuilder.DropTable(
                 name: "UserPermissions");
 
             migrationBuilder.DropTable(
@@ -473,13 +493,13 @@ namespace vocabteam.Migrations
                 name: "Roles");
 
             migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Level");
-
-            migrationBuilder.DropTable(
-                name: "Users");
         }
     }
 }

@@ -24,6 +24,7 @@ namespace vocabteam.Models.Entities
         public BaseEntity(BaseEntity baseEntity)
         {
             Id = baseEntity.Id;
+            Active = baseEntity.Active;
             CreatedTime = baseEntity.CreatedTime;
             UpdatedTime = baseEntity.UpdatedTime;
         }

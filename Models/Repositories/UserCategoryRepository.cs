@@ -24,7 +24,7 @@ namespace vocabteam.Models.Repositories
         {
         }
 
-        public List<UserCategoryModel> GetByUser(int userId, int? levelId, bool? isDifficult)
+        public List<UserCategoryModel> GetByUser(int userId, int? levelId, bool? isDifficult, bool? isTodoTest)
         {
             List<UserCategoryModel> result = new List<UserCategoryModel>();
             try
@@ -32,28 +32,58 @@ namespace vocabteam.Models.Repositories
                 List<UserCategory> listUserCate = null;
                 if (isDifficult == null)
                 {
-                    _context.UserCategories.Where(p => p.UserId == userId).ToList();
+                    listUserCate = _context.UserCategories.Where(p => p.UserId == userId).ToList();
                 }
-                else 
+                else
                 {
-                    _context.UserCategories.Where(p => p.UserId == userId && p.IsDifficult == isDifficult).ToList();
+                    listUserCate = _context.UserCategories.Where(p => p.UserId == userId && p.IsDifficult == isDifficult).ToList();
                 }
                 foreach (UserCategory item in listUserCate)
                 {
+                    var userCategoryModel = new UserCategoryModel(item);
+
                     Category cate = null;
+                    Test test = null;
+
                     if (levelId == null)
                     {
-                        _context.Categories.Where(p => p.Id == item.CategoryId).FirstOrDefault();
+                        cate = _context.Categories.Where(p => p.Id == item.CategoryId).FirstOrDefault();
                     }
-                    else 
+                    else
                     {
-                        _context.Categories.Where(p => p.Id == item.CategoryId && p.LevelId == levelId).FirstOrDefault();
+                        cate = _context.Categories.Where(p => p.Id == item.CategoryId && p.LevelId == levelId).FirstOrDefault();
                     }
-                    var userCategoryModel = new UserCategoryModel(item, cate);
+
+                    if (cate == null)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        userCategoryModel.setCategory(cate);
+                    }
+
+                    if (isTodoTest != null) // HAVE DONE TEST >= 1 TIME
+                    {
+                        if (isTodoTest == false) // ALL
+                        {
+                            test = _context.Tests.Where(p => p.Id == item.CategoryId).OrderByDescending(p => p.Order).FirstOrDefault();
+                        }
+                        else if (isTodoTest == true) // TODO TEST
+                        {
+                            test = _context.Tests.Where(p => p.Id == item.CategoryId && p.NextTime >= DateTime.UtcNow).OrderByDescending(p => p.Order).FirstOrDefault();
+                        }
+                        if (test == null)
+                        {
+                            break;
+                        }
+                        userCategoryModel.setTest(test);
+                    }
+
                     result.Add(userCategoryModel);
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
             }
@@ -82,6 +112,6 @@ namespace vocabteam.Models.Repositories
         //     return result;
         // }
 
- 
+
     }
 }
