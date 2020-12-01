@@ -18,6 +18,7 @@ namespace vocabteam.Models.Services
         void Update(UserCategory u);
         void Delete(UserCategory u);
         IEnumerable<UserCategory> Filter(Expression<Func<UserCategory, bool>> filter);
-        List<UserCategoryModel> GetByUser(int userId, int? levelId, bool? isDifficult, bool? isTodoTest);
+        List<UserCategoryModel> GetByUser(int userId, int levelIdValue, int isDifficultValue, int isTodoTestValue);
+        int getAchievement(int userId);
     }
 }

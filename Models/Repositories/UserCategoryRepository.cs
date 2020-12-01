@@ -24,19 +24,22 @@ namespace vocabteam.Models.Repositories
         {
         }
 
-        public List<UserCategoryModel> GetByUser(int userId, int? levelId, bool? isDifficult, bool? isTodoTest)
+        // isDifficultValue = 0, - ALL
+        // levelIdValue = 0, - ALL
+        // isTodoTestValue = 0, - ALL
+        public List<UserCategoryModel> GetByUser(int userId, int levelIdValue, int isDifficultValue, int isTodoTestValue)
         {
             List<UserCategoryModel> result = new List<UserCategoryModel>();
             try
             {
                 List<UserCategory> listUserCate = null;
-                if (isDifficult == null)
+                if (isDifficultValue == 0)
                 {
                     listUserCate = _context.UserCategories.Where(p => p.UserId == userId).ToList();
                 }
-                else
+                else if (isDifficultValue == 1)
                 {
-                    listUserCate = _context.UserCategories.Where(p => p.UserId == userId && p.IsDifficult == isDifficult).ToList();
+                    listUserCate = _context.UserCategories.Where(p => p.UserId == userId && p.IsDifficult == true).ToList();
                 }
                 foreach (UserCategory item in listUserCate)
                 {
@@ -45,37 +48,37 @@ namespace vocabteam.Models.Repositories
                     Category cate = null;
                     Test test = null;
 
-                    if (levelId == null)
+                    if (levelIdValue == 0) 
                     {
                         cate = _context.Categories.Where(p => p.Id == item.CategoryId).FirstOrDefault();
                     }
                     else
                     {
-                        cate = _context.Categories.Where(p => p.Id == item.CategoryId && p.LevelId == levelId).FirstOrDefault();
+                        cate = _context.Categories.Where(p => p.Id == item.CategoryId && p.LevelId == levelIdValue).FirstOrDefault();
                     }
 
                     if (cate == null)
                     {
-                        break;
+                        continue;
                     }
                     else
                     {
                         userCategoryModel.setCategory(cate);
                     }
 
-                    if (isTodoTest != null) // HAVE DONE TEST >= 1 TIME
+                    if (isTodoTestValue != 0) // HAVE DONE TEST >= 1 TIME
                     {
-                        if (isTodoTest == false) // ALL
+                        if (isTodoTestValue == 1) // ALL
                         {
-                            test = _context.Tests.Where(p => p.Id == item.CategoryId).OrderByDescending(p => p.Order).FirstOrDefault();
+                            test = _context.Tests.Where(p => p.CategoryId == item.CategoryId && p.UserId == item.UserId).OrderByDescending(p => p.Order).FirstOrDefault();
                         }
-                        else if (isTodoTest == true) // TODO TEST
+                        else if (isTodoTestValue == 2) // TODO TEST
                         {
-                            test = _context.Tests.Where(p => p.Id == item.CategoryId && p.NextTime >= DateTime.UtcNow).OrderByDescending(p => p.Order).FirstOrDefault();
+                            test = _context.Tests.Where(p => p.CategoryId == item.CategoryId && p.UserId == item.UserId && p.NextTime <= DateTime.UtcNow).OrderByDescending(p => p.Order).FirstOrDefault();
                         }
                         if (test == null)
                         {
-                            break;
+                            continue;
                         }
                         userCategoryModel.setTest(test);
                     }
@@ -91,26 +94,26 @@ namespace vocabteam.Models.Repositories
             return result;
         }
 
-        // public List<UserCategoryModel> GetByLevelUser(int levelId, int userId)
-        // {
-        //     List<UserCategoryModel> result = new List<UserCategoryModel>();
-        //     try
-        //     {
-        //         List<UserCategory> listUserCate = _context.UserCategories.Where(p => p.UserId == userId).ToList();
-        //         foreach (UserCategory item in listUserCate)
-        //         {
-        //             Category cate = _context.Categories.Where(p => p.Id == item.CategoryId).FirstOrDefault();
-        //             var userCategoryModel = new UserCategoryModel(item, cate);
-        //             result.Add(userCategoryModel);
-        //         }
-        //     }
-        //     catch (System.Exception)
-        //     {
-        //         throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
-        //     }
+        public int getAchievement(int userId)
+        {
+            AchievementModel achievement = new AchievementModel();
+            try 
+            {
+                int topicCount = _context.UserCategories.Where(p => p.UserId == userId).GroupBy(p => p.CategoryId).Count();
+                // achievement.Topics = topicCount;
+                // int longTerm
+                return topicCount;
+            }
+            catch (System.Exception ex)
+            {
+                throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
+            }
+        }
 
-        //     return result;
-        // }
+
+
+
+
 
 
     }

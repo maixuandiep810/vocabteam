@@ -134,12 +134,12 @@ namespace vocabteam.Models.Services
             return result;
         }
 
-        public List<UserCategoryModel> GetByUser(int userId, int? levelId, bool? isDifficult, bool? isTodoTest)
+        public List<UserCategoryModel> GetByUser(int userId, int levelIdValue, int isDifficultValue, int isTodoTestValue)
         {
             List<UserCategoryModel> result = null;
             try
             {
-                result = _UserCategoryRepo.GetByUser(userId, levelId, isDifficult, isTodoTest);
+                result = _UserCategoryRepo.GetByUser(userId, levelIdValue, isDifficultValue, isTodoTestValue);
             }
             catch (CustomException ex)
             {
@@ -151,7 +151,21 @@ namespace vocabteam.Models.Services
             }
             return result;
         }
-
+        public int getAchievement(int userId)
+        {
+            try
+            {
+                return _UserCategoryRepo.getAchievement(userId);
+            }
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex; 
+            }
+        }
 
 
     }
@@ -169,21 +183,3 @@ namespace vocabteam.Models.Services
 
 
 
-
-        // public List<UserCategoryModel> GetByLevelUser(int levelId, int userId)
-        // {
-        //     List<UserCategoryModel> result = null;
-        //     try
-        //     {
-        //         result = _UserCategoryRepo.GetByLevelUser(levelId, userId);
-        //     }
-        //     catch (CustomException ex)
-        //     {
-        //         throw ex;
-        //     }
-        //     catch (System.Exception ex)
-        //     {
-        //         throw ex; 
-        //     }
-        //     return result;
-        // }

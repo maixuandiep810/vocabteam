@@ -31,42 +31,10 @@ namespace vocabteam.Controllers
         [HttpGet("{userId}/{levelIdValue}/{isDifficultValue}/{isTodoTestValue}")]
         public IActionResult Get(int userId, int levelIdValue, int isDifficultValue, int isTodoTestValue)
         {
-            int? levelId = null;
-            bool? isDifficult = null;
-            bool? isTodoTest = null;
-
-            // TODO : switch case
-            if (levelIdValue == 0)
-            {
-                levelId = null;
-            }
-            else
-            {
-                levelId = levelIdValue;
-            }
-
-            if (isDifficultValue == 2)
-            {
-                isDifficult = null;
-            }
-            else
-            {
-                isDifficult = isDifficultValue == 0 ? false : true;
-            }
-
-            if (isTodoTestValue == 2)
-            {
-                isTodoTest = null;
-            }
-            else
-            {
-                isTodoTest = isTodoTestValue == 0 ? false : true;
-            }
-
             ListUserCategoryModel result = null;
             try
             {
-                result = new ListUserCategoryModel(_UserCategoryService.GetByUser(userId, levelId, isDifficult, isTodoTest));
+                result = new ListUserCategoryModel(_UserCategoryService.GetByUser(userId, levelIdValue, isDifficultValue, isTodoTestValue));
             }
             catch (CustomException ex)
             {
@@ -166,6 +134,31 @@ namespace vocabteam.Controllers
                 throw new CustomException(ConstantVar.ResponseCode.SAVING_FILE_ERROR);
             }
             return fileUrl;
+        }
+
+        [HttpGet("numberofcategory/{userId}")]
+        public IActionResult GetNumberOfCategory(int userId)
+        {
+            try
+            {
+                
+            }
+            catch (CustomException ex)
+            {
+                var failResponse = new BaseResponse((int)ex.Response_Code,
+                                                    ConstantVar.ResponseString(ex.Response_Code));
+                return StatusCode(200, failResponse);
+            }
+            catch (Exception)
+            {
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
+                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                return StatusCode(200, failResponse);
+            }
+            var logoutResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
+                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+            return StatusCode(200, logoutResponse);
+
         }
     }
 }

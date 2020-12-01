@@ -100,6 +100,26 @@
         ----------------------------------------------------------------------------------------------------------------------------------------------
 
 
+        // public List<UserCategoryModel> GetByLevelUser(int levelId, int userId)
+        // {
+        //     List<UserCategoryModel> result = new List<UserCategoryModel>();
+        //     try
+        //     {
+        //         List<UserCategory> listUserCate = _context.UserCategories.Where(p => p.UserId == userId).ToList();
+        //         foreach (UserCategory item in listUserCate)
+        //         {
+        //             Category cate = _context.Categories.Where(p => p.Id == item.CategoryId).FirstOrDefault();
+        //             var userCategoryModel = new UserCategoryModel(item, cate);
+        //             result.Add(userCategoryModel);
+        //         }
+        //     }
+        //     catch (System.Exception)
+        //     {
+        //         throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
+        //     }
+
+        //     return result;
+        // }
 
 
         ----------------------------------------------------------------------------------------------------------------------------------------------
