@@ -48,7 +48,7 @@ namespace vocabteam.Models.Repositories
                     Category cate = null;
                     Test test = null;
 
-                    if (levelIdValue == 0) 
+                    if (levelIdValue == 0)
                     {
                         cate = _context.Categories.Where(p => p.Id == item.CategoryId).FirstOrDefault();
                     }
@@ -66,21 +66,35 @@ namespace vocabteam.Models.Repositories
                         userCategoryModel.setCategory(cate);
                     }
 
+                    test = _context.Tests.Where(p => p.CategoryId == item.CategoryId && p.UserId == item.UserId).OrderByDescending(p => p.Order).FirstOrDefault();
+
+                    if (test != null)
+                    {
+                        userCategoryModel.setTest(test);
+                    }
+
                     if (isTodoTestValue != 0) // HAVE DONE TEST >= 1 TIME
                     {
-                        if (isTodoTestValue == 1) // ALL
+                        if (test == null)
                         {
-                            test = _context.Tests.Where(p => p.CategoryId == item.CategoryId && p.UserId == item.UserId).OrderByDescending(p => p.Order).FirstOrDefault();
+                            continue;
                         }
-                        else if (isTodoTestValue == 2) // TODO TEST
+                        
+                        if (isTodoTestValue == 2) // TODO TEST
                         {
-                            test = _context.Tests.Where(p => p.CategoryId == item.CategoryId && p.UserId == item.UserId && p.NextTime <= DateTime.UtcNow).OrderByDescending(p => p.Order).FirstOrDefault();
+                            if (test.NextTime > DateTime.Now)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                userCategoryModel.setTest(test);
+                            }
                         }
                         if (test == null)
                         {
                             continue;
                         }
-                        userCategoryModel.setTest(test);
                     }
 
                     result.Add(userCategoryModel);
@@ -97,7 +111,7 @@ namespace vocabteam.Models.Repositories
         public int getAchievement(int userId)
         {
             AchievementModel achievement = new AchievementModel();
-            try 
+            try
             {
                 int topicCount = _context.UserCategories.Where(p => p.UserId == userId).GroupBy(p => p.CategoryId).Count();
                 // achievement.Topics = topicCount;
