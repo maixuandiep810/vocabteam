@@ -33,11 +33,11 @@ namespace vocabteam.Models.Repositories
             try
             {
                 List<UserCategory> listUserCate = null;
-                if (isDifficultValue == 0)
+                if (isDifficultValue == 0) // ALL = 0
                 {
                     listUserCate = _context.UserCategories.Where(p => p.UserId == userId).ToList();
                 }
-                else if (isDifficultValue == 1)
+                else if (isDifficultValue == 1) // Difficult = 1
                 {
                     listUserCate = _context.UserCategories.Where(p => p.UserId == userId && p.IsDifficult == true).ToList();
                 }
@@ -48,11 +48,11 @@ namespace vocabteam.Models.Repositories
                     Category cate = null;
                     Test test = null;
 
-                    if (levelIdValue == 0)
+                    if (levelIdValue == 0) // ALL = 0
                     {
                         cate = _context.Categories.Where(p => p.Id == item.CategoryId).FirstOrDefault();
                     }
-                    else
+                    else // levelId
                     {
                         cate = _context.Categories.Where(p => p.Id == item.CategoryId && p.LevelId == levelIdValue).FirstOrDefault();
                     }
@@ -68,33 +68,46 @@ namespace vocabteam.Models.Repositories
 
                     test = _context.Tests.Where(p => p.CategoryId == item.CategoryId && p.UserId == item.UserId).OrderByDescending(p => p.Order).FirstOrDefault();
 
-                    if (test != null)
+                    if (isTodoTestValue == 0)
                     {
-                        userCategoryModel.setTest(test);
+                        // ALL
+                        if (test != null)
+                        {
+                            userCategoryModel.setTest(test);
+                        }
                     }
-
-                    if (isTodoTestValue != 0) // HAVE DONE TEST >= 1 TIME
+                    else if (isTodoTestValue == 1) // Co Test - ALL - ko phan biet = 0
                     {
                         if (test == null)
                         {
                             continue;
                         }
-                        
-                        if (isTodoTestValue == 2) // TODO TEST
+                        else
                         {
-                            if (test.NextTime > DateTime.Now)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                userCategoryModel.setTest(test);
-                            }
+                            userCategoryModel.setTest(test);
                         }
+                    }
+                    else if (isTodoTestValue == 2) // Co Todo Test = 1
+                    {
                         if (test == null)
                         {
                             continue;
                         }
+                        if (test.NextTime > DateTime.Now)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            userCategoryModel.setTest(test);
+                        }
+                    }
+                    else if (isTodoTestValue == 3) // 
+                    {
+                    }
+                    else if (isTodoTestValue == 4) // Chua tung test = 4
+                    {
+
                     }
 
                     result.Add(userCategoryModel);
@@ -132,3 +145,20 @@ namespace vocabteam.Models.Repositories
 
     }
 }
+
+
+// if (isTodoTestValue == 2) // TODO TEST
+// {
+//     if (test.NextTime > DateTime.Now)
+//     {
+//         continue;
+//     }
+//     else
+//     {
+//         userCategoryModel.setTest(test);
+//     }
+// }
+// if (test == null)
+// {
+//     continue;
+// }
