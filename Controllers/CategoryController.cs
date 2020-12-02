@@ -91,7 +91,8 @@ namespace vocabteam.Controllers
                         }
                         catch (Exception ex2)
                         {
-                            throw;
+                            var failResponse1 = new BaseResponse((int)ConstantVar.ResponseCode.FAIL, ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                            return StatusCode(200, failResponse1);
                         }
                         break;
                     default:

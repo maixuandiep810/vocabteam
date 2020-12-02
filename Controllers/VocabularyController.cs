@@ -92,10 +92,10 @@ namespace vocabteam.Controllers
 
             Vocabulary newVocabulary = new Vocabulary
             {
-                Word = HttpContext.Request.Form["word"],
-                Meaning = HttpContext.Request.Form["meaning"],
-                Sentence = HttpContext.Request.Form["sentence"],
-                Definition = HttpContext.Request.Form["definition"]
+                Word = HttpContext.Request.Form["Word"],
+                Meaning = HttpContext.Request.Form["Meaning"],
+                Sentence = HttpContext.Request.Form["Sentence"],
+                Definition = HttpContext.Request.Form["Definition"]
             };
             try
             {
@@ -104,9 +104,9 @@ namespace vocabteam.Controllers
                     throw new CustomException(ConstantVar.ResponseCode.CATEGORY_DOESNOT_EXIST);
                 }
                 newVocabulary.CategoryId = categoryId;
-                string imageUrl = UploadFile("image", formdata);
+                string imageUrl = UploadFile("Image", formdata);
                 newVocabulary.ImageUrl = imageUrl;
-                string audioUrl = UploadFile("audio", formdata);
+                string audioUrl = UploadFile("Audio", formdata);
                 newVocabulary.AudioUrl = audioUrl;
                 _VocabularyService.Insert(newVocabulary);
             }
@@ -140,7 +140,7 @@ namespace vocabteam.Controllers
         {
             string fileUrl = null;
             var file = HttpContext.Request.Form.Files[type];
-            var word = HttpContext.Request.Form["word"];
+            var word = HttpContext.Request.Form["Word"];
             string source = _appSettings.StaticFilesPath + ConstantVar.VocabularyFolder + "/" + type;
             try
             {
