@@ -15,7 +15,7 @@ namespace vocabteam
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
-                    .UseUrls("http://localhost:5000", "http://103.90.232.138:5000")
+                    .UseUrls("http://localhost:5000")
                     .UseStartup<Startup>();
                 });
     }

@@ -86,7 +86,7 @@ namespace vocabteam.Controllers
 
 
 
-        [HttpPost("{categoryId}")]
+        [HttpPost()]
         public IActionResult CreateVocabulary(int categoryId, IFormCollection formdata)
         {
 
@@ -95,7 +95,8 @@ namespace vocabteam.Controllers
                 Word = HttpContext.Request.Form["Word"],
                 Meaning = HttpContext.Request.Form["Meaning"],
                 Sentence = HttpContext.Request.Form["Sentence"],
-                Definition = HttpContext.Request.Form["Definition"]
+                Definition = HttpContext.Request.Form["Definition"],
+                CategoryId = Convert.ToInt32(HttpContext.Request.Form["CateegoryId"])
             };
             try
             {
