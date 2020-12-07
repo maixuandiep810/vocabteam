@@ -20,6 +20,7 @@ namespace vocabteam.Models.ViewModels
             ImproveIndex = t.ImproveIndex;
             NextTime = t.NextTime;
             Order = t.Order;
+            I_Index = t.I_Index;
         }
 
     }

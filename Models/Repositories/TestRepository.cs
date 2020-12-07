@@ -88,5 +88,23 @@ namespace vocabteam.Models.Repositories
             }
             return result;
         }
+
+        public List<Category> GetNameTest(int userId) {
+            List<Category> result = null;
+            // List<UserCategory> userCates = null;
+            List<int?> cateIdList = null;
+            try {
+                cateIdList = _context.UserCategories.
+                Where(
+                    p => p.UserId == userId && (_context.Tests.Where(x => x.UserId == userId && x.CategoryId == p.CategoryId).Count() >= 1)
+                ).Select(p => p.CategoryId).ToList();
+                result = _context.Categories.Where(p => cateIdList.Contains(p.Id)).ToList();
+            }
+            catch (System.Exception ex)
+            {
+                throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
+            }
+            return result;
+        }
     }
 }

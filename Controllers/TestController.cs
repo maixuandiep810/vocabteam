@@ -78,6 +78,33 @@ namespace vocabteam.Controllers
             return StatusCode(200, res);
         }
 
+        [HttpGet("getnamecategory/{userId}")]
+        public IActionResult GetNameCategory(int userId, int categoryId)
+        {
+            ListCategoryModel result = null;
+            try
+            {
+                List<Category> cates = _TestService.GetNameTest(userId);
+                result = new ListCategoryModel(cates);
+            }
+            catch (CustomException ex)
+            {
+                var failResponse = new BaseResponse((int)ex.Response_Code,
+                                                    ConstantVar.ResponseString(ex.Response_Code));
+                return StatusCode(200, failResponse);
+            }
+            catch (Exception)
+            {
+                var failResponse = new BaseResponse((int)ConstantVar.ResponseCode.FAIL,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.FAIL));
+                return StatusCode(200, failResponse);
+            }
+            var baseResponse = new BaseResponse((int)ConstantVar.ResponseCode.SUCCESS,
+                                                    ConstantVar.ResponseString(ConstantVar.ResponseCode.SUCCESS));
+            var res = new CategoryResponse(result, baseResponse);
+            return StatusCode(200, res);
+        }
+
         
     }
 }

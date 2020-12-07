@@ -19,6 +19,7 @@ namespace vocabteam.Models.Services
         void Update(Test entity);
         void Delete(Test entity);
         IEnumerable<Test> Filter(Expression<Func<Test, bool>> filter);
+        List<Category> GetNameTest(int userId);
         List<Test> GetTest(int userId, int categoryId);
     }
 }

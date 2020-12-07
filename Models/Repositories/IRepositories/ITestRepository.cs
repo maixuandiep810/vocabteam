@@ -14,5 +14,6 @@ namespace vocabteam.Models.Repositories
     {
         void InsertIncludeOrder(Test entity);
         List<Test> GetTest(int userId, int categoryId);
+        List<Category> GetNameTest(int userId);
     }
 }

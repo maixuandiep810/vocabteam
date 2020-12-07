@@ -149,6 +149,23 @@ namespace vocabteam.Models.Services
             return result;
         }
 
+        public List<Category> GetNameTest(int userId) {
+            List<Category> result = null;
+            try
+            {
+                result = _TestRepo.GetNameTest(userId);
+            }
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception)
+            {
+                throw new CustomException(ConstantVar.ResponseCode.SYSTEM_ERROR);
+            }
+            return result;
+        }
+
 
     }
 }
