@@ -19,6 +19,7 @@ namespace vocabteam.Models.ViewModels
             Result = t.Result;
             ImproveIndex = t.ImproveIndex;
             NextTime = t.NextTime;
+            Order = t.Order;
         }
 
     }

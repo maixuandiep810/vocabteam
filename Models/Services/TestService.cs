@@ -132,6 +132,22 @@ namespace vocabteam.Models.Services
             return result;
         }
 
+        public List<Test> GetTest(int userId, int categoryId) {
+            List<Test> result = null;
+            try
+            {
+                result = _TestRepo.GetTest(userId, categoryId);
+            }
+            catch (CustomException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception)
+            {
+                throw new CustomException(ConstantVar.ResponseCode.SYSTEM_ERROR);
+            }
+            return result;
+        }
 
 
     }

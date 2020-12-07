@@ -61,7 +61,7 @@ namespace vocabteam.Models.Repositories
                     float EF_N1_Time = Convert.ToSingle(EF_N_Time + (0.1-(5-entity.Result)*(0.08+(5-entity.Result)*0.02)));
                     float I_N1_Time = I_N_Time * EF_N1_Time;
                     interval = TimeSpan.FromDays(I_N1_Time);
-                    entity.I_Index = I_N1_Time;
+                    entity.I_Index = I_N1_Time >= 1 ? Convert.ToSingle(Math.Ceiling(I_N1_Time)) : 1;
                     entity.EF_Index = EF_N1_Time >= 1.3 ? EF_N1_Time : 1.3f;
                     entity.ImproveIndex = Convert.ToSingle(entity.EF_Index/lastTest.EF_Index);
                     entity.NextTime = entity.CreatedTime?.Add(interval ?? new TimeSpan()) ?? DateTime.Now;
@@ -75,6 +75,18 @@ namespace vocabteam.Models.Repositories
             {
                 throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
             }
+        }
+
+        public List<Test> GetTest(int userId, int categoryId) {
+            List<Test> result = null;
+            try {
+                result = entities.Where(p => p.UserId == userId && p.CategoryId == categoryId).ToList();
+            }
+            catch (System.Exception)
+            {
+                throw new CustomException(ConstantVar.ResponseCode.REPOSITORY_ERROR);
+            }
+            return result;
         }
     }
 }

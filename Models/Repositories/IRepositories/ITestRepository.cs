@@ -13,5 +13,6 @@ namespace vocabteam.Models.Repositories
     public interface ITestRepository :IRepository<Test>
     {
         void InsertIncludeOrder(Test entity);
+        List<Test> GetTest(int userId, int categoryId);
     }
 }
